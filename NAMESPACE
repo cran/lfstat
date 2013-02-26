@@ -1,0 +1,42 @@
+import(lattice)
+import(latticeExtra)
+import(lmom)
+
+export(createlfobj,
+  recession,
+  seglenplot,
+  BFI,
+  bfplot,
+  fdc,
+  MAM,
+  meanflow,
+  Q95,
+  Qxx,
+  Q70,
+  Q90,
+  readlfdata,
+  sbplot,
+  streamdef,
+  streamdefplot,
+  tyears,
+  rfa,
+  rfaplot,
+  lfnacheck,
+  lfnainterpolate,
+  dmcurve,
+  seasratio,
+  seasindex,
+setlfunit,
+hydrograph,
+multistationsreport,
+recessionplot
+)
+  
+ S3method(createlfobj, ts)
+ S3method(createlfobj, lfobj)
+ S3method(createlfobj, data.frame)
+ S3method(summary, lfobj)
+ S3method(print, lfobjsummary)
+ S3method(plot,lfobj)
+
+ 
