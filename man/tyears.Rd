@@ -8,7 +8,12 @@ T-Years Event
 Fits a mixed extreme value distribution and estimates the T-Years event.
 }
 \usage{
-tyears(lfobj,event = 100,n = 7,dist = c("wei","gev","ln3","gum","pe3"),legend = TRUE,zetawei = NULL)
+tyears(lfobj,
+       event = 100,
+       n = 7,
+       dist = c("wei","gev","ln3","gum","pe3"),
+       legend = TRUE,
+       zetawei = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

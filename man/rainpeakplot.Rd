@@ -64,6 +64,7 @@ Daniel Koffler and Gregor Laaha
 }
 \seealso{\code{\link{recession}}}
 \examples{
+\dontrun{
 data(ngaruroro)
 #To few points identified as peak flood discharge
 recessionplot(ngaruroro, peaklevel = .5, start = 1991, end = 1991)
@@ -76,7 +77,7 @@ recessionplot(ngaruroro, peaklevel = .92, start = 1991, end = 1991)
 
 #Getting peakdays for 1991
 peak <- recessionplot(ngaruroro, peaklevel = .92, plot = FALSE)
-rain1991 <- subset(ngaruroro, subset = hyear == 1991 && peak, select = c(day, month, year))
+rain1991 <- subset(ngaruroro, subset = hyear == 1991 && peak, select = c(day, month, year))}
 
 }
 

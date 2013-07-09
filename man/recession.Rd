@@ -72,7 +72,9 @@ Daniel Koffler and Gregor Laaha
 
 
 \examples{
+\dontrun{
 data(ngaruroro)
 recession(ngaruroro,method = "MRC",seglen = 7,threshold = 70)
+}
 }
 

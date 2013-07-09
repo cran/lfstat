@@ -57,7 +57,8 @@ Daniel Koffler and Gregor Laaha
 \seealso{\code{\link{recession}}}
 
 \examples{
+\dontrun{
 data(ngaruroro)
-seglenplot(ngaruroro)
+seglenplot(ngaruroro)}
 }
 

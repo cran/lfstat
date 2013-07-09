@@ -5,6 +5,7 @@ meta <- list()
 #Read GRDC sheet  
 if(style == "GRDC"){
   a <- read.table(file,header = T, sep = ";")
+  a[,3][a[,3] == -999] <- NA
   a[,1] <- as.Date(a[,1])
   }
 

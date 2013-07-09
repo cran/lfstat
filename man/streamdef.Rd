@@ -7,7 +7,18 @@ Streamflow Deficite
 Calculates the streamflow deficite
 }
 \usage{
-streamdef(lfobj, pooling = c("none", "MA", "IT", "IC"), threslevel = 70, thresbreaks = c("fixed","monthly","daily","seasonal"),  breakdays = c("01/06","01/10"), MAdays = 7, tmin = 5, IClevel = 0.1, mindur = 0, minvol = 0,table = c("all", "volmax", "durmax"),na.rm = TRUE)
+streamdef(lfobj,
+          pooling = c("none", "MA", "IT", "IC"),
+          threslevel = 70,
+          thresbreaks = c("fixed","monthly","daily","seasonal"),
+          breakdays = c("01/06","01/10"),
+          MAdays = 7,
+          tmin = 5,
+          IClevel = 0.1,
+          mindur = 0,
+          minvol = 0,
+          table = c("all", "volmax", "durmax"),
+          na.rm = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -106,7 +106,7 @@ rfa <- function(lflist, n = 7, event = 100, dist =  c("wei","gev","ln3","gum","p
   agg <- function(x,N){MAannual(x,N)$MAn}
   ma <- lapply(lflist,agg, N = n)
   reg <- regsamlmu(ma)
-  rfit <- regfit(reg, dist)
+  rfit <- regfit(reg, distr)
 #  tyears <- eval(parse(text = paste0("qua",dist,"(1/event,rfit$para)")))
 #  rfit$tyears <- rfit$index * tyears
   rfit
@@ -117,7 +117,7 @@ rfaplot <- function(lflist, n = 7,...){
  agg <- function(x,N){MAannual(x,N)$MAn}
   ma <- lapply(lflist,agg, N = n)
   reg <- regsamlmu(ma)
- lmrd(reg)
+ lmrd(reg,...)
 }
 
 
