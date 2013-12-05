@@ -12,7 +12,7 @@ The "Manual on Low-flow Estimation and Prediction", published by the World Meteo
 
 ### Create lfobj (Low-Flow-Objects)
 
-The package calculates induces and makes graphics for low flow
+The package calculates indices and makes graphics for low flow
 analysis. It brings its own class "lfobj", a special data.frame format
 with columns "day", "month", "year", "flow", "hyear" and possibly "baseflow".
 
@@ -39,7 +39,7 @@ the series when calling 'createlfobj'.
 
 lfstat does not need to know the unit of the flow, but you might want it
 to appear in your plots. You can use \code{\link{setlfunit}} to define how units are
-labeled in your graphics. Examples are given in '?setlfunit'.
+labelled in your graphics. Examples are given in '?setlfunit'.
 
 Please check for NA-values using \code{\link{lfnacheck}}, indices and plots are made
 as if series were complete. See the manual on how to deal with missing

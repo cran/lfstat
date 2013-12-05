@@ -1,6 +1,7 @@
 import(lattice)
 import(latticeExtra)
 import(lmom)
+import(lmomRFA)
 
 export(createlfobj,
   recession,
