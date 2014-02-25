@@ -473,13 +473,13 @@ meanflow <- function(lfobj,year = "any",monthly = FALSE,yearly = FALSE,breakdays
 #Q95                    #
 #########################
 Q95 <-  function(lfobj,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
-  Qxx(lfobj = lfobj, Qxx = 95, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
+  Qxx(lfobj = lfobj, Qxx = 95,year = year, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
 
 Q90 <-  function(lfobj,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
-  Qxx(lfobj = lfobj, Qxx = 90, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
+  Qxx(lfobj = lfobj, Qxx = 90, year = year, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
 
 Q70 <-  function(lfobj,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
-  Qxx(lfobj = lfobj, Qxx = 70, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
+  Qxx(lfobj = lfobj, Qxx = 70,year = year, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
       
 Qxx <- function(lfobj,Qxx,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
   lfcheck(lfobj)
