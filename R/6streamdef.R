@@ -50,7 +50,7 @@ threshold <- buildthres(lfobj = lfobj, threslevel = threslevel, thresbreaks=thre
   names(streamdef) <-  c("pos","d","v","mi","Qmin","startyear","startmonth", "startday","hyear")
   a <-  pos[defrun$values]
   a <- a[!is.na(a)]
-  a <- a[-length(a)]
+  # a <- a[-length(a)] # switched off (GL)
   d <- defrun$lengths[defrun$values]
   d <- d[!is.na(d)]
   def <- flow - temp$flow.y
