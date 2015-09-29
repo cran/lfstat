@@ -1,7 +1,17 @@
-import(lattice)
-import(latticeExtra)
+importFrom(lattice, barchart, panel.barchart)
+importFrom(latticeExtra, layer)
 import(lmom)
-import(lmomRFA)
+importFrom(lmomRFA, regsamlmu, regfit, regquant)
+import(dygraphs)
+import(xts)
+importFrom(zoo, coredata)
+importFrom("graphics", "abline", "axis", "grid", "legend", "lines", "par",
+           "plot", "points", "polygon", "title", "mtext", "strheight",
+           "strwidth", "text")
+importFrom("stats", "aggregate", "approx", "coef", "filter", "lm", "qnorm",
+           "quantile", "reorder", "time")
+importFrom("utils", "read.table", "tail", "head", "str")
+
 
 export(createlfobj,
   recession,
@@ -30,14 +40,48 @@ export(createlfobj,
 setlfunit,
 hydrograph,
 multistationsreport,
-recessionplot
+recessionplot,
+
+evfit,
+evquantile,
+trace_value,
+rpline,
+pel_ev,
+qua_ev,
+cdf_ev,
+check_distribution,
+gringorten,
+baseflow,
+ma,
+as.xts.lfobj,
+vary_threshold,
+pool_sp,
+pool_ma,
+pool_ic,
+find_droughts,
+water_year,
+hyear_start,
+tyearsS
 )
-  
+
+ S3method(hyear_start, data.frame)
+ S3method(hyear_start, xts)
+
  S3method(createlfobj, ts)
  S3method(createlfobj, lfobj)
  S3method(createlfobj, data.frame)
  S3method(summary, lfobj)
  S3method(print, lfobjsummary)
- S3method(plot,lfobj)
+ S3method(plot, lfobj)
+ S3method("[", lfobj)
 
- 
+ S3method(print, evfit)
+ S3method(summary, evfit)
+ S3method(plot, evfit)
+
+ S3method(print, deficit)
+ S3method(summary, deficit)
+ S3method(plot, deficit)
+
+ S3method(print, summaryDrought)
+ S3method(as.xts, lfobj)

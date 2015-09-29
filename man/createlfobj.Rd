@@ -10,46 +10,50 @@ Create an lfobj for further Low Flow Analysis
 }
 \description{
 Generic function for creating a low flow object (lfobj). Low flow objects can be
-created out of a time series of daily flow, a data.frame with columns
-"flow", "day", "month" and "year". 
+created from a time series of daily flow, a data.frame with columns
+"flow", "day", "month" and "year".
 }
 \usage{
 createlfobj(x, ...)
 
 
-\method{createlfobj}{data.frame}(x, hyearstart = 1, baseflow = TRUE,
-                     meta = list(),...)
+\method{createlfobj}{data.frame}(x, hyearstart = NULL, baseflow = TRUE,
+            meta = list(),...)
 
 \method{createlfobj}{ts}(x,
             startdate,
             dateformat = "\%d/\%m/\%Y",
             ...)
+
 \method{createlfobj}{lfobj}(x, hyearstart = NULL, baseflow = NULL,
-                            meta = NULL,...)
+            meta = NULL,...)
 }
 \arguments{
   \item{x}{
 An object out of which a lfobj should be created
 }
   \item{hyearstart}{
-integer, which month should the hydrological year start?
+integer between 1 and 12, indicating the start of the hydrological year.
 }
 \item{baseflow}{
   logical, should the baseflow curve be calculated? Needed, if you want
   to apply 'bfplot' or 'BFI' later on.
 }
 \item{meta}{A list of meta-information}
-\item{startdate}{Startdate of the time-series}
+\item{startdate}{start of the time-series}
 \item{dateformat}{Format of the startdate}
-\item{...}{Additional arguments depending on the method used.}
+\item{...}{Additional arguments, passed on to \code{createlfobj.data.frame}.}
 }
 \details{
 'hyearstart' defines the starting month of the hydrological year. If
 'hyearstart' is greater then 6.5, the hydrological year starts earlier
 then the actual date, e.g. hyearstart = 10, then the 1st of October 2011
 is part of the hydrological year 2012. If hyearstart = 4, then the 31st
-of March 2011 ist part of the hydrological year 2010.
+of March 2011 is part of the hydrological year 2010.
+
+When creating an object of class \code{lfobj} with the aforementioned functions, eventually \code{createlfobj.data.frame} is called.
 }
+
 \value{
 An object of class 'lfobj'.
 }

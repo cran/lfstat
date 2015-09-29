@@ -4,7 +4,7 @@
 Streamflow Deficite
 }
 \description{
-Calculates the streamflow deficite
+Calculates the streamflow deficite. Deprecated, use \code{\link{find_droughts}} instead.
 }
 \usage{
 streamdef(lfobj,
@@ -78,7 +78,7 @@ Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Predicti
 Daniel Koffler and Gregor Laaha
 }
 \seealso{
-streamdefplot, createlfobj
+streamdefplot, createlfobj, \code{\link{find_droughts}}
 }
 \examples{
 data(ngaruroro)

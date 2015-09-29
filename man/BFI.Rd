@@ -18,10 +18,10 @@ BFI(lfobj, year = "any",breakdays = NULL, yearly = FALSE)
 The year for which the BFI should be computed. If hyearstart != 1 the BFI is calculated for the hydrological year "any" means the whole series should be taken.
 }
   \item{breakdays}{
-A vector of breakdays if the BFI should be calculated for different seasons. 
+A vector of breakdays if the BFI should be calculated for different seasons.
 }
   \item{yearly}{
-If TRUE,  the BFI is calculated for each hydrological year separately. 
+If TRUE,  the BFI is calculated for each hydrological year separately.
 }
 }
 \details{
@@ -53,4 +53,3 @@ BFI(ngaruroro, year = 1991)
 bfplot(ngaruroro, year = 1991)
 }
 \keyword{Base flow index}
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
