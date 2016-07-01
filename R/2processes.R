@@ -3,6 +3,7 @@
 #########################
 
 #Works with NAs!
+
 sbplot <-  function(lfobj,hyearorder = TRUE){
   lfcheck(lfobj)
 
@@ -19,6 +20,7 @@ sbplot <-  function(lfobj,hyearorder = TRUE){
   mm <- aggregate(flow ~ month, data = lfobj, FUN = mean)
   mquan <- aggregate(flow ~ month, data = lfobj, FUN = quantile,probs = .1)
   mquan$monthreorder <- monthreorder
+
   mmplot <- barchart(flow~reorder(month,monthreorder),
                      data = mm,
                      box.ratio=1,

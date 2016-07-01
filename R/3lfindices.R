@@ -42,7 +42,7 @@ baseflow <- function(x, tp.factor = 0.9, block.len = 5) {
 }
 
 #Calculating BFI
-BFI <- function(lfobj, year = "any",breakdays = NULL,yearly = FALSE){
+BFI <- function(lfobj, year = "any", breakdays = NULL, yearly = FALSE){
   calcbfi <- function(lfobj){
     sum(lfobj$baseflow[!is.na(lfobj$baseflow)&!is.na(lfobj$flow)])/sum(lfobj$flow[!is.na(lfobj$baseflow)&!is.na(lfobj$flow)])
   }
@@ -68,6 +68,8 @@ BFI <- function(lfobj, year = "any",breakdays = NULL,yearly = FALSE){
     return(calcbfi(lfobj))}else{
       return(sapply(split(lfobj,list(lfobj$hyear)),calcbfi))
     }}
+
+
 
 #Plotting
 bfplot <- function(lfobj,

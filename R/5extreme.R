@@ -1,4 +1,11 @@
 # methods for class evfit  ----
+.rsquared <- function(obs, est) {
+  m <- mean(obs)
+  SSobs <- sum((m - obs)^2)
+  SSres <- sum((obs - est)^2)
+  return( 1 - SSres/SSobs)
+}
+
 print.evfit <- function(x, ...) {
   rp <- x[["T_Years_Event"]]
   if(!is.null(rp)) print(rp) else summary(x)
@@ -38,7 +45,7 @@ print.dist <- function(x) {
 
 # Gringorten Plotting Position for extreme values
 gringorten <- function(x) {
-  rank <-rank (x, na.last = "keep")
+  rank <- rank(x, na.last = "keep", ties.method = "first")
   len <- sum(!is.na(x))
 
   xx <- (rank - 0.44)/(len + 0.12)
@@ -47,10 +54,10 @@ gringorten <- function(x) {
 
 
 plot.evfit <- function(x, legend = TRUE, col = 1, extreme = x$extreme,
-                       xlab = expression("Reduced variate,  " * -log(-log(italic(F)))),
-                       ylab = "Quantile", log = TRUE,
+                       xlab = NULL, ylab = expression(italic(x)), log = TRUE,
+                       ylim = NULL,
                        rp.axis = NULL, rp.lab = "Return period",
-                       freq.axis = T,
+                       freq.axis = TRUE,
                        freq.lab = expression(paste("Frequency " *(italic(F)),
                                                    " = Non-Exceedance Probability P ",
                                                    (italic(X) <= italic(x)))),
@@ -60,15 +67,18 @@ plot.evfit <- function(x, legend = TRUE, col = 1, extreme = x$extreme,
   dist <- names(x[["parameters"]])
   # if there's more than one distribution to fit, ignore user specified color
   if (length(dist) > 1) col <- seq_along(dist)
+  ylim <- if(is.null(ylim)) c(0, max(x$values)) else ylim
 
   # plot obersvations (points)
   if (log) {
-    evplot(x$values, xlab = xlab, ylab = ylab, col = col[1], rp.axis = FALSE)
+    if(is.null(xlab)) xlab <- expression("Reduced variate,  " * -log(-log(italic(F))))
+    evplot(x$values, xlab = xlab, ylab = ylab, col = col[1], rp.axis = FALSE,
+           ylim = ylim)
   } else {
+    if(is.null(xlab)) xlab <- freq.lab
     plot(gringorten(x$values), x$values, col = col[1],
-         xlim = c(0, 1), ylim = c(0, max(x$values)),
-         xlab = freq.lab,
-         ylab = expression(italic(x)))
+         xlim = c(0, 1), ylim = ylim,
+         xlab = xlab, ylab = ylab)
   }
 
 
@@ -94,7 +104,13 @@ plot.evfit <- function(x, legend = TRUE, col = 1, extreme = x$extreme,
   if (legend) {
     obs <- paste("obs. annual", sub("imum", "ima", extreme))
     pos <- c("minimum" = "bottomright", "maximum" = "topleft")
-    legend(x = pos[extreme], legend = c(obs, dist),
+    dist.text <- if (length(dist) > 1) {
+      paste0(dist, " (", x$r.squared, ")")
+    } else {
+      dist
+    }
+
+    legend(x = pos[extreme], legend = c(obs, dist.text),
            col = c(1, col),
            pch = c(1, rep(-1, length(dist))),
            lty = c(-1, rep(1, length(dist))))
@@ -103,27 +119,26 @@ plot.evfit <- function(x, legend = TRUE, col = 1, extreme = x$extreme,
 
 
 
-rpline <- function(fit, return.period = NULL, ...)
-{
+rpline <- function(fit, return.period = NULL, log = TRUE, ...) {
+  arg <- list(...)
+  if(is.null(arg[["suffix"]])) arg[["suffix"]] <- c("a", "")
+  if(is.null(arg[["digits"]])) arg[["digits"]] <- c(2, 1)
+
   prob <- 1 / return.period
   if(fit$extreme == "maximum")  prob <- 1 - prob
 
   distribution <- names(fit$parameter)[1]
-  quant <- evquantile(fit = fit, return.period = return.period)
 
   quant <- evquantile(fit = fit, return.period = return.period)[["T_Years_Event"]][, 1]
-  xval <- -log(-log(prob))
-
-  arg <- list(...)
-  if(is.null(arg[["suffix"]])) arg[["suffix"]] <- c("a", "")
-  if(is.null(arg[["digits"]])) arg[["digits"]] <- c(2, 1)
+  xval <- if(log) -log(-log(prob)) else prob
 
   arg <- c(arg, list(x = xval, y = quant, lab.x = return.period))
   do.call(trace_value, arg)
 }
 
 
-trace_value <- function(x, y, digits = 0, lab.x = x, lab.y = y, prefix = "", suffix = "",
+trace_value <- function(x, y, digits = 0, annotate = TRUE,
+                        lab.x = x, lab.y = y, prefix = "", suffix = "",
                         cex = 0.75, col = "blue", lty = 2, ...) {
   if (length(x) != length(y)) stop("x and y must be of the same length")
 
@@ -136,19 +151,22 @@ trace_value <- function(x, y, digits = 0, lab.x = x, lab.y = y, prefix = "", suf
   for (i in seq_along(x)) {
     lines(x = c(rep(x[i], 2), usr[1]),
           y = c(usr[3], rep(y[i], 2)),
-          col = col, lty = lty, ...)
+          col = rep(col, length.out = length(x))[i],
+          lty = rep(lty, length.out = length(x)), ...)
   }
   points(x, y, pch = 16, col = col, ...)
 
-  text(x = x, y = y,
-       labels = paste0(prefix[1], round(lab.x, digits[1]), suffix[1]),
-       adj =c(-strheight(" ", "figure") * 20, 0.5),
-       srt = 90, cex = cex, col = col, ...)
+  if(annotate) {
+    text(x = x, y = y,
+         labels = paste0(prefix[1], round(lab.x, digits[1]), suffix[1]),
+         adj =c(-strheight(" ", "figure") * 20, 0.5),
+         srt = 90, cex = cex, col = col, ...)
 
-  text(x = usr[1], y = y,
-       labels = paste0(prefix[2], round(lab.y, digits[2]), suffix[2]),
-       adj = c(-strwidth(" ", "figure"), -strheight(" ", "figure")) * 20,
-       cex = cex, col = col, ...)
+    text(x = usr[1], y = y,
+         labels = paste0(prefix[2], round(lab.y, digits[2]), suffix[2]),
+         adj = c(-strwidth(" ", "figure"), -strheight(" ", "figure")) * 20,
+         cex = cex, col = col, ...)
+  }
 }
 
 # adding a single quantile function to a plot
@@ -179,7 +197,7 @@ evdistq0 <- function (distribution, para, freq.zeros = 0, npoints = 5001,
   # also used for exteding the quantile function to (0, 0)
   step.x <- if(log) -log(-log(freq.zeros)) else freq.zeros
   step.y <- if(freq.zeros > 0) 0 else yval[1]
-  lines(x = c(if(log) usr[1] else 0, step.x), y = c(0, step.y), ...)
+  lines(x = c(if(log) usr[1] else 0, step.x), y = rep(step.y, 2), ...)
 }
 
 
@@ -235,7 +253,7 @@ axis_frequency <- function(side = 3, title = "")
 
   # only use 3 decimal digits for small numbers
   digits <- ifelse(labels < 0.01, 3, 2)
-  labels <- format(round(labels, digits = digits), drop0trailing = T)
+  labels <- format(round(labels, digits = digits), drop0trailing = TRUE)
 
   # draw axis and title
   axis(side=side, at = at, labels = labels)
@@ -307,7 +325,7 @@ pel_ev <- function(distribution, lmom, ...){
   function(x) {
     if (notWarnedYet) {
       warning("For fitting minima, a Weibull distribution with parameter 'zeta = 0' may be best.",
-              call. = F)
+              call. = FALSE)
       notWarnedYet <<- FALSE
     }
   }
@@ -372,7 +390,8 @@ check_distribution <- function (extreme = c("minimum", "maximum"),
 
 .is_bounded <- function(distribution) {
   family <- substr(distribution, 1L, 3L)
-  family %in% c("gpa", "ln3", "wak", "wei")
+  # family %in% c("gpa", "ln3", "wak", "wei")
+  family %in% c("ln3", "wak", "wei")
 }
 
 .distr.lmom <- c("exp", "gam", "gev", "glo", "gno", "gpa", "gum", "kap", "ln3",
@@ -381,8 +400,9 @@ check_distribution <- function (extreme = c("minimum", "maximum"),
 
 # Estimating the parameters of the distribution ----
 evfit <- function (x, distribution, zeta = NULL,
-                   check = TRUE, extreme = "minimum") {
+                   check = TRUE, extreme = c("minimum", "maximum")) {
 
+  extreme <- match.arg(extreme)
   distribution <- match.arg(arg = distribution,
                             choices = c(.distr.lmom, paste0(.distr.lmom, "R")),
                             several.ok = TRUE)
@@ -410,7 +430,10 @@ evfit <- function (x, distribution, zeta = NULL,
   lmom <- samlmu(xx)
 
   parameters <- list()
-  rsquared <- numeric()
+  est <- matrix(NA, nrow = length(xx), ncol = length(distribution),
+                dimnames = list(NULL, dist = distribution))
+  p.value <- numeric()
+  r.squared <- numeric()
 
   for (ii in distribution) {
     parameter <- pel_ev(distribution = ii, lmom, bound = zeta)
@@ -431,6 +454,10 @@ evfit <- function (x, distribution, zeta = NULL,
     }
 
     parameters[[ii]] <- parameter
+    est[, ii] <- qua_ev(distribution = ii, f = gringorten(xx), para = parameter)
+    cdf <- function(x) cdf_ev(distribution = ii, x = x, para = parameter)
+    p.value[ii] <- suppressMessages(ks.test(est[, ii], cdf)$p.value)
+    r.squared[ii] <- .rsquared(obs = xx, est = est[, ii])
   }
 
 
@@ -440,9 +467,11 @@ evfit <- function (x, distribution, zeta = NULL,
                  lmom = lmom,
                  values = x,
                  is.censored = is.censored,
-                 extreme = extreme
-                 #rsquared = rsquared
-  )
+                 extreme = extreme,
+                 zeta = zeta,
+                 estimates = est,
+                 p.value = p.value,
+                 r.squared = round(r.squared, 3))
 
   class(result) <- c("evfit", "list")
   return(result)
@@ -471,9 +500,12 @@ evquantile <- function (fit, return.period = NULL) {
     # calculation of quantiles
     # if there are too much zero flow obersvations, quantile = 0
     quantile <- numeric(length(probs))
-    quantile[probs > freq.zeros] <- qua_ev(distribution = ii,
-                                           f = prob.adj[probs > freq.zeros],
-                                           para = fit$parameter[[ii]])
+
+    # NA values in input should result in NA in output
+    quantile[is.na(probs)] <- NA
+    mask <- probs > freq.zeros & !is.na(probs)
+    quantile[mask] <- qua_ev(distribution = ii, f = prob.adj[mask],
+                             para = fit$parameter[[ii]])
     return.period[, ii] <- quantile
   }
 
@@ -508,7 +540,8 @@ tyears <- function (lfobj, event = 1 / probs , probs = 0.01,
   if(!inherits(x, "xts")) x <- as.xts(x)
   hyear <- water_year(time(x), origin = hyearstart)
 
-  minima <- tapply(coredata(x$discharge), hyear, min, na.rm = T)
+  minima <- tapply(coredata(x$discharge), hyear, min, na.rm = TRUE)
+  minima <- .check_minima(minima)
 
   fit <- evfit(x = minima, distribution = dist, zeta = zeta,
                check = check, extreme = "minimum")
@@ -549,7 +582,7 @@ tyearsS <- function (lfobj, event = 1 / probs, probs = 0.01, pooling = NULL,
   x <- find_droughts(x, ...)
   if (!is.null(pooling) && is.function(pooling)) x <- pooling(x)
 
-  tab <- summary(x, drop = 0)
+  tab <- summary(x, drop_minor = 0)
   tab$hyear <- water_year(tab$time, origin = hyearstart)
 
   ag <- tapply(tab[, variable], tab$hyear, match.fun(aggr))

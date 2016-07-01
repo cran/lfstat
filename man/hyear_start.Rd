@@ -9,11 +9,11 @@ Extract or guess the Start of a Hydrological Year
 \description{
 Retrieve the start of a hydrological year either from the attributes or from the column 'hyear' of an object of class lfobj.
 }
-\usage{hyear_start(x, abbreviate = F)
+\usage{hyear_start(x, abbreviate = FALSE)
 
-\method{hyear_start}{data.frame}(x, abbreviate = F)
+\method{hyear_start}{data.frame}(x, abbreviate = FALSE)
 
-\method{hyear_start}{xts}(x, abbreviate = F)
+\method{hyear_start}{xts}(x, abbreviate = FALSE)
 }
 
 \arguments{

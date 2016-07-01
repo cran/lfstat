@@ -3,6 +3,7 @@
 \alias{pool_ic}
 \alias{pool_ma}
 \alias{pool_sp}
+\alias{pool_it}
 
 
 \title{Pooling Procedures of Low Flow Events}
@@ -11,6 +12,7 @@ Several pooling procedures can be applied to reduce the number of dependent drou
 }
 \usage{
 pool_ic(x, tmin = 5, ratio = 0.1)
+pool_it(x, tmin = 5)
 pool_ma(x, n = 10)
 pool_sp(x)
   }
@@ -23,7 +25,7 @@ pool_sp(x)
   \item{n}{numeric vector of length one determining the width of the smoothing window}
   }
 \details{
-The inter-event criterion (\code{pool_ic}) pools subsequent drought events if the inter-event time is less than \code{tmin} and the ratio of the drought volume and the inter-event volume is less than a given \code{ratio}.
+The inter-event criterion (\code{pool_ic}) pools subsequent drought events if the inter-event time is less than \code{tmin} and the ratio of the drought volume and the inter-event volume is less than a given \code{ratio}. The function \code{pool_it} is simply a wrapper around \code{pool_ic(..., ratio = Inf)}.
 
 Pooling by a moving average (\code{pool_ma}) simply smooths the time series before finding drought events.
 

@@ -1,39 +1,23 @@
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
-lfstat 0.8.0
+lfstat 0.9.0
 ============
 
 New Functionality
 -----------------
 
--   new function `evfit()` for fitting of extreme value distributions
+-   new function `apply.seasonal()`, eg for computing seasonal extreme values
 
--   offering a "reversed" GEV suited for minima
+-   drought summaries now report the days below threshold (dbt), the minimum discharge (qmin) as well as the date of the minimum discharge (tqmin)
 
--   providing wrappers `{pel,qua,cdf}_ev` around functions from lmom
+-   Support for vardat2 file format: `read.vardat2()`
 
--   new function `evquantile()` for estimating quantiles of an ev-distribution
+-   new function `fill_na()` for interpolating short gaps in a time series
 
--   several new functions for annotating plots like `trace_value()`, `rpline()`
-
--   new function for calculating the `gringorten()` plotting position
-
--   offering functions `pool_{ic,ma,sp}` for pooling of droughts
-
--   `vary_threshold()` for daily, weekly, monthly, seasonal and year varying thresholds
-
--   new function `tyearsS` for estimating deficit volume and deficit duration quantiles of dry spells
-
--   streamflow hydrographs can now be stored as objects of class xts, including methods for conversion `as.xts.lfobj()`
-
--   calculation of the `water_year()` for a give time
+-   discharge units of a time series can be set and retrieved with `flowunit()`
 
 Changes
 -------
 
--   speeding up function `baseflow()` by using matrix algebra
+-   bugfixes in `summary.deficit()`
 
--   replacing function `streamdef()` with `find_droughts()`
-
--   vectorizing of function `tyears()` for estimating flow quantiles for given return periods
-
--   the start of the hydrological year is now stored as an attribute, can be retrieved via `hyear_start`
+-   being more relaxed when converting an lfobj to xts via `as.xts.lfobj()`. If there is no unit stored in the attributes "m^3/s" is assumed and a warning is given.

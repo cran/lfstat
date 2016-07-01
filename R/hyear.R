@@ -11,16 +11,24 @@ hyear <- function(dat, startmonth = 1){
 }
 
 
-water_year <- function(x, origin = "din", as.POSIX = F,
+calendar_year <- function(x) {
+  x <- as.Date(x)
+  x <- as.numeric(format(x, "%Y"))
+  return(factor(x, levels = seq(min(x), max(x))))
+}
+
+
+
+water_year <- function(x, origin = "din", as.POSIX = FALSE,
                        assign = c("majority", "start", "end"), ...) {
 
   assign <- match.arg(assign)
-  x <- as.POSIXct(x)
+  x <- as.POSIXlt(x, ...)
 
   # there are multiple ways to specify the start of the hydrological year
   # translate all of them to an integer between {1..12}
   if (length(origin) != 1)
-    stop("argument 'origin' must be of length 1.", call. = F)
+    stop("argument 'origin' must be of length 1.", call. = FALSE)
 
   # first try to match exactly against given definitions of popular institutions
   defs <- c("din" = 11, "usgs" = 10, "swiss" = 10, "glacier" =  9)
@@ -28,7 +36,8 @@ water_year <- function(x, origin = "din", as.POSIX = F,
     idx <- as.numeric(defs[origin])
   } else {
     # then partial matches of the names of months
-    idx <- pmatch(gsub(".", "", tolower(origin), fixed = T), tolower(month.name))
+    idx <- pmatch(gsub(".", "", tolower(origin), fixed = TRUE),
+                  tolower(month.name))
 
     # and finally, check if the origin is given as a POSIX object or integer
     if (is.na(idx)) {
@@ -43,8 +52,6 @@ water_year <- function(x, origin = "din", as.POSIX = F,
     }
   }
   origin <- idx
-
-  x <- as.POSIXlt(x, ...)
 
   # when extracting components of POSIXlt, the year gets counted from 1900
   # and for months Jan = 0, Dec = 11: +1 because we want integers {1..12}
@@ -70,18 +77,18 @@ water_year <- function(x, origin = "din", as.POSIX = F,
 }
 
 
-hyear_start <- function(x, abbreviate = F) {
+hyear_start <- function(x, abbreviate = FALSE) {
   UseMethod("hyear_start")
 }
 
 
-hyear_start.data.frame <- function(x, abbreviate = F){
+hyear_start.data.frame <- function(x, abbreviate = FALSE){
   hy <- attr(x, "lfobj")$hyearstart
   if(is.null(hy) || (!hy %in% 1:12)) hy <- .guess_hyearstart(x)
 
   if(is.null(hy)) {
     warning("Couldn't determine start of hydrological year from attributes or columns.\nDefaulting to 'January'.",
-            call. = F)
+            call. = FALSE)
     hy <- 1
   }
 
@@ -89,12 +96,12 @@ hyear_start.data.frame <- function(x, abbreviate = F){
   return(hy)
 }
 
-hyear_start.xts <- function(x, abbreviate = F){
+hyear_start.xts <- function(x, abbreviate = FALSE){
   hy <- xtsAttributes(x)$hyearstart
 
   if(is.null(hy) || (!hy %in% 1:12)) {
     warning("Couldn't determine start of hydrological year from attributes.\nDefaulting to 'January'.",
-            call. = F)
+            call. = FALSE)
     hy <- 1
   }
 

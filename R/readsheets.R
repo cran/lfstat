@@ -5,7 +5,7 @@ readlfdata <- function(file, type = c("GRDC","HZB","LFU","TU"),
 
   #Read GRDC sheet
   if(style == "GRDC"){
-    a <- read.table(file,header = T, sep = ";")
+    a <- read.table(file,header = TRUE, sep = ";")
     a[,3][a[,3] == -999] <- NA
     a[,1] <- as.Date(a[,1])
   }
@@ -14,7 +14,10 @@ readlfdata <- function(file, type = c("GRDC","HZB","LFU","TU"),
   if(style == "HZB"){
     lines <- readLines(file, n=50,encoding = "latin1")
     wert <- grep("Werte:",lines)
-    a <- read.table(file,header = F,skip = wert,na.strings = iconv("L\374cke",from = "latin1",to = "latin1"),encoding = "latin1")
+    a <- read.table(file,header = FALSE,
+                    skip = wert,
+                    na.strings = iconv("L\374cke",from = "latin1",to = "latin1"),
+                    encoding = "latin1")
     a[,1] <- as.Date(a[,1],"%d.%m.%Y")
     if(readmeta){
       fluss <- grep(iconv("Gew\344sser:",from = "latin1", to = "latin1"),lines)
@@ -44,14 +47,14 @@ readlfdata <- function(file, type = c("GRDC","HZB","LFU","TU"),
   }
   #Read LfU-Bayern sheet new
   if(style == "LFU"){
-    a <- read.table(file, header = F)
+    a <- read.table(file, header = FALSE)
     a[,1] <- as.Date(as.character(a$V1),"%Y%m%d%H%M")
     a[,3] <- a[,2]
   }
 
   #TU
   if(style == "TU"){
-    b <- read.table(file, header = F)
+    b <- read.table(file, header = FALSE)
     a1 <- as.Date(paste(b[,3],b[,2],b[,1],sep = "/"),"%Y/%m/%d")
     a2 <- b[,4]
     a3 <- a2
@@ -68,3 +71,5 @@ readlfdata <- function(file, type = c("GRDC","HZB","LFU","TU"),
     return(lfobj)} else {
       return(dat)}
 }
+
+

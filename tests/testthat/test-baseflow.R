@@ -33,7 +33,7 @@ test_that("base flow gets computed correctly", {
   expect_equal(head(ray$baseflow, 15), rep(NA_integer_, 15))
 
   # base <= discharge
-  expect_true(all(ray$baseflow <= ray$discharge, na.rm = T))
+  expect_true(all(ray$baseflow <= ray$discharge, na.rm = TRUE))
 
 
 })

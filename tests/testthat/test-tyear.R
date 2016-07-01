@@ -6,9 +6,9 @@ infile <- readlfdata("QMittelTag207373.txt", type="HZB", hyearstart = 4,
                      baseflow = FALSE)
 wild <- subset(infile, hyear %in% 1996:2011)
 
-am <- tyears(wild, dist = "wei", plot = F)$values
+am <- tyears(wild, dist = "wei", plot = FALSE)$values
 
-# Zeitreihe mit Lücken
+# Zeitreihe mit Luecken
 wild.zeros <- wild
 wild.zeros$flow[c(10, 500)] <- 0
 
@@ -18,7 +18,7 @@ test_that("94% quantile for Wildungsmauer is correct", {
   expect_equal(unname(Qxx(wild, 94)), 988.74, tolerance = 1e-2)
 })
 
-pars <- tyears(wild, dist="wei", plot = F)$parameters$wei
+pars <- tyears(wild, dist="wei", plot = FALSE)$parameters$wei
 
 test_that("return period for 94% event is the same as in script GL", {
   rp <- 1/cdfwei(Qxx(wild, 94), pars)
@@ -53,7 +53,7 @@ test_that("flows for given return periods are the same as in script GL", {
 #   }
 #
 #   # tolerances computed with n=100 replications
-#   error <- replicate(n = 10, expr = test_fit_weibull(), simplify = T)
+#   error <- replicate(n = 10, expr = test_fit_weibull(), simplify = TRUE)
 #
 #   expect_less_than(object = max(abs(error["shape.e", ])),
 #                    expected = 0.1)
@@ -68,10 +68,10 @@ test_that("flows for given return periods are the same as in script GL", {
 test_that("warnings are given", {
 
   # warn: "... using gevR instead."
-  expect_warning(tyears(wild, dist = "gev", plot = F))
+  expect_warning(tyears(wild, dist = "gev", plot = FALSE))
 
   # warn that zero flow observations are present
-  expect_warning(tyears(wild.zeros, dist = "wei", plot = F))
+  expect_warning(tyears(wild.zeros, dist = "wei", plot = FALSE))
 })
 
 
@@ -82,7 +82,7 @@ test_that("gevR and wei behave identically", {
   # only for time series with strictly positive values
   # pelwei complains about "invalid L-moments"
 
-  y <- suppressWarnings(tyears(wild, plot = F,
+  y <- suppressWarnings(tyears(wild, plot = FALSE,
                                dist = c("wei", "gevR"),
                                event = c(1, 2, 7.9, 8, 8.1, 10)))
 
@@ -110,12 +110,12 @@ test_that("quantiles are INF for return period = 1 year", {
 
   # doesn't work for "gev", because a Frechet type GEV is fitted, which
   # has a finite upper bound
-  y <- suppressWarnings(tyears(wild.zeros, plot = F, zeta = 0,
+  y <- suppressWarnings(tyears(wild.zeros, plot = FALSE, zeta = 0,
                                dist = c("wei", "gum", "gevR"),
                                event = c(1)))
   expect_true(all(y$T_Years_Event == Inf))
 
-  y <- suppressWarnings(tyears(wild, plot = F, zeta = 0,
+  y <- suppressWarnings(tyears(wild, plot = FALSE, zeta = 0,
                                dist = c("wei", "gum", "gevR"),
                                event = c(1)))
   expect_true(all(y$T_Years_Event == Inf))
@@ -125,7 +125,7 @@ test_that("quantiles are INF for return period = 1 year", {
 
 test_that("quantiles for mixed distributions are plausible", {
 
-  y <- suppressWarnings(tyears(wild.zeros, plot = F, zeta = 0,
+  y <- suppressWarnings(tyears(wild.zeros, plot = FALSE, zeta = 0,
                                dist = c("wei", "gum", "gevR"),
                                event = c(1, 2, 7.9, 8, 8.1, 10, 50)))
 
@@ -218,7 +218,7 @@ test_that("same results as skripts from GL", {
   # all gl fits with pooling are incorrect, because of wrong pooling in old package
 
   # tyears_new_GL
-  lfstat <- suppressWarnings(tyears(wild, dist = c("gevR", "wei"), plot = F))
+  lfstat <- suppressWarnings(tyears(wild, dist = c("gevR", "wei"), plot = FALSE))
   expect_equal2(object = lfstat$parameter[["wei"]],
                 expected = reference.gl$tyears_new_GL$parameters[["wei"]])
   expect_equal2(object = lfstat$T_Years_Event[1, "wei"],
@@ -232,7 +232,7 @@ test_that("same results as skripts from GL", {
 
   # tyears_MAX_D_hyear_GL-sum
   lfstat <- suppressWarnings(tyearsS(wild,  dist = c("gev", "wei"), variable = "d",
-                                     aggr = sum, plot = F,
+                                     aggr = sum, plot = FALSE,
                                      threshold = function(x) quantile(x, probs = 0.06, na.rm = TRUE)))
 
 
@@ -245,7 +245,7 @@ test_that("same results as skripts from GL", {
 #   lfstat <- suppressWarnings(tyearsS(wild,  dist = c("gev", "wei"),
 #                                      pooling = pool_ic,
 #                                      variable = "d", aggr = max,
-#                                      plot = F,
+#                                      plot = FALSE,
 #                                      threshold = function(x) quantile(x, probs = 0.06, na.rm = TRUE)))
 #
 #   expect_equal2(object = lfstat$parameter[["gev"]],
@@ -256,7 +256,7 @@ test_that("same results as skripts from GL", {
 #   # tyears_MAX_V_hyear_GL-sum
   lfstat <- suppressWarnings(tyearsS(wild,  dist = c("gev", "wei"), variable = "v",
                                      threshold = function(x) quantile(x, probs = 0.06, na.rm = TRUE),
-                                     aggr = sum,  plot = F))
+                                     aggr = sum,  plot = FALSE))
 
   expect_equal2(object = lfstat$parameter[["gev"]],
                 expected = reference.gl$"tyears_MAX_V_hyear_GL-sum"$parameters[["gev"]],
@@ -268,7 +268,7 @@ test_that("same results as skripts from GL", {
   # tyears_MAX_V_hyear_GL-max
 #   lfstat <- suppressWarnings(tyearsS(wild, dist = c("gev", "wei"), variable = "v",
 #                                      threshold = function(x) quantile(x, probs = 0.06, na.rm = TRUE),
-#                                      aggr = max, pooling = pool_ic, plot = F))
+#                                      aggr = max, pooling = pool_ic, plot = FALSE))
 #
 #   expect_equal2(object = lfstat$parameter[["gev"]],
 #                 expected = reference.gl$"tyears_MAX_V_hyear_GL-max"$parameters[["gev"]],

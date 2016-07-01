@@ -6,7 +6,7 @@
 Given a date, compute the corresponding water year (hydrological year).
 }
 \usage{
-water_year(x, origin = "din", as.POSIX = F,
+water_year(x, origin = "din", as.POSIX = FALSE,
            assign = c("majority", "start", "end"), ...)
 }
 

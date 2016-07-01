@@ -21,6 +21,9 @@ a data.frame where each row corresponds to an event. There are summarizing colum
  \item{time}{the day which the event is attributed to. Usually identical with column \code{start}, unless the object \code{x} is the result of the Sequent Peak Algorithm.}
  \item{volume}{the volume of the drought event in cubic meters}
  \item{duration}{the duration of the drought event in days}
+ \item{dbt}{days below threshold. Number of days the discharge is lower than the given threshold.}
+ \item{qmin}{the minimum discharge}
+ \item{tqmin}{date of the minimum discharge}
 }
 
 \examples{

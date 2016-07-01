@@ -4,7 +4,8 @@
 \title{Fit an extreme value distribution to observations}
 \description{Fits an extreme value distribution using \var{L}-moments to the values provided. In the presence of zero flow observations a mixed distribution is fitted.}
 \usage{
-evfit(x, distribution, zeta = NULL, check = TRUE, extreme = "minimum")
+evfit(x, distribution, zeta = NULL, check = TRUE,
+      extreme = c("minimum", "maximum"))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

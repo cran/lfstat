@@ -4,13 +4,14 @@
 \description{
 To depict the distances in \code{x} and \code{y} direction to a point, draw lines and labels.}
 \usage{
-trace_value(x, y, digits = 0, lab.x = x, lab.y = y, prefix = "",
+trace_value(x, y, digits = 0, annotate = TRUE, lab.x = x, lab.y = y, prefix = "",
             suffix = "", cex = 0.75, col = "blue", lty = 2, ...)
 }
 \arguments{
   \item{x}{numeric vector of x coordinates}
   \item{y}{numeric vector of y coordinates}
   \item{digits}{vector of length one or two, giving the number of digits used for rounding the label of the \code{x} and \code{y} coordinate.}
+  \item{annotate}{logical, should the lines get annotated with labels?}
   \item{lab.x}{character vector of length one. Label of the \code{x} coordinate.}
   \item{lab.y}{character vector of length one. Label of the \code{y} coordinate.}
   \item{prefix}{vector of length one or two, text printed before the label of the \code{x} and \code{y} coordinate.}

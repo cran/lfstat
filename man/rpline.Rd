@@ -4,12 +4,13 @@
 \title{Highlight quantiles/return periods}
 \description{Draw a Line in an extreme value plot corresponding to a given return period.}
 \usage{
-rpline(fit, return.period = NULL, ...)
+rpline(fit, return.period = NULL, log = TRUE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fit}{object of class \code{evfit}, possibly created with \code{evfit()}.}
   \item{return.period}{numeric vector of return periods}
+  \item{log}{logical. If \code{TRUE}  it is assumed that probabilities were plotted on a double logarithmic scale.}
   \item{\dots}{other arguments, passed on to \code{\link[lfstat]{trace_value}}}
 }
 \details{Computes the corresponding quantiles and draws lines and labels.}

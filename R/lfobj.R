@@ -100,7 +100,7 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
 
 # hack to make attributes sticky
 # otherwise subsetting would loose attributes
-"[.lfobj" <- function (x, i, j, drop = T) {
+"[.lfobj" <- function (x, i, j, drop = TRUE) {
 
   y <- "[.data.frame"(x, i, j, drop)
   attr(y, "lfobj") <- attr(x, "lfobj")
