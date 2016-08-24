@@ -8,6 +8,9 @@ ma <- function(x, n, sides = 1)  {
   return(as.numeric(y))
 }
 
+
+
+# not in use anymore?
 .check_xts <- function(x, force.regular = FALSE) {
 
   # check if a regular time series is provided
@@ -23,12 +26,12 @@ ma <- function(x, n, sides = 1)  {
   }
 
   # check if a unit is provided
-  unit <- xtsAttributes(x)[["unit"]]
+  unit <- flowunit(x)
   if(is.null(unit) || unit == "" || is.na(unit)) {
     warning("No unit found in attributes, assuming 'm\u00B3/s'.\n",
             "Use flowunit(x) <- \"l/s\" to define the flow unit. ",
             "See help(flowunit).")
-    xtsAttributes(x)[["unit"]] <- "m^3/s"
+   flowunit(x) <- "m^3/s"
   }
   # if so, parse volume und time
   names(unit) <- "flow"
@@ -45,16 +48,16 @@ flowunit <- function(x) {
   UseMethod("flowunit")
 }
 
-"flowunit<-" <- function(x, value) {
-  UseMethod("flowunit<-")
-}
-
 flowunit.lfobj <- function(x) {
   attr(x, "lfobj")$unit
 }
 
 flowunit.xts <- function(x) {
   xtsAttributes(x)$unit
+}
+
+"flowunit<-" <- function(x, value) {
+  UseMethod("flowunit<-")
 }
 
 "flowunit<-.lfobj" <- function(x, value) {
@@ -125,17 +128,23 @@ flowunit.xts <- function(x) {
 
 as.xts.lfobj <- function(x, ...) {
   lfcheck(x)
-
-  time <- with(x, as.Date(paste(year, month, day, sep = "-")))
-  y <- xts(x[, "flow"], order.by = time)
+  y <- xts(x[, "flow"], order.by =  time(x))
 
   att <- attr(x, "lfobj")
-  #att[["location"]] <- att[["station"]]
   missing <- setdiff(c("river", "station", "unit", "institution"), names(att))
   att[missing] <- ""
   xtsAttributes(y) <- att
-  xtsAttributes(y)[["unit.parsed"]] <- .split_unit(att$unit)
 
+  # if no unit present, default to m^3/s
+  unit <- flowunit(x)
+  if(is.null(unit) || unit == "" || is.na(unit)) {
+    warning("No unit found in attributes, assuming 'm\u00B3/s'.\n",
+            "Use flowunit(x) <- \"l/s\" to define the flow unit. ",
+            "See help(flowunit).")
+    flowunit(y) <- "m^3/s"
+  }
+  # parse volume und time
+  xtsAttributes(y)[["unit.parsed"]] <- .split_unit(flowunit(y))
 
   colnames(y) <- "discharge"
 
@@ -333,6 +342,10 @@ vary_threshold <- function(x, varying = "constant",
                            fun = function(x)
                              quantile(x, probs = 0.05, na.rm = TRUE),
                            ...) {
+
+  fun.quant <- try(.quant_character(fun, ...))
+  if(is.function(fun.quant)) fun <- fun.quant
+
   x <- as.xts(x)
 
   zz <- x
@@ -395,3 +408,17 @@ expect_equal2 <- function(object, expected,
     return(x)
   }
 }
+
+
+.quant_character <- function(x, ...) {
+  if(is.character(x) && tolower(substr(x, 1L, 1L)) == "q") {
+    num <- as.numeric(substr(x, 2L, 999L))
+    if(!is.na(num) && (num > 0 & num < 100)) {
+      return(function(x, ...) quantile(x, probs = 1 - num/100, na.rm = TRUE, ...))
+    } else {
+      stop("unknown quantile: '", x, "'. Must be in interval (0, 100)")
+    }
+  }
+}
+
+.toNum <- function(x) as.numeric(sub(",", ".", x))

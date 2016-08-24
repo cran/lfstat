@@ -1,35 +1,43 @@
-summary.lfobj <- function(object, digits = 4,...){
+summary.lfobj <- function(object, digits = 4, ...){
   lfobj <- object
   lfcheck(lfobj)
-  r <- nrow(lfobj)
-  nas <- is.na(lfobj$flow)
-  sdate <- format(as.Date(paste(lfobj[1,"day"],lfobj[1,"month"],lfobj[1,"year"]               ,sep = "/"),"%d/%m/%Y"),"%d/%m/%Y")
-  edate <- format(as.Date(paste(lfobj[r,"day"],lfobj[r,"month"],lfobj[r,"year"]               ,sep = "/"),"%d/%m/%Y"),"%d/%m/%Y")
-  out <- signif(c(meanflow(lfobj), MAM(lfobj,n=7), Q95(lfobj)),digits)
-  names(out) <- c("Meanflow", "MAM7", "Q95")
-  if("baseflow" %in% names(lfobj))
+  nr <- nrow(lfobj)
+
+  rng <- time(lfobj[c(1, nr), ])
+  nas <- sum(is.na(lfobj$flow))
+  nyears <- round(as.double(diff(rng), units = "days") / 365, 1)
+
+  out <- c("Meanflow" = meanflow(lfobj), "MAM7" = MAM(lfobj, n=7), Q95(lfobj))
+
+  if("baseflow" %in% names(lfobj)) {
     out <- c(out, "BFI" = BFI(lfobj))
-  if(any(nas))
-    res <- c(out, "NA's" = sum(nas))
-  else res <- out
-  reslist <- list(startdate = sdate, enddate = edate, vec = res)
-  class(reslist) <- c("lfobjsummary","list")
-  reslist
+  }
+
+  cat("Startdate: ", as.character(rng[1]), "    (calendar year)", fill = TRUE)
+  cat("Enddate:   ", as.character(rng[2]), "    (calendar year)", fill = TRUE)
+
+  if(nas) {
+    perc <- round(nas / nr, 2)
+    perc <- if(perc < 0.01) "< 0.01" else perc
+    nastring <- paste0(" and contains ", nas, " missing observations (",
+                       perc, " %)", sep = "")
+} else {
+    nastring <- ""
+  }
+
+  cat("\n")
+  cat("Time series covers ", nyears, " years", nastring, ".", sep = "",
+      fill = TRUE)
+  cat("The hydrological year is set to start on", month.name[hyear_start(lfobj)],
+      "1st.", fill = TRUE)
+
+  xx <- signif(out, digits = digits)
+
+  cat("\n")
+  print.table(xx, ...)
+  invisible()
 }
 
-print.lfobjsummary <- function(x,...){
-  cat("\n",
-      "Startdate: ", x$startdate, "\n",
-      "Enddate:   ", x$enddate, "\n",
-      "\n", sep = "")
-  xx <- zapsmall(x$vec)
-  m <- match("NA's", names(xx), 0)
-  if(m)
-    xx <- c(format(xx[-m]), `NA's` = as.character(xx[m]))
-  print.table(xx,...)
-  cat("\n")
-  invisible(x)
-}
 
 plot.lfobj <- function(x,...){
   hydrograph(x,...)

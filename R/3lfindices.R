@@ -20,7 +20,7 @@ baseflow <- function(x, tp.factor = 0.9, block.len = 5) {
   idx.min <- apply(y, 2, which.min.na) + offset
   block.min <- x[idx.min]
 
-  # towards high flows, allow the central value of three consecutive minimas
+  # towards high flows, allow the central value of three consecutive minima
   # only to be of a factor (1-tp.factor) higher than the surrounding values
   # e.g. modify the central value
   cv.mod <- tp.factor * tail(head(block.min, -1), -1)
@@ -150,19 +150,23 @@ bfplot <- function(lfobj,
 
 #GOOD METHOD?????
 pcheck <- function(p){
-  if((0<p&1>p)||is.logical(p)){
-    p}else{
-      stop("p must be in (0,1) or a logical vector")
-    }
+  if((0 < p & 1 > p) || is.logical(p)){
+    p
+  } else {
+    stop("p must be in (0, 1) or a logical vector")
+  }
 }
 
 
-rainpeak <- function(x,p=0.95){
+rainpeak <- function(x, p=0.95){
   if(is.logical(p)){
     if(length(x) == length(p)){
-      return(p)}  else{
-        (stop("p and lfobj$flow differ in length"))}
+      return(p)
+    } else {
+      stop("p and lfobj$flow differ in length")
+    }
   }
+
   rp <- FALSE
   for(ii in 2:(length(x)-1)){
     rp[ii] <- (x[ii]*p >= x[ii-1] & x[ii]*p >= x[ii+1])
@@ -288,9 +292,13 @@ segselect <- function(lfobj,
                       p,
                       na.rm = TRUE,
                       season = FALSE){ #seglength "AUTO" to be solved!!!
-  if(!seglength){stop("seglength missing")} ####!!!!! Better stop cond!!!
+  if(!seglength){
+    ####!!!!! Better stop cond!!!
+    stop("seglength missing")
+  }
+
   #Excluding 2 days after rainpeak as defined by the function "rainpeak"
-  rain2day <- rainpeak(lfobj$flow,p)
+  rain2day <- rainpeak(lfobj$flow, p)
 
   if(season){
     thres <- buildthres(lfobj = lfobj, threslevel = threshold, thresbreaks = "fixed", na.rm = na.rm)
@@ -313,7 +321,8 @@ segselect <- function(lfobj,
   dif <- diff(lfobj$flow)
   #Series goes on, if next value is smaller
   for(ii in 1:(length(segment)-1)){
-    if(segment[ii])  segment[ii+1] <- (dif[ii] < 0)}
+    if(segment[ii])  segment[ii+1] <- (dif[ii] < 0)
+  }
 
   run <- rle(segment)
 
@@ -350,7 +359,7 @@ recession <- function(lfobj,
     b<- b[order(b$year,b$month,b$day),]
     ding <- split(b,b$seasonname)
     if(meth == "MRC" & plotMRC){
-      message("No plot available for separated seasons")
+      message("No plot available for separated seasons", domain = NA)
     }
     res <- switch(meth,
                   MRC = sapply(ding,MRC, seglength = seglength, threshold = threshold,rainpeaklevel = rainpeaklevel, thresbreaks = thresbreaks, thresbreakdays = thresbreakdays,
@@ -382,11 +391,15 @@ MRC <- function(lfobj,
                 na.rm = TRUE,
                 season = FALSE){
 
-  lfs <- segselect(lfobj,threshold = threshold,seglength = seglength,
-                   thresbreaks = thresbreaks,thresbreakdays = thresbreakdays,
-                   p = rainpeaklevel,na.rm = na.rm,season = season)
-  if(any(lfs == "E")){warning("There are no valid recession periodes, returning 'NA'");return(NA)}
-  n <- data.frame(Qt = matrix(as.matrix(lfs[,1:(ncol(lfs)-1)])), Qtminus1 = matrix(as.matrix(lfs[,2:ncol(lfs)])))
+  lfs <- segselect(lfobj, threshold = threshold, seglength = seglength,
+                   thresbreaks = thresbreaks, thresbreakdays = thresbreakdays,
+                   p = rainpeaklevel, na.rm = na.rm, season = season)
+  if(any(lfs == "E")){
+    warning("There are no valid recession periodes, returning 'NA'")
+    return(NA)
+  }
+  n <- data.frame(Qt = matrix(as.matrix(lfs[,1:(ncol(lfs)-1)])),
+                  Qtminus1 = matrix(as.matrix(lfs[,2:ncol(lfs)])))
 
   slope <- coef(lm(Qtminus1~Qt - 1,data = n))
   if(plot){
@@ -546,13 +559,26 @@ Qxx <- function(lfobj, Qxx, year = "any",
 #MAM                    #
 #########################
 MAannual <- function(lfobj, n=7, breakdays = NULL, year = "any"){
-  lfobj$MAn <- ma(x = lfobj$flow, n = n)
+
+  if(n > nrow(lfobj)) {
+    warning("Setting the width smoothing window to n = ", nrow(lfobj), ".",
+            call. = FALSE)
+    n <- nrow(lfobj)
+  }
+  lfobj$MAn <- ma(x = lfobj$flow, n = n, sides = 2)
 
   if(any(year != "any")){
     lfobj <- subset(lfobj, hyear %in% year)
   }
 
   if(is.null(breakdays)){
+    x <- na.omit(lfobj[, c("hyear", "MAn")])
+    tbl <- table(x$hyear)
+    bad <- tbl[tbl < 100]
+    if(length(bad)) {
+      warning("Probably not enough observations to calculate annual minima for the hydrological years:\n",
+              paste0(names(bad), " (", bad, " obs)", collapse = ", "), call. = F)
+    }
     annual <- aggregate(MAn ~ hyear, data = lfobj, FUN = min)
   } else {
     annual <- aggregate(MAn ~ seasonname + hyear,
@@ -563,19 +589,28 @@ MAannual <- function(lfobj, n=7, breakdays = NULL, year = "any"){
   return (annual)
 }
 
-MAM <- function(lfobj,n=7,year = "any",breakdays = NULL,yearly = FALSE){
+MAM <- function(lfobj, n = 7, year = "any", breakdays = NULL,
+                yearly = FALSE){
   lfcheck(lfobj)
 
   if(!is.null(breakdays)){
     if(!yearly){
-      return(aggregate(MAn~seasonname,data = MAannual(lfobj=lfobj,n=n,breakdays = breakdays,year = year),FUN = mean))}else{
-        return(MAannual(lfobj,n,breakdays,year = year))}
+      return(aggregate(MAn ~ seasonname,
+                       data = MAannual(lfobj = lfobj,n = n,
+                                       breakdays = breakdays, year = year),
+                       FUN = mean))
+    }else{
+      return(MAannual(lfobj, n, breakdays, year = year))
+    }
   }
 
   if(yearly){
-    MAannual(lfobj,n,year = year)}else{
-      mean(MAannual(lfobj,n,year = year)$MAn)}
+    MAannual(lfobj, n, year = year)
+  }else{
+    mean(MAannual(lfobj, n, year = year)$MAn)
+  }
 }
+
 #########################
 #Seasonality Ratio      #
 #########################

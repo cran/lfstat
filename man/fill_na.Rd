@@ -4,7 +4,7 @@
 \title{
 Interpolation NA values in a vector
 }
-\description{This function is a tiny wrapper around \code{\link{approx}} which allows to contrain the maximum number of NA values in a row that will be filled by interpolation. This is useful to obtain regular time series.}
+\description{This function is a tiny wrapper around \code{\link{approx}} which allows to contain the maximum number of NA values in a row that will be filled by interpolation. This is useful to obtain regular time series.}
 
 \usage{
 fill_na(x, max.len = Inf, ...)

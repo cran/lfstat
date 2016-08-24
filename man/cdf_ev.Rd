@@ -6,7 +6,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Reversed functions for several Extreme Value Distributions}
 \description{
-As several Extreme Value distributions are parameterised for high extreme values, reversed functions for minima (e.g. low flow statistics) are derived. Reversing is done by fitting to the negated data (\code{-x}), subtracting probabilities from one (\code{1 - f}) and computing the negated probabilities.}
+As several Extreme Value distributions are parameterized for high extreme values, reversed functions for minima (e.g. low flow statistics) are derived. Reversing is done by fitting to the negated data (\code{-x}), subtracting probabilities from one (\code{1 - f}) and computing the negated probabilities.}
 \usage{
 cdf_ev(distribution, x, para)
 pel_ev(distribution, lmom, ...)

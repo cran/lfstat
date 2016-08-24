@@ -16,7 +16,7 @@ evfit(x, distribution, zeta = NULL, check = TRUE,
   \item{extreme}{character vector of length one. Can be either \code{'minimum'} or \code{'maximum'}. Helps to choose a correct distribution.}
 }
 
-\details{This function is vectorised over \code{distribution}.
+\details{This function is vectorized over \code{distribution}.
 
 According to paragraph 7.4.2 of the WMO manual, special care has to be taken in the presence of zero flow observations. A cdf called G(x) is fitted to the non-zero values of the original  time series.
 

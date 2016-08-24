@@ -1,15 +1,17 @@
+importFrom("grDevices", "extendrange")
 importFrom(lattice, barchart, panel.barchart)
 importFrom(latticeExtra, layer)
 import(lmom)
-importFrom(lmomRFA, regsamlmu, regfit, regquant)
+importFrom(lmomRFA, regsamlmu, regfit, regquant, sitequant)
 import(dygraphs)
 import(xts)
-importFrom(zoo, coredata, is.zoo)
+importFrom(zoo, coredata, is.zoo, zoo)
 importFrom("graphics", "abline", "axis", "grid", "legend", "lines", "par",
            "plot", "points", "polygon", "title", "mtext", "strheight",
            "strwidth", "text")
 importFrom("stats", "aggregate", "approx", "coef", "filter", "lm", "qnorm",
-           "quantile", "reorder", "time", "ks.test", "na.omit")
+           "quantile", "reorder", "time", "ks.test", "na.omit", "embed",
+           "na.exclude", "weighted.mean")
 importFrom("utils", "read.table", "tail", "head", "str")
 importFrom("plyr", "rbind.fill.matrix")    # used in apply.seasonal()
 
@@ -65,20 +67,28 @@ find_droughts,
 apply.seasonal,
 water_year,
 hyear_start,
+"hyear_start<-",
 tyearsS,
 flowunit,
 "flowunit<-",
-fill_na
+fill_na,
+as.lfobj,
+is.lfobj,
+ev_return_period
 )
 
  S3method(hyear_start, data.frame)
  S3method(hyear_start, xts)
+ S3method("hyear_start<-", xts)
+ S3method("hyear_start<-", lfobj)
+
+ S3method(as.lfobj, zoo)
+ S3method(as.lfobj, xts)
 
  S3method(createlfobj, ts)
  S3method(createlfobj, lfobj)
  S3method(createlfobj, data.frame)
  S3method(summary, lfobj)
- S3method(print, lfobjsummary)
  S3method(plot, lfobj)
  S3method("[", lfobj)
 

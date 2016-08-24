@@ -28,12 +28,13 @@ test_that("apply_seasonal() returns the same results as MAM", {
 
 
   old <- MAM(ngaruroro, yearly = TRUE, n = 1)
-  new <- apply.seasonal(ng$discharge, "yearly", origin = 12)
+  new <- apply.seasonal(ng$discharge, "yearly", origin = hyear_start(ngaruroro))
   expect_equal(unname(new[as.character(old$hyear), ]), old[, 2])
   expect_equal(old[, 2], unname(new[, 1]))
 
   old <- MAM(ngaruroro, yearly = FALSE, n = 1)
-  new <- apply.seasonal(ng$discharge, "yearly", origin = 12, agg = mean)
+  new <- apply.seasonal(ng$discharge, "yearly", origin = hyear_start(ngaruroro),
+                        agg = mean)
   expect_equal(old, new)
 
   #fails, because MAM does not introduce NAs at the boundaries when calculating moving averages
@@ -57,3 +58,15 @@ test_that("apply_seasonal() returns the same results as MAM", {
   new <- apply.seasonal(ng$discharge, varying = seasons, origin = 1)
 })
 
+
+
+
+test_that("MAM warns when time series is short", {
+  ng2 <- head(ngaruroro)
+
+  expect_warning(MAM(ng2),
+                 regexp = "Setting the width smoothing window to n = 6.")
+
+  expect_warning(MAM(ng2),
+                 regexp = "Probably not enough observations to calculate annual minima for the hydrological years:")
+})

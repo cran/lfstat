@@ -18,13 +18,13 @@ fdc(lfobj, year = "any", breakdays = NULL, colors = TRUE,
 }
   \item{year}{numeric - The year for which the fdc should be computed. If hyearstart != 1 the BFI is calculated for the hydrological year! "any" means the whole series should be taken.
   }
-  \item{breakdays}{A vector of breakdays if the BFI should be calculated for diffenent seasons. 
+  \item{breakdays}{A vector of breakdays if the BFI should be calculated for different seasons. 
   }
   \item{colors}{
-    logical - If breakdays are specified, should the differend fdcs are
+    logical - If breakdays are specified, should the different fdcs are
     displayed in different colors?
   }
-  \item{xnorm}{logical - should the x-axis be normalised?}
+  \item{xnorm}{logical - should the x-axis be normalized?}
   \item{ylog}{logical - The the logarithm of the y-axis?}
   \item{legend}{logical - Should a legend be plotted?}
   \item{separate}{logical - Should a separate plot be drawn for every

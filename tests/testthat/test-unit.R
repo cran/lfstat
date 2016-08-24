@@ -61,6 +61,18 @@ test_that(".split_unit accepts abbreviations", {
 })
 
 
+test_that("default units are used", {
+  ng2 <- head(ngaruroro)
+  attr <- attr(ng2, "lfobj")
+
+  # strip unit
+  attr(ng2, "lfobj") <- attr[setdiff(names(attr), "unit")]
+
+  expect_warning(as.xts(ng2),
+                 regexp = "No unit found in attributes, assuming ")
+})
+
+
 
 
 

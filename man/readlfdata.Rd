@@ -8,7 +8,8 @@ Reads data sheets
 Reads data sheets of different formats directly as lfobjs.
 }
 \usage{
-readlfdata(file, type = c("GRDC", "HZB", "LFU", "TU"), lfobj = TRUE, readmeta = TRUE,...)
+readlfdata(file, type = c("GRDC", "HZB", "LFU", "TU"), lfobj = TRUE,
+           readmeta = TRUE, encoding = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,6 +20,7 @@ are accepted: "GRDC", "HZB" (Austria), "LFU" (Germany, Bavaria), "TU"
   \item{lfobj}{logical, should a lfobj be created?}
   \item{readmeta}{logical, should metainformation from data sheets be
     saved?}
+  \item{encoding}{The name of the encoding to be assumed. See the Encoding section of \code{\link{connections}}.}
   \item{...}{Handed to createlfobj, could be "hyearstart", "baseflow" or
   "meta", if "readmeta" is FALSE}
 }
@@ -41,11 +43,17 @@ the author
 
 
 \examples{
-#Finding the sample file on your computer
-path <- system.file("samplesheets/9104020.day", package = "lfstat")
-
-grdc <- readlfdata(path, type = "GRDC", baseflow = FALSE)
-#Some test...
+# Finding the filename of the sample file on your computer
+fn <- system.file("samplesheets/9104020.day", package = "lfstat")
+grdc <- readlfdata(fn, type = "GRDC", baseflow = FALSE, hyearstart = 1)
 head(grdc)
-}
 
+
+fn <- system.file("samplesheets/kloesterle.dat", package = "lfstat")
+hzb <- readlfdata(fn, type = "HZB", baseflow = FALSE, hyearstart = 1)
+head(hzb)
+
+fn <- system.file("samplesheets/oberammergau.dat", package = "lfstat")
+lfu <- readlfdata(fn, type = "LFU", baseflow = FALSE, hyearstart = 1)
+head(lfu)
+}

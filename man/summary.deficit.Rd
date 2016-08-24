@@ -28,6 +28,7 @@ a data.frame where each row corresponds to an event. There are summarizing colum
 
 \examples{
 data(ray)
+ray <- as.xts(ray)["1970::1970", ]
 r <- find_droughts(ray, threshold = 0.02)
 summary(r)      # minor events got filtered
 

@@ -9,7 +9,7 @@ Calculate Low-Flow Quantiles for given Return Periods
 }
 \usage{
 tyears(lfobj, event = 1/probs, probs = 0.01,
-       dist, check = TRUE, zeta = zetawei, zetawei = NULL,
+       dist = "wei", check = TRUE, zeta = zetawei, zetawei = NULL,
        plot = TRUE, col = 1, log = TRUE, legend = TRUE,
        rp.axis = "top", rp.lab = "Return period",
        freq.axis = TRUE,

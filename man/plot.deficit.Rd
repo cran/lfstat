@@ -20,9 +20,9 @@ Plot method for objects of class deficit.
 \examples{
 data(ray)
 r <- find_droughts(ray, threshold = 0.02)
-plot(r)
+plot(r["1970::1970", ])
 
-plot(r, step = FALSE)
+plot(r["1970::1970", ], step = FALSE)
 }
 
 \keyword{low-flow}

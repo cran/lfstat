@@ -10,7 +10,7 @@ sp.summary <- sp.summary[sp.summary$start >=min(sp.storage$time) &
 
 ng <- xts(x = data.frame(discharge = sp.storage$streamflow),
           order.by = sp.storage$time)
-xtsAttributes(ng)[["unit"]] <- "m^3/s"
+flowunit(ng) <- "m^3/s"
 ng <- .check_xts(ng)
 
 deficit <- pool_sp(find_droughts(ng, threshold = 5.18))

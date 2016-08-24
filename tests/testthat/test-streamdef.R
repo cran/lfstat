@@ -170,8 +170,8 @@ test_streamdef <- function(args, data) {
 
 # dataset without NAs
 data(ray)
-sapply(arglist, test_streamdef, data = ray)
-sapply(arglist, test_streamdef, data = wild)
+expect_warning(sapply(arglist, test_streamdef, data = ray))
+expect_warning(sapply(arglist, test_streamdef, data = wild))
 
 # dataset with NAs
 #data(ngaruroro)

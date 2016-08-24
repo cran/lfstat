@@ -35,6 +35,7 @@ A character vector of length one, containing the currently used discharge unit.
 }
 \examples{
 data(ray)
+ray <- as.xts(ray)["1970::1970", ]
 
 # currently discharges are in cubic metres per second
 flowunit(ray)
@@ -43,7 +44,7 @@ flowunit(ray)
 (s <- summary(find_droughts(ray, threshold = 0.001)))
 
 # multiplying the discharge by 1000 converts is to litre per second
-ray$flow <- ray$flow * 1000
+ray$discharge <- ray$discharge * 1000
 
 # changing the unit accordingly, yields the same volumes
 flowunit(ray) <- "l/s"
@@ -55,5 +56,5 @@ identical(s$volume, ss$volume)
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
-\keyword{ attribute }% use one of  RShowDoc("KEYWORDS")
-\keyword{ utilities }% __ONLY ONE__ keyword per line
+\keyword{ attribute }
+\keyword{ utilities }

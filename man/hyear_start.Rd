@@ -1,5 +1,8 @@
 \name{hyear_start}
 \alias{hyear_start}
+\alias{hyear_start<-}
+\alias{hyear_start<-.xts}
+\alias{hyear_start<-.lfobj}
 \alias{hyear_start.xts}
 \alias{hyear_start.data.frame}
 
@@ -14,12 +17,17 @@ Retrieve the start of a hydrological year either from the attributes or from the
 \method{hyear_start}{data.frame}(x, abbreviate = FALSE)
 
 \method{hyear_start}{xts}(x, abbreviate = FALSE)
+
+hyear_start(x) <- value
+\method{hyear_start}{xts}(x) <- value
+\method{hyear_start}{lfobj}(x) <- value
 }
+
 
 \arguments{
   \item{x}{object of which the start of the hydrological year should be determined.}
   \item{abbreviate}{logical. Should the names be abbreviated?}
-
+  \item{value}{numeric vector of length one. Month in which the hydrological year starts.}
 
 }
 \details{

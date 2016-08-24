@@ -20,7 +20,7 @@ seasindex(lfobj,
  }
 
 \value{
-  {A list descriping the arrow}
+  {A list describing the arrow}
   \item{theta}{Angle in radians}
   \item{D}{Julian Date}
   \item{r}{Length}

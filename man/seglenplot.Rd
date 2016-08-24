@@ -33,9 +33,9 @@ seglenplot(lfobj,
 }
 
 \details{
-For recession analysis it is neccessary to define flood discharge peaks
+For recession analysis it is necessary to define flood discharge peaks
 (rainpeaks) in the hydrograph. Rainpeaklevel defines a day to be a
-descharge peak, if rainpeaklevel * flow > flow[day before] and
+discharge peak, if rainpeaklevel * flow > flow[day before] and
 rainpeaklevel * flow > flow[day after].
   
 If thresbreakdays or seasonbreakdays is a single day, e.g. "01/06", the start of the hydrological year is taken as the second breakday. If more than two seasons are to be specified, a vector of all breakdays is needed.

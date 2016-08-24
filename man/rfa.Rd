@@ -43,8 +43,8 @@ nineties <- subset(ngaruroro, hyear \%in\% 1990:1999)
 
 toyrfa <- rfa(list(seventies,eighties,nineties), n=3,dist = "gev")
 
-#Now you can work on using Hoskings lmomRFA-package, e.g.
-library(lmomRFA)
+# Now you can work on using Hoskings lmomRFA-package, e.g.
+require(lmomRFA)
 regquant(c(1/1000,1/100),toyrfa)
 sitequant(1/100,toyrfa)
 

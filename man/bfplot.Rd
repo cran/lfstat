@@ -5,7 +5,7 @@
 Base Flow Plot
 }
 \description{
-Visualises the hydrograph versus the base flow hydrograph.
+Visualizes the hydrograph versus the base flow hydrograph.
 }
 \usage{
 bfplot(lfobj,

@@ -19,7 +19,7 @@ a vector of length one specifying the month in which the hydrological year start
 }
   \item{as.POSIX}{logical, if TRUE return value is of class \code{POSIXct}. Otherwise a factor is returned.}
   \item{assign}{
-a character vector of length one, deciding how a hydrological year is labelled. Depending on the climate, the hydrological year can start earlier or later than the calendar year. Usually the hydrological year "equals" the calendar year for the longest period of months they have in common. Alternatively a water year can also be designated by the calendar year in which it starts or ends.
+a character vector of length one, deciding how a hydrological year is labeled. Depending on the climate, the hydrological year can start earlier or later than the calendar year. Usually the hydrological year "equals" the calendar year for the longest period of months they have in common. Alternatively a water year can also be designated by the calendar year in which it starts or ends.
 }
   \item{\dots}{
 arguments, passed on to \code{\link{as.POSIXlt}}, e.g. such as \code{format}
@@ -49,7 +49,7 @@ a factor representing the hydrological year. }
 x <- seq(from = as.Date("1992-01-01"),
          by = "months", length.out = 12)
 
-# specifing the beginning with a decimal number
+# specifying the beginning with a decimal number
 water_year(x, origin = 10)
 
 # using a month name
@@ -60,7 +60,7 @@ water_year(x, origin = "july")     # case insensitive
 water_year(x, origin = as.Date("2012-08-22"))     # only month is taken
 water_year(x, origin = as.POSIXct("2012-08-22"))
 
-# or by specifing an institution
+# or by specifying an institution
 water_year(x, origin = "usgs")
 }
 

@@ -7,7 +7,7 @@ Calculate Low-Flow Quantiles for given Return Periods
 \description{Fits an extreme value distribution using \var{L}-moments to the dry spells of a time series of discharges and subsequently estimates quantiles (the so called \var{T}-years event) for given return periods. In the presence of zero flow observations a mixed distribution is fitted.}
 \usage{
 tyearsS(lfobj, event = 1/probs, probs = 0.01, pooling = NULL,
-        dist, check = TRUE, zeta = NULL,
+        dist = "wei", check = TRUE, zeta = NULL,
         plot = TRUE, col = 1, log = TRUE, legend = TRUE,
         rp.axis = "bottom", rp.lab = "Return period", freq.axis = TRUE,
         freq.lab = expression(paste("Frequency " *(italic(F)),

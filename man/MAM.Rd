@@ -22,10 +22,10 @@ The year for which the BFI should be computed. If hyearstart != 1 the
     years are included in the calculation.
 }
   \item{breakdays}{
-A vector of breakdays if the BFI should be calculated for diffenent seasons. 
+A vector of breakdays if the BFI should be calculated for different seasons. 
 }
   \item{yearly}{
-If TRUE,  the BFI is calculated for each hydrological year seperately. 
+If TRUE,  the BFI is calculated for each hydrological year separately. 
 }
 }
 

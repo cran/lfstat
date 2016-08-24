@@ -31,14 +31,14 @@ recession(lfobj,
   \item{peaklevel}{A level between 0 and 1 or a logical vector, see
     details.}
   \item{seasonbreakdays}{A vector of breakdays. Needed if the recession
-    constant should be calculated individually for differnt seasons, see
+    constant should be calculated individually for different seasons, see
   details.}
   \item{thresbreaks}{"fixed" uses a fixed threshold level, "monthly"
-    calculates the threshold for every month separatly, "seasonal"
+    calculates the threshold for every month separately, "seasonal"
     calculates thresholds for every season defined using
     "thresbreakdays".}
   \item{thresbreakdays}{Needed if "thresbreaks = 'seasonal'" to define
-    the periodes for which separate thresholds should be calculated, see
+    the periods for which separate thresholds should be calculated, see
     details}
   \item{plotMRC}{logical, if TRUE and "method = 'MRC'" a plot like
     figure 5.4 in the manual is given.}
@@ -48,9 +48,9 @@ recession(lfobj,
 }
 
 \details{
-For recession analysis it is neccessary to define flood discharge peaks
+For recession analysis it is necessary to define flood discharge peaks
 in the hydrograph. Peaklevel defines a day to be a
-descharge peak, if peaklevel * flow > flow[day before] and
+discharge peak, if peaklevel * flow > flow[day before] and
 peaklevel * flow > flow[day after]. Use \code{\link{recessionplot}}
 to find a good level or hand a logical vector where TRUE means rainpeak.
 

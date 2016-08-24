@@ -513,12 +513,10 @@ evquantile <- function (fit, return.period = NULL) {
   return(fit)
 }
 
-
-
 # wrapper functions for several quantile estimations ----
 # Calculates the quantile of a t-year event and plots them
 tyears <- function (lfobj, event = 1 / probs , probs = 0.01,
-                    dist, check = TRUE, zeta = zetawei, zetawei = NULL,
+                    dist = "wei", check = TRUE, zeta = zetawei, zetawei = NULL,
                     plot = TRUE, col = 1, log = TRUE, legend = TRUE,
                     rp.axis = "top", rp.lab = "Return period",
                     freq.axis = TRUE,
@@ -554,9 +552,29 @@ tyears <- function (lfobj, event = 1 / probs , probs = 0.01,
 }
 
 
+# todo: generalize for other variables, not just for the discharge
+ev_return_period <- function(x, fit) {
+  dist <- names(fit$parameters)[1]
+  cdf <- match.fun(paste0("cdf", dist))
+  prob <- cdf(x = x, para = fit$parameters[[1]])
+  prob <- prob + fit$freq.zeros * (1 - prob)
+
+  if(fit$extreme == "maximum")  {
+    prob <- ifelse(x == 0, 0, prob)
+    prob <- 1 - prob
+  } else {
+    prob <- ifelse(x == 0, fit$freq.zeros, prob)
+  }
+
+  rp <- 1 / prob
+
+  return(rp)
+}
+
+
 # Calculates the quantile of a t-year event and plots them
 tyearsS <- function (lfobj, event = 1 / probs, probs = 0.01, pooling = NULL,
-                     dist, check = TRUE, zeta = NULL,
+                     dist = "wei", check = TRUE, zeta = NULL,
                      plot = TRUE, col = 1, log = TRUE, legend = TRUE,
                      rp.axis = "bottom", rp.lab = "Return period",
                      freq.axis = TRUE,
@@ -601,16 +619,17 @@ tyearsS <- function (lfobj, event = 1 / probs, probs = 0.01, pooling = NULL,
 
 
 # Regional frequency analysis ----
-rfa <- function(lflist, n = 7, event = 100, dist =  c("wei","gev","ln3","gum","pe3")){
+rfa <- function(lflist, n = 7, event = 100,
+                dist =  c("wei", "gev", "ln3", "gum", "pe3")){
   lapply(lflist, lfcheck)
   distr <- match.arg(dist, several.ok = FALSE)
 
   # compute annual minima and sample L-moments for every site
   minima <- lapply(lflist, function(x) MAannual(x, n)$MAn)
-  lmom <- regsamlmu(minima)
+  lmom <- lmomRFA::regsamlmu(minima)
 
   # fit a regional frequency distribution
-  rfit <- regfit(lmom, distr)
+  rfit <- lmomRFA::regfit(lmom, distr)
 
   return(rfit)
 }
@@ -620,7 +639,7 @@ rfaplot <- function(lflist, n = 7, ...){
 
   # compute annual minima and sample L-moments for every site
   minima <- lapply(lflist, function(x) MAannual(x, n)$MAn)
-  lmom <- regsamlmu(minima)
+  lmom <- lmomRFA::regsamlmu(minima)
 
   # L-moment ratio diagram
   return(lmrd(lmom, ...))

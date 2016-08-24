@@ -5,7 +5,7 @@
 Recession diagnostic plot
 }
 \description{
-Helps to define peaklevel of a lfobj and visualises recession periodes.
+Helps to define peaklevel of a lfobj and visualises recession periods.
 }
 \usage{
 recessionplot(lfobj,
@@ -33,20 +33,20 @@ recessionplot(lfobj,
   \item{threscol}{Color of threshold in plot}
   \item{threshold}{Threshold level (70 refers to Q70)}
   \item{thresbreaks}{"fixed" uses a fixed threshold level, "monthly"
-    calculates the threshold for every month separatly, "seasonal"
+    calculates the threshold for every month separately, "seasonal"
     calculates thresholds for every season defined using
     "thresbreakdays".}
    \item{thresbreakdays}{Needed if "thresbreaks = 'seasonal'" to define
     the periodes for which separate thresholds should be calculated, see
     details}
-  \item{recessionperiod}{Should recession periodes be marked}
+  \item{recessionperiod}{Should recession periods be marked}
   \item{recessioncol}{Color of recessionperiod marks}
   \item{seglength}{The minimum number of days to be marked as recession period}
   \item{...}{Further arguments handed to \code{\link{hydrograph}}}.
 }
 
 \details{
-For recession analysis it is neccessary to define flood discharge peaks
+For recession analysis it is necessary to define flood discharge peaks
 in the hydrograph. Peaklevel defines a day to be a
 discharge peak, if peaklevel * flow > flow[day before] and
 peaklevel * flow > flow[day after].

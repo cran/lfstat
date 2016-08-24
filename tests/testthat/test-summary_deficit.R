@@ -22,6 +22,7 @@ test_that("start, time and end are correct",{
   expect_equal(sry$time, as.Date(c("2016-04-04", "2016-05-04"), format="%Y-%m-%d"))
   expect_equal(sry$end, as.Date(c("2016-04-04", "2016-05-04"), format="%Y-%m-%d"))
 })
+
 test_that("summary volume, duration, dbt and qmin is correct", {
   expect_equal(sry$volume, c(20,10))
   expect_equal(sry$duration, c(20,10))
@@ -45,7 +46,7 @@ dummy <- find_droughts(synthetic_xts(x),threshold = 2)
 dummy_it <- pool_it(dummy, tmin = 3)
 dummy_ic <- pool_ic(dummy, tmin = 3, ratio = 0.11)
 dummy_sp <- pool_sp(dummy)
-dummy_ma <- pool_ma(dummy, n = 4)
+expect_warning(dummy_ma <- pool_ma(dummy, n = 4))
 sry <- rbind(it = summary(dummy_it), ic = summary(dummy_ic), sp = summary(dummy_sp), ma = summary(dummy_ma))
 
 test_that("start, time and end are correct",{

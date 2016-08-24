@@ -32,7 +32,7 @@ Daniel Koffler and Gregor Laaha
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 \section{Warning }{
-Check carefully in advance if interpolation is a reasionable choice for
+Check carefully in advance if interpolation is a reasonable choice for
 filling the hydrograph
 }
 \seealso{\code{\link{bfplot}}}

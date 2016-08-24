@@ -10,7 +10,7 @@ evquantile(fit, return.period = NULL)
   \item{fit}{object of class \code{evfit}, possibly created with \code{evfit()}.}
   \item{return.period}{numeric vector of return periods}
 }
-\details{This function is vectorised over \code{return.period}.}
+\details{This function is vectorized over \code{return.period}.}
 \value{A matrix containing the low-flow quantiles, with rows corresponding to return periods columns to distributions.}
 \examples{
 data("ngaruroro")

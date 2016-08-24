@@ -1,10 +1,10 @@
 \name{streamdef}
 \alias{streamdef}
 \title{
-Streamflow Deficite
+Streamflow Deficit
 }
 \description{
-Calculates the streamflow deficite. Deprecated, use \code{\link{find_droughts}} instead.
+Calculates the streamflow deficit. Deprecated, use \code{\link{find_droughts}} instead.
 }
 \usage{
 streamdef(lfobj,
@@ -32,7 +32,7 @@ The pooling procedure used, "MA" stands for moving average, "IT" is the inter ev
 The threshold level, 70 means that Q70 should be used as threshold
 }
   \item{thresbreaks}{
-The periods for which seperated thresholds should be used, "fixed" uses a constant threshold, "monthly" uses monthly breaks, "daily" takes daily thresholdlevels. If "seasonal" is specified, you can enter the breakdays manualy using "breakdays".
+The periods for which separated thresholds should be used, "fixed" uses a constant threshold, "monthly" uses monthly breaks, "daily" takes daily threshold levels. If "seasonal" is specified, you can enter the breakdays manually using "breakdays".
 }
   \item{breakdays}{
 A vector of breakdays if thresbreaks = "seasonal". Please enter the breakdays using the format "%d/%m", e.g. c("01/03", "01/09") uses the first of March an the first of September as breakdays.
@@ -42,7 +42,7 @@ A vector of breakdays if thresbreaks = "seasonal". Please enter the breakdays us
 If pooling = "MA" this is the number of days that should be averaged
 }
   \item{tmin}{
-Defines the number of days that low flow events must be seperatet within the "IT" or "IC" method.
+Defines the number of days that low flow events must be separated within the "IT" or "IC" method.
 }
   \item{IClevel}{
 The ratio between inter-event excess volume in the "IC" method
@@ -63,13 +63,13 @@ When method "MA" is applied, the first and last MAdays/2 are not averaged, their
 \value{
 A data frame containing characteristics of all low flow periods.
 \item{d}{The duration of the low flow event}
-\item{v}{The drought volume (negative Values, as it is a deficite)}
-\item{mi}{The drought magnitude, i.e. the (positive) ratio between deficit volume and deficite duration}
+\item{v}{The drought volume (negative Values, as it is a deficit)}
+\item{mi}{The drought magnitude, i.e. the (positive) ratio between deficit volume and deficit duration}
 \item{Qmin}{The minimum flow of the low flow period}
 \item{startyear}{Year of the start of the low flow period}
 \item{startmonth}{Month of the start of the low flow period}
 \item{startday}{Day of the start of the low flow period}
-Please note that when using the "IT" method the end date of the low flow periode is not necessarily startdate + duration.
+Please note that when using the "IT" method the end date of the low flow period is not necessarily startdate + duration.
 }
 \references{
 Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
@@ -82,10 +82,13 @@ streamdefplot, createlfobj, \code{\link{find_droughts}}
 }
 \examples{
 data(ngaruroro)
+ng <- subset(ngaruroro, hyear > 1980)
+
 #Full Table
-streamdef(ngaruroro,pooling = "MA", MAdays = 6)
+streamdef(ng, pooling = "MA", MAdays = 6)
+
 #Annual Volume-Maxima only
-streamdef(ngaruroro,pooling = "MA", MAdays = 6,table = "volmax")
+streamdef(ng, pooling = "MA", MAdays = 6,table = "volmax")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

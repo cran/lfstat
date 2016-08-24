@@ -1,5 +1,6 @@
 
-find_droughts <- function(x, threshold = vary_threshold, ...) {
+find_droughts <- function(x, threshold = vary_threshold, varying = "constant",
+                          ...) {
   if(!inherits(x, "xts")) x <- as.xts(x)
   x <- .regularize(x, warn = TRUE)
 
@@ -30,7 +31,21 @@ find_droughts <- function(x, threshold = vary_threshold, ...) {
 
   names(discharge) <- "discharge"
 
-  if(is.function(threshold)) threshold <- threshold(discharge, ...)
+  # if it is a function, apply it directly
+  if(is.function(threshold)) {
+    if("varying" %in% names(formals(threshold))) {
+      threshold <- threshold(discharge, varying = varying, ...)
+    } else {
+      threshold <- threshold(discharge, ...)
+    }
+  } else {
+    # shortcut to specify quantiles
+    fun.quant <- try(.quant_character(threshold, ...))
+    if(is.function(fun.quant)) {
+      threshold <- vary_threshold(discharge$discharge, fun = fun.quant,
+                                  varying = varying, ...)
+    }
+  }
 
   start <- 1
   event.no <- 0
@@ -186,7 +201,7 @@ summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
   # drought duration is defined as time until maximum depletion
 
   if (poolMethod == "peak") {
-    def.vol <- cumsum(as.numeric(x$def.increase))
+    def.vol <- cumsum(as.numeric(x$def.increase)) #* 86400
     duration <- which.max(def.vol)
     def.vol <- def.vol[duration]
     # time <- time.ind[duration]
@@ -194,7 +209,7 @@ summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
     # NA values can be present in input time series
     # pool_it() can merge two events seperated just by an NA
     # x$def.increase[is.na(x$def.increase < 0] <- 0
-    def.vol <- sum(as.numeric(x$def.increase))
+    def.vol <- sum(as.numeric(x$def.increase)) #* 86400
     duration <- length(time.ind)
   }
 
@@ -210,8 +225,8 @@ summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
 
   # neglect minor events
   if (is.finite(def.vol) && (nrow(x) == 0 ||
-      (drop_minor["volume"] != 0 & def.vol < drop_minor["volume"]) ||
-      (drop_minor["duration"] != 0 & duration < drop_minor["duration"])) )  {
+                             (drop_minor["volume"] != 0 & def.vol < drop_minor["volume"]) ||
+                             (drop_minor["duration"] != 0 & duration < drop_minor["duration"])) )  {
     y <- y[numeric(), ]
   }
 

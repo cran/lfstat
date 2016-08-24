@@ -2,7 +2,7 @@
 \alias{baseflow}
 \title{Calculate the baseflow of a river}
 \description{
-Given a streamflow hydrograph of flows (regular time series), the baseflow is separated. The minima of a period (default \code{block.len = 5)} is calculated and turning points are identified. At turning points the baseflow equals the actual flow, in between, linear interpolation is carried out. }
+Given a stream flow hydrograph of flows (regular time series), the baseflow is separated. The minima of a period (default \code{block.len = 5)} is calculated and turning points are identified. At turning points the baseflow equals the actual flow, in between, linear interpolation is carried out. }
 \usage{
 baseflow(x, tp.factor = 0.9, block.len = 5)
 }
