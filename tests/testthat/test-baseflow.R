@@ -15,8 +15,10 @@ ray96 <- ray[format(ray$time, "%Y") == "1996", c("discharge", "bf")]
 
 ng <- read.csv2("tallaksen-ngaruroro-baseflow.csv")
 
+# compare only finite elements
 expect_equal2 <- function(object, expected, tolerance = 1e-10) {
-  expect_true(all(abs(object - expected) < tolerance || (is.na(object) & is.na(expected))) )
+  finite <- is.finite(object) & is.finite(expected)
+  expect_equal(object[finite], expected[finite], tolerance = tolerance)
 }
 
 test_that("base flow gets computed correctly", {
@@ -37,3 +39,4 @@ test_that("base flow gets computed correctly", {
 
 
 })
+

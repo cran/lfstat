@@ -9,7 +9,7 @@ vary_threshold(x, varying = "constant",
 }
 
 \arguments{
-  \item{x}{an object which can be coerced to class xts. Either with a single column or with a column named 'discharge'.}
+  \item{x}{an object which can be coerced to class \code{'xts'}. Either with a single column or with a column named 'discharge'.}
   \item{varying}{if \code{varying} is a character vector of length one, values of "constant", "daily", "weekly" and "monthly" are allowed. If a vector of class POSIX is provided, a seasonal varying threshold is computed, where the times provided define the start of the season. Only the day of the year is taken, the year itself doesn't have a meaning.}
   \item{fun}{a function accepting a single argument and returning either a vector of length one or a vector as long as \code{x}.}
   \item{\dots}{additional arguments, passed on to \code{fun}}

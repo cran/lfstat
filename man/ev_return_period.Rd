@@ -5,13 +5,13 @@
 Estimate the return period for given quantiles
 }
 \description{
-For discharges of interrest,
+For discharges of interest, estimate the corresponding return period.
 }
 \usage{
 ev_return_period(x, fit)
 }
 \arguments{
-  \item{x}{numeric vector containting the quantiles}
+  \item{x}{numeric vector containing the quantiles}
   \item{fit}{object of class \code{evfit} describing the underlying distribution, possibly created with \code{evfit()}.}
 }
 \value{a numeric vector of return periods.}

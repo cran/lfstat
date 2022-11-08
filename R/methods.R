@@ -17,7 +17,7 @@ summary.lfobj <- function(object, digits = 4, ...){
   cat("Enddate:   ", as.character(rng[2]), "    (calendar year)", fill = TRUE)
 
   if(nas) {
-    perc <- round(nas / nr, 2)
+    perc <- round(nas / nr, 3) * 100
     perc <- if(perc < 0.01) "< 0.01" else perc
     nastring <- paste0(" and contains ", nas, " missing observations (",
                        perc, " %)", sep = "")

@@ -3,9 +3,9 @@ if(getRversion() >= "2.15.1"){
                            ".warned"), add = TRUE)
 }
 
-#Different methods to create a lfobj:
-#Data.frame with named columns
-#ts + start date (does vector work?)
+# Different methods to create a lfobj:
+# Data.frame with named columns
+# ts + start date (does vector work?)
 
 createlfobj <- function(x, ...){
   UseMethod("createlfobj")
@@ -41,7 +41,7 @@ createlfobj.ts <- function(x, startdate, dateformat = "%d/%m/%Y", ...){
 }
 
 
-#Create a lfobj from a data frame with cols named "flow", "day", "month", "year"
+# Create a lfobj from a data frame with cols named "flow", "day", "month", "year"
 createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
                                    meta = list(), ...){
 
@@ -50,6 +50,15 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
     stop("Your data frame must contain colums named",
          paste(shQuote(cols), collapse = ", "),
          "! Please look at the help files for more information.")
+  }
+
+  notNumeric <- names(which(!sapply(x[, cols], is.numeric)))
+  for(i in notNumeric) {
+    xx <- suppressWarnings(as.numeric(as.character(x[, i])))
+    if(sum(is.na(xx)) > sum(is.na(x[, i]))) {
+      stop("column '", i, "' must be numeric.")
+    }
+    x[, i] <- xx
   }
 
 
@@ -65,6 +74,13 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
 
 
   meta <- as.list(meta)
+
+  # allow flowunit as an alias for unit
+  idx <- which(names(meta) == "flowunit")
+  if(length(idx)) {
+    names(meta)[idx] <- "unit"
+  }
+
   meta[["hyearstart"]] <- hyearstart
   x <- as.data.frame(x)
 
@@ -83,7 +99,7 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
   dat$hyear <- as.numeric(as.character(water_year(time.lfobj(dat),
                                                   origin = hyearstart)))
 
-  # reorder if nescessary
+  # reorder if necessary
   if(is.unsorted(time) || length(missing)) dat <- dat[order(c(time, missing)), ]
   rownames(dat) <- NULL
 
@@ -98,6 +114,12 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
 
 as.lfobj <- function(x, ...){
   UseMethod("as.lfobj")
+}
+
+as.lfobj.data.frame <- function(x, ...) {
+# todo: detect time column, detect dmy colums, detect discharge
+
+
 }
 
 

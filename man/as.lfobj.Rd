@@ -5,10 +5,10 @@
 \alias{is.lfobj}
 
 \title{
-Coerce to class lfobj
+Coerce to class \code{'lfobj'}
 }
 \description{
-Functions to check if object is of class lfobj or coerce it if possible. Currently, only methods for zoo and xts exist.
+Functions to check if object is of class \code{'fobj'} or coerce it if possible. Currently, only methods for \code{'zoo'} and \code{'xts'} exist.
 }
 \usage{
 as.lfobj(x, ...)
@@ -24,7 +24,7 @@ is.lfobj(x)
 }
 
 \value{
-An object of class lfobj.
+An object of class \code{'lfobj'}.
 }
 
 
@@ -37,11 +37,11 @@ An object of class lfobj.
 data(ngaruroro)
 is.lfobj(ngaruroro)
 
-# coerce zoo object to class lfobj
+# coerce zoo object to class \code{'lfobj'}
 z1 <- zoo(1:10, order.by = seq(Sys.Date(), length.out = 10, by = "days"))
 as.lfobj(z1, hyearstart = 5)
 
-# coerce xts object to class lfobj
+# coerce xts object to class \code{'lfobj'}
 xts1 <- xts(1:10, order.by = seq(Sys.Date(), length.out = 10, by = "days"))
 as.lfobj(xts1, hyearstart = 5)
 

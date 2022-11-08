@@ -41,7 +41,7 @@ baseflow <- function(x, tp.factor = 0.9, block.len = 5) {
   return (pmin(bf, x))
 }
 
-#Calculating BFI
+# Calculating BFI
 BFI <- function(lfobj, year = "any", breakdays = NULL, yearly = FALSE){
   calcbfi <- function(lfobj){
     sum(lfobj$baseflow[!is.na(lfobj$baseflow)&!is.na(lfobj$flow)])/sum(lfobj$flow[!is.na(lfobj$baseflow)&!is.na(lfobj$flow)])
@@ -71,7 +71,7 @@ BFI <- function(lfobj, year = "any", breakdays = NULL, yearly = FALSE){
 
 
 
-#Plotting
+# Plotting
 bfplot <- function(lfobj,
                    year = "any",
                    col = "green",
@@ -139,16 +139,16 @@ bfplot <- function(lfobj,
 
 
 
-#Recession constant (MRC and IRS method)
+# Recession constant (MRC and IRS method)
 
-#segselect takes the flow-time series and gives back a data-frame of the first "seglenth" days after each >"seglength" days shortfall under a given "threshold"-level (Q70)
-#Used in:
-#MRC und #IRS
+# segselect takes the flow-time series and gives back a data-frame of the first "seglenth" days after each >"seglength" days shortfall under a given "threshold"-level (Q70)
+# Used in:
+# MRC und #IRS
 
 
-#Calculation "rainpeaks" (in fact, this peaks are not always rain peaks, but they need to be excluded for the calculation of the recession constant.
+# Calculation "rainpeaks" (in fact, this peaks are not always rain peaks, but they need to be excluded for the calculation of the recession constant.
 
-#GOOD METHOD?????
+# GOOD METHOD?????
 pcheck <- function(p){
   if((0 < p & 1 > p) || is.logical(p)){
     p
@@ -184,105 +184,129 @@ recessionplot <- function(lfobj,
                           thresplot = TRUE,
                           threscol = "blue",
                           threshold = 70,
-                          thresbreaks = c("fixed","monthly","seasonal"),
-                          thresbreakdays = c("01/06","01/10"),
+                          thresbreaks = c("fixed", "monthly", "seasonal"),
+                          thresbreakdays = c("01/06", "01/10"),
                           recessionperiod = TRUE,
                           recessioncol = "darkblue",
                           seglength = 7,
-                          ...){
+                          ...) {
   threslevel <- threshold
   rainpeaklevel <- peaklevel
   pcheck(rainpeaklevel)
 
   peaks <- rainpeak(lfobj$flow, p = rainpeaklevel)
-  if(plot){
+  if (plot) {
     hydrograph(lfobj, ...)
-    sub <- lfobj[peaks,]
+    sub <- lfobj[peaks, ]
     xachse <- as.numeric(row.names(sub))
     points(xachse, sub$flow)
-    if(thresplot){
+    if (thresplot) {
       thresbreaks <- match.arg(thresbreaks)
-      threshold <- buildthres(lfobj=lfobj,
-                              threslevel = threslevel,
-                              thresbreaks = thresbreaks,
-                              breakdays = thresbreakdays)
+      threshold <- buildthres(
+        lfobj = lfobj,
+        threslevel = threslevel,
+        thresbreaks = thresbreaks,
+        breakdays = thresbreakdays
+      )
       lfobj$row <- as.numeric(row.names(lfobj))
-      full <- merge(lfobj, threshold, by = c("day","month"),sort = FALSE)
-      full <- full[order(full$row),]
-      points(x = full$row,full$flow.y,type = "l", col = threscol)
-      if(recessionperiod){
+      full <- merge(lfobj, threshold, by = c("day", "month"), sort = FALSE)
+      full <- full[order(full$row), ]
+      points(x = full$row, full$flow.y, type = "l", col = threscol)
+      if (recessionperiod) {
+        # identify and mark recession periods in the plot
         rain2day <- peaks
         temp <- full
-        startpoint <- which(1 == diff(lfobj$flow < temp$flow.y &
-                                        !(c(FALSE,rain2day[-length(rain2day)])&c(FALSE,(lfobj$flow > temp$flow.y)[-length(rain2day)])) & #the day before was no rainday > threshold
-                                        !(c(FALSE,FALSE,rain2day[-c(length(rain2day)-1,length(rain2day))])& c(FALSE,FALSE,(lfobj$flow > temp$flow.y)[-c(length(rain2day)-1,length(rain2day))]))))
+        # temp$flow.y is the threshold
+        startpoint <- which(
+          1 == diff(
+            lfobj$flow < temp$flow.y &
+              # check if the day before was no rainday > threshold
+              !(c(FALSE, rain2day[-length(rain2day)]) &
+                  c(FALSE, (lfobj$flow > temp$flow.y)[-length(rain2day)])) &
+              # not sure: check if two days before was no rain day?
+              !(c(FALSE, FALSE, rain2day[-c(length(rain2day) - 1, length(rain2day))])
+                & c(FALSE, FALSE, (lfobj$flow > temp$flow.y)[-c(length(rain2day) - 1, length(rain2day))]))
+          )
+        )
 
-        segment <- rep(FALSE,length(lfobj$flow))
+        # strange off by one error
+        startpoint <- startpoint + 1
+
+        segment <- rep(FALSE, length(lfobj$flow))
         segment[startpoint] <- TRUE
         dif <- diff(lfobj$flow)
-        #Series goes on, if next value is smaller
-        for(ii in 1:(length(segment)-1)){
-          if(segment[ii])  segment[ii+1] <- (dif[ii] < 0)}
+        # Series goes on, if next value is smaller
+        for (ii in 1:(length(segment) - 1)) {
+          if (segment[ii]) segment[ii + 1] <- (dif[ii] < 0)
+        }
 
-        for(ii in startpoint){
-          if(!all(segment[ii:(ii+seglength-1)])){
+        for (ii in startpoint) {
+          if (!all(segment[ii:(ii + seglength - 1)])) {
             a <- TRUE
-            for(jj in ii:(ii+seglength-1)){
+            for (jj in ii:(ii + seglength - 1)) {
               segment[jj] <- FALSE
-              if(!segment[jj+1]) break
-            }}}
+              if (!segment[jj + 1]) break
+            }
+          }
+        }
 
-        linecol = rep(recessioncol, length(temp$flow.x))
+        linecol <- rep(recessioncol, length(temp$flow.x))
         linecol[!segment] <- 0
-        points(temp$row,temp$flow.x,type = "p", col = linecol,pch = 18)
-      }}}
-  if(peakreturn)
+        points(temp$row, temp$flow.x, type = "p", col = linecol, pch = 18)
+      }
+    }
+  }
+
+  if (peakreturn) {
     return(peaks)
+  }
 }
 
 seglenplot <- function(lfobj,
-                       threslevel =70,
-                       thresbreaks = c("fixed","monthly","seasonal"),
+                       threslevel = 70,
+                       thresbreaks = c("fixed", "monthly", "seasonal"),
                        thresbreakdays = NULL,
                        rainpeaklevel = 0.95,
-                       na.rm = TRUE){
+                       na.rm = TRUE) {
   lfcheck(lfobj)
-  rain2day <- rainpeak(lfobj$flow,rainpeaklevel)
+  rain2day <- rainpeak(lfobj$flow, rainpeaklevel)
   thresbreaks <- match.arg(thresbreaks)
 
-  if(thresbreaks != "seasonal"){
+  if (thresbreaks != "seasonal") {
     thres <- buildthres(lfobj = lfobj, threslevel = threslevel, thresbreaks = thresbreaks, na.rm = na.rm)
-  }else{
-    if(is.null(thresbreakdays)) stop("No thresbreakdays specified!")
+  } else {
+    if (is.null(thresbreakdays)) stop("No thresbreakdays specified!")
     thres <- buildthres(lfobj = lfobj, threslevel = threslevel, thresbreaks = thresbreaks, breakdays = thresbreakdays, na.rm = na.rm)
   }
   check <- NULL
-  temp <- merge(x=lfobj, y=thres, by = c("day","month"), sort = FALSE)
-  temp <- temp[order(temp$year,temp$month,temp$day),]
+  temp <- merge(x = lfobj, y = thres, by = c("day", "month"), sort = FALSE)
+  temp <- temp[order(temp$year, temp$month, temp$day), ]
   #  run <- rle(lfobj$flow < temp$flow.y & !rain2day & !c(FALSE,rain2day[-length(rain2day)]#) & !c(FALSE,FALSE,rain2day[-c(length(rain2day)-1,length(rain2day))]) &c(TRUE,diff(lfobj#$flow)<0))
 
 
-  #Select Startpoints
+  # Select Startpoints
   startpoint <- which(1 == diff(lfobj$flow < temp$flow.y &
-                                  !(c(FALSE,rain2day[-length(rain2day)])&c(FALSE,(lfobj$flow > temp$flow.y)[-length(rain2day)])) & #the day before was no rainday > threslevel
-                                  !(c(FALSE,FALSE,rain2day[-c(length(rain2day)-1,length(rain2day))])&
-                                      c(FALSE,FALSE,(lfobj$flow > temp$flow.y)[-c(length(rain2day)-1,length(rain2day))]))))
-  segment <- rep(FALSE,length(lfobj$flow))
+                                  !(c(FALSE, rain2day[-length(rain2day)]) & c(FALSE, (lfobj$flow > temp$flow.y)[-length(rain2day)])) & # the day before was no rainday > threslevel
+                                  !(c(FALSE, FALSE, rain2day[-c(length(rain2day) - 1, length(rain2day))]) &
+                                      c(FALSE, FALSE, (lfobj$flow > temp$flow.y)[-c(length(rain2day) - 1, length(rain2day))]))))
+  segment <- rep(FALSE, length(lfobj$flow))
   segment[startpoint] <- TRUE
   dif <- diff(lfobj$flow)
-  #Series goes on, if next value is smaller
-  for(ii in 1:(length(segment)-1)){
-    if(segment[ii])  segment[ii+1] <- (dif[ii] < 0)}
+  # Series goes on, if next value is smaller
+  for (ii in 1:(length(segment) - 1)) {
+    if (segment[ii]) segment[ii + 1] <- (dif[ii] < 0)
+  }
 
   run <- rle(segment)
 
-  #x11(width = 14, height = 7, title = "Recession duration (days)")
+  # x11(width = 14, height = 7, title = "Recession duration (days)")
   tab <- table(run$length[run$value])
-  splot<-barchart(tab[!(names(tab) %in% c("1","2","3"))],main = "Recession duration", xlab = paste("Days using Q", threslevel, " as threshold",sep = ""),horizontal = FALSE)
+  tbl <- tab[!(names(tab) %in% c("1", "2", "3")), drop = FALSE]
+  splot <- barchart(x = tbl, main = "Recession duration",
+                    xlab = paste0("Days using Q", threslevel, " as threshold"),
+                    horizontal = FALSE)
   splot
 }
-
-
 
 segselect <- function(lfobj,
                       threshold = 70,
@@ -380,7 +404,7 @@ recession <- function(lfobj,
   }
   res}
 
-#MRC-Method:
+# MRC-Method:
 MRC <- function(lfobj,
                 threshold,
                 seglength,
@@ -412,8 +436,8 @@ MRC <- function(lfobj,
   C
 }
 
-#Maybe using a 10% trimmed mean?! thinking about measure of spread
-#Excluding C values < 0!?
+# Maybe using a 10% trimmed mean?! thinking about measure of spread
+# Excluding C values < 0!?
 IRS <- function(lfobj,
                 threshold,
                 seglength,
@@ -440,7 +464,7 @@ IRS <- function(lfobj,
 }
 
 
-#Mean Flow
+# Mean Flow
 meanflow <- function(lfobj,year = "any",monthly = FALSE,yearly = FALSE,breakdays = NULL,na.rm = TRUE){
   lfcheck(lfobj)
 
@@ -477,17 +501,30 @@ meanflow <- function(lfobj,year = "any",monthly = FALSE,yearly = FALSE,breakdays
               aggregate(flow~hyear,lfobj,mean,na.rm = na.rm)}}
 }
 #########################
-#Q95                    #
+# Q95                   #
 #########################
-Q95 <-  function(lfobj,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
-  Qxx(lfobj = lfobj, Qxx = 95,year = year, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
+Q95 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
+                 breakdays = NULL, na.rm = TRUE)
+{
+  Qxx(lfobj = lfobj, Qxx = 95, year = year, monthly = monthly, yearly = yearly,
+      breakdays = breakdays, na.rm = na.rm)
+}
 
-Q90 <-  function(lfobj,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
-  Qxx(lfobj = lfobj, Qxx = 90, year = year, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
 
-Q70 <-  function(lfobj,year = "any",monthly = FALSE, yearly = FALSE, breakdays = NULL,na.rm = TRUE){
-  Qxx(lfobj = lfobj, Qxx = 70,year = year, monthly = monthly, yearly = yearly, breakdays = breakdays, na.rm = na.rm)}
+Q90 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
+                 breakdays = NULL,na.rm = TRUE)
+{
+  Qxx(lfobj = lfobj, Qxx = 90, year = year, monthly = monthly, yearly = yearly,
+      breakdays = breakdays, na.rm = na.rm)
+}
 
+
+Q70 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
+                 breakdays = NULL,na.rm = TRUE)
+{
+  Qxx(lfobj = lfobj, Qxx = 70, year = year, monthly = monthly, yearly = yearly,
+      breakdays = breakdays, na.rm = na.rm)
+}
 
 
 
@@ -505,17 +542,22 @@ Qxx <- function(lfobj, Qxx, year = "any",
   dummi <- year
 
   if(!any(dummi == "any")){
-    lfobj <- subset(lfobj,hyear %in% dummi)
+    lfobj <- subset(lfobj, hyear %in% dummi)
   }
 
-  if(!is.null(breakdays)){
-    if(!yearly){
-      res <- aggregate(flow ~ seasonname, usebreakdays(lfobj, breakdays),
+  if(!is.null(breakdays))
+  {
+    if(monthly) message("Argument 'monthly = TRUE' is ignored when calculating seasonal metrics.")
+
+    if(yearly){
+      res <- aggregate(flow ~ seasonname + hyear, usebreakdays(lfobj, breakdays),
                        quantile, probs = prob, na.rm = na.rm)
     } else {
-      res <- aggregate(flow ~ seasonname + hyear, usebreakdays(lfobj,breakdays),
+      res <- aggregate(flow ~ seasonname, usebreakdays(lfobj, breakdays),
                        quantile, probs = prob, na.rm = na.rm)
     }
+
+    return(res)
   }
 
   #Reordering the table according to the hyear
@@ -537,11 +579,12 @@ Qxx <- function(lfobj, Qxx, year = "any",
     }
   }
 
-  if(monthly){
+  if(monthly)
+  {
     if(!yearly){
-      res <- aggregate(flow~month,lfobj,quantile,probs = prob,na.rm = na.rm)[monthorder,]
+      res <- aggregate(flow~month, lfobj, quantile, probs = prob, na.rm = na.rm)[monthorder,]
     } else {
-      res <- aggregate(flow~month+hyear,lfobj,quantile,probs = prob,na.rm = na.rm)
+      res <- aggregate(flow~month+hyear,lfobj, quantile, probs = prob, na.rm = na.rm)
     }
   } else {
     if(!yearly){
@@ -555,8 +598,10 @@ Qxx <- function(lfobj, Qxx, year = "any",
   return(res)
 }
 
+
+
 #########################
-#MAM                    #
+# MAM                   #
 #########################
 MAannual <- function(lfobj, n=7, breakdays = NULL, year = "any"){
 
@@ -612,7 +657,7 @@ MAM <- function(lfobj, n = 7, year = "any", breakdays = NULL,
 }
 
 #########################
-#Seasonality Ratio      #
+# Seasonality Ratio     #
 #########################
 
 seasratio <- function(lfobj, breakdays, Q = 95){
@@ -658,7 +703,7 @@ seasindex <- function(lfobj, Q=95,na.rm = TRUE){
 
 
 #######################
-#Season
+# Season
 
 usebreakdays <- function(lfobj,breakdays){
   if(!is.null(breakdays)){

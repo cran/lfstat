@@ -27,30 +27,29 @@ timeSeries <- lapply(timeSeries, function(x) find_droughts(create_lf2(x), thresh
 
 
 
-test_that("ic and it pooling works", {
-  for(i in seq_along(timeSeries)){
+for (i in seq_along(timeSeries)) {
 
-    test_that("tmin = 0 does no pooling", {
-      pooled <- pool_it(timeSeries[[i]], tmin = 0)
-      expect_equal(as.vector(pooled$event.no),
-                   as.vector(pooled$event.orig))
-    })
+  test_that("tmin = 0 does no pooling", {
+    pooled <- pool_it(timeSeries[[i]], tmin = 0)
+    expect_equal(as.vector(pooled$event.no),
+                 as.vector(pooled$event.orig))
+  })
 
-    test_that("drought durations and volumes are correct", {
-      smry <- summary(pool_it(timeSeries[[i]]), drop_minor = 0)
-      # durations include inter-event time
-      expect_equal(smry$duration, 7)
+  test_that("drought durations and volumes are correct", {
+    smry <- summary(pool_it(timeSeries[[i]]), drop_minor = 0)
+    # durations include inter-event time
+    expect_equal(smry$duration, 7)
 
-      # durations include inter-event time
-      expect_equal(smry$dbt, 6)
+    # durations include inter-event time
+    expect_equal(smry$dbt, 6)
 
-      # inter-event volumes reduce deficit volume
-      expect_equal(smry$volume, -2)
+    # inter-event volumes reduce deficit volume
+    expect_equal(smry$volume, -2)
 
 
-    })
-  }
-})
+  })
+}
+
 
 
 
@@ -107,25 +106,25 @@ test_that("pool_it() can merge two events just separated by an NA value",{
   expect_equal(smry[[3]]$tqmin, time(timeSeries[[3]])[1])
 })
 
-
 test_that("user is warned if minor events are filtered",{
+
 
   smry <- lapply(timeSeries, function(x)
     summary(pool_it(x, tmin = 1),
             drop_minor = c("volume" = 0, "duration" = 100)))
+
+  expect_equal(attr(smry[[1]], "deficit")$omitted, 0L)
+  expect_equal(attr(smry[[2]], "deficit")$omitted, 0L)
+  expect_equal(attr(smry[[3]], "deficit")$omitted, 1L)
 
   # warum funktioniert drop minor nur bei event 3? weil wenn vol = NA, do not drop
 })
 
 
 # todo
-test_that("volumes are correct, units work",{
-
-  smry <- summary(pool_sp(timeSeries[[1]]))
-  smry
-
-})
-
-
-
-
+# test_that("volumes are correct, units work",{
+#
+#   smry <- summary(pool_sp(timeSeries[[1]]))
+#   smry
+#
+# })

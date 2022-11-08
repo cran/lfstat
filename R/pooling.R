@@ -1,8 +1,8 @@
 
 find_droughts <- function(x, threshold = vary_threshold, varying = "constant",
-                          ...) {
+                          interval = "day", ...) {
   if(!inherits(x, "xts")) x <- as.xts(x)
-  x <- .regularize(x, warn = TRUE)
+  x <- .regularize(x, warn = TRUE, interval = interval)
 
   if(ncol(x) == 1) {
     discharge <- x[, 1]
@@ -53,10 +53,10 @@ find_droughts <- function(x, threshold = vary_threshold, varying = "constant",
 
   x <- cbind(discharge = discharge,
              threshold  = threshold,
-             def.increase = as.vector(threshold - coredata(discharge)) * f,
+             def.increase = as.numeric(threshold - coredata(discharge)) * f,
              event.no = numeric(len))
 
-  is.deficit <- x$def.increase >= 0
+  is.deficit <- as.numeric(x$def.increase) >= 0
 
   # group events
   if(any(na.omit(is.deficit))) {
@@ -213,13 +213,18 @@ summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
     duration <- length(time.ind)
   }
 
+  below <- as.numeric(x$def.increase) >= 0
+
   y <- data.frame(event.no = coredata(x$event.no)[1],
                   start = time.ind[1],
                   time = time.ind[duration],
                   end = tail(time.ind, 1),
+                  # todo: inform user about how the drought event was terminated
+                  # terminated by: NA, end of record, discharge
                   volume = def.vol,
                   duration = duration,
-                  dbt = sum(as.vector(x$def.increase) >= 0),
+                  dbt = sum(below),
+                  vbt = sum(as.numeric(x$def.increase)[below]),
                   qmin = min(x$discharge, na.rm = TRUE),
                   tqmin = time.ind[which.min(x$discharge)])
 
@@ -239,6 +244,8 @@ summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
 
 
 .parse_minor_arg <- function(arg, x) {
+  if(length(arg) == 1 && isFALSE(arg)) return(c("volume" = 0, "duration" = 0))
+
   if(any(grepl("%", arg, fixed = TRUE))) {
     x <- summary(x, drop_minor = c("volume" = 0, "duration" = 0))
     if(nrow(x) == 0) x <- data.frame("volume" = 0, "duration" = 0)
@@ -366,7 +373,15 @@ plot.deficit <- function(x, type = "dygraph", ...) {
   if (type == "dygraph") {
     do.call(plot.deficit_dygraph, c(list(x = x), arg))
   } else {
-    do.call(plot.xts, c(list(x = x$discharge, type = type), arg))
+    attlist <- xtsAttributes(x)
+    river <- .char2html(attlist$river)
+    station <- .char2html(attlist$station)
+
+    title <- paste(if(length(river)) paste("River", river),
+                   if(length(river) & length(station)) "at" else "",
+                   if(length(station)) paste("station", station))
+
+    do.call(plot.xts, c(list(x = x$discharge, type = type, main = title), arg))
     do.call(lines, c(list(x = x$threshold, col = 2), arg))
   }
 }
@@ -383,14 +398,6 @@ plot.deficit_dygraph <- function(x, ...) {
   # expand xts object with cols upr and lwr, indicating deficits
   x$lwr[is.drought] <- with(x[is.drought], ifelse(threshold >= discharge, discharge, threshold))
   x$upr[is.drought] <- with(x[is.drought], ifelse(threshold <= discharge, discharge, threshold))
-
-
-  # for some reaseon range of deficit is one element too large at each margin
-  pos <- diff(coredata(x[, "event.no", T]) != 0)
-  border <- logical(nrow(x))
-  #   border[which(pos == 1) + 1] <- T
-  border[which(pos == -1)] <- T
-  x[border, c("lwr", "upr")] <- x$threshold[border]
 
   attlist <- xtsAttributes(x)
   river <- .char2html(attlist$river)
@@ -418,8 +425,8 @@ plot.deficit_dygraph <- function(x, ...) {
 
 
     for (i in seq_len(nrow(tbl))) {
-      p <- dyShading(p, from = tbl$start[i], to = tbl$end[i], color = "lightgrey")
-      p <- dyAnnotation(p, x = round(mean(c(tbl$start[i], tbl$end[i]))),
+      p <- dyShading(p, from = tbl$start[i], to = tbl$end[i] + 1, color = "lightgrey")
+      p <- dyAnnotation(p, x = round(mean(c(tbl$start[i], tbl$end[i] + 1))),
                         text = tbl$event.no[i],
                         tooltip = ttip[i], width = 30)
     }

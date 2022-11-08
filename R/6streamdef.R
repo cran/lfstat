@@ -131,7 +131,7 @@ streamdef <- function(lfobj,
 }
 
 #########################
-#Streamflow plot        #
+# Streamflow plot       #
 #########################
 
 streamdefplot <- function(lfobj, year, threslevel = 70,
@@ -187,10 +187,12 @@ streamdefplot <- function(lfobj, year, threslevel = 70,
   while(length(label) < length(months)){
     label <- c(label, "")}
   axis(1, at = months, labels = label)
+
+  return()
 }
 
 
-#BUILDING threshold
+# BUILDING threshold
 buildthres <- function(lfobj,
                        threslevel = 70,
                        thresbreaks = c("fixed", "monthly", "daily", "seasonal"),

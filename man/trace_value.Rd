@@ -17,10 +17,13 @@ trace_value(x, y, digits = 0, annotate = TRUE, lab.x = x, lab.y = y, prefix = ""
   \item{prefix}{vector of length one or two, text printed before the label of the \code{x} and \code{y} coordinate.}
   \item{suffix}{vector of length one or two, text printed after the label of the \code{x} and \code{y} coordinate.}
   \item{cex}{character expansion factor}
-  \item{col}{color used for text and lines}
+  \item{col}{colour used for text and lines}
   \item{lty}{line type}
   \item{\dots}{other graphical parameters, passed on to \code{lines}, \code{points} and \code{text}.}
 }
+
+\value{No return value, called for side effects (plotting).}
+
 \details{This function is vectorised over \code{x} and \code{y}.}
 
 \examples{

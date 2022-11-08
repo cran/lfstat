@@ -1,8 +1,8 @@
 \name{baseflow}
 \alias{baseflow}
-\title{Calculate the baseflow of a river}
+\title{Calculate the base flow of a river}
 \description{
-Given a stream flow hydrograph of flows (regular time series), the baseflow is separated. The minima of a period (default \code{block.len = 5)} is calculated and turning points are identified. At turning points the baseflow equals the actual flow, in between, linear interpolation is carried out. }
+Given a stream flow hydrograph of flows (regular time series), the base flow is separated. The minima of a period (default \code{block.len = 5)} is calculated and turning points are identified. At turning points the base flow equals the actual flow, in between, linear interpolation is carried out. }
 \usage{
 baseflow(x, tp.factor = 0.9, block.len = 5)
 }
@@ -15,7 +15,7 @@ baseflow(x, tp.factor = 0.9, block.len = 5)
   \item{block.len}{numeric vector of length one. }
 }
 \value{A numeric vector of \code{length(x)}. It contains \code{NA}s as until the
-first turning point, the baseflow cannot be determined.}
+first turning point, the base flow cannot be determined.}
 \references{
 Tallaksen, L. M. and  Van Lanen, H. A. J. 2004 Hydrological Drought: Processes and Estimation Methods for Streamflow and Groundwater. \emph{Developments in Water Science} \bold{48}, Amsterdam: Elsevier.
 }
@@ -26,7 +26,7 @@ Tallaksen, L. M. and  Van Lanen, H. A. J. 2004 Hydrological Drought: Processes a
 data(ray)
 ray <- as.xts(ray)
 
-# calculate baseflow and plot it
+# calculate base flow and plot it
 ray$baseflow <- baseflow(ray$discharge)
 ray96 <- ray[format(time(ray), "\%Y") == "1996", ]
 plot(ray96$discharge, type = "l")

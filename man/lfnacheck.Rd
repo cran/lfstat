@@ -5,14 +5,14 @@
 Low flow object check for missing values.
 }
 \description{
-Looks for NAs in a lfobj.
+Looks for NAs in a low flow object.
 }
 \usage{
 lfnacheck(lfobj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{lfobj}{An object of class "lfobj"
+  \item{lfobj}{An object of class \code{"lfobj"}
 }
 }
 
@@ -21,7 +21,7 @@ A list with the total number of NAs, the percentage, the NAs for every
 year and the durations of NA-series.
 }
 \references{
-Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
+Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
 }
 \author{
 Daniel Koffler and Gregor Laaha

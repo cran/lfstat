@@ -1,4 +1,4 @@
-#Dealing with NAs
+# Dealing with NAs
 
 lfnacheck <- function(lfobj){
   lfcheck(lfobj)

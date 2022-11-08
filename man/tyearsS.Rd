@@ -20,7 +20,7 @@ tyearsS(lfobj, event = 1/probs, probs = 0.01, pooling = NULL,
 }
 
 \arguments{
-  \item{lfobj}{An object of class lfobj or an object which can be coerced to class xts. Either with a single column or with a column named 'discharge'.}
+  \item{lfobj}{An object of class \code{'lfobj'} or an object which can be coerced to class \code{'xts'}. Either with a single column or with a column named 'discharge'.}
   \item{event}{numeric vector specifying the return periods. E.g. \code{event = 100} will yield the 100 years extreme low flow event.}
   \item{probs}{Alternate way to specify the return period of the event.}
   \item{pooling}{a pooling function, see \code{\link{pooling}}.}
@@ -29,7 +29,7 @@ tyearsS(lfobj, event = 1/probs, probs = 0.01, pooling = NULL,
   \item{check}{logical, should \code{\link{check_distribution}} get called?}
     \item{zeta}{numeric vector of length one for manually setting a lower bound. Only a few distributions allow for a lower bound, namely \code{'gpa'}, \code{'ln3'}, \code{'wak'} and \code{'wei'}. The default value of \code{NULL} results in not bounding the distribution, therefore the parameter \code{zeta} is estimated.}
   \item{plot}{logical. If \code{TRUE}, sample observations as well as estimated quantile functions are plotted.}
-  \item{col}{numeric or character vector of length one or as long as \code{dist}, specifying the color used for plotting.}
+  \item{col}{numeric or character vector of length one or as long as \code{dist}, specifying the colour used for plotting.}
   \item{log}{logical. If \code{TRUE} probabilities will be plotted on a double logarithmic scale.}
   \item{legend}{logical, should a legend be added to the plot?}
 
@@ -49,23 +49,23 @@ tyearsS(lfobj, event = 1/probs, probs = 0.01, pooling = NULL,
 This function is vectorised over \code{dist} and \code{event}.
 
 
-According to paragraph 7.4.2 of the WMO manual, special care has to be taken in the presence of zero flow observations. A cdf called G(x) is fitted to the non-zero values of the original  time series
+According to paragraph 7.4.2 of the \acronym{WNO} manual, special care has to be taken in the presence of zero flow observations. A cdf called G(x) is fitted to the non-zero values of the original  time series
 
 If a distribution is fitted which allows for finite lower bound (\code{zeta}), and \code{zeta} is estimated being negative, estimation is repeated constraining \code{zeta = 0}. If this behavior is not desired, the parameter \code{zeta} has to be set explicitly.
 }
 
 \value{
-  An object of class evfit, see \code{\link{evfit}}.
+  An object of class \code{'evfit'}, see \code{\link{evfit}}.
 }
 \references{
-Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
+Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
 }
 \author{
 Gregor Laaha
 }
 
 \seealso{
-There are methods for printing summarizing objects of class evfit.
+There are methods for printing summarizing objects of class \code{'evfit'}.
 
 \code{\link{evfit}}
 }

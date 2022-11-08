@@ -5,7 +5,7 @@
 Reads data sheets
 }
 \description{
-Reads data sheets of different formats directly as lfobjs.
+Reads data sheets of different formats directly and returns objects of class \code{'lfobj'}.
 }
 \usage{
 readlfdata(file, type = c("GRDC", "HZB", "LFU", "TU"), lfobj = TRUE,
@@ -15,21 +15,21 @@ readlfdata(file, type = c("GRDC", "HZB", "LFU", "TU"), lfobj = TRUE,
 \arguments{
   \item{file}{The name of the file which the data are to be read from.}
   \item{type}{The style of the sheet, currently the following formats
-are accepted: "GRDC", "HZB" (Austria), "LFU" (Germany, Bavaria), "TU"
+are accepted: \code{'GRDC'}, \code{'HZB'} (Austria), \code{'LFU'} (Germany, Bavaria), \code{'TU'}
 (Technical University Vienna)}
-  \item{lfobj}{logical, should a lfobj be created?}
-  \item{readmeta}{logical, should metainformation from data sheets be
+  \item{lfobj}{logical, should a low flow object be created?}
+  \item{readmeta}{logical, should meta information from data sheets be
     saved?}
   \item{encoding}{The name of the encoding to be assumed. See the Encoding section of \code{\link{connections}}.}
-  \item{...}{Handed to createlfobj, could be "hyearstart", "baseflow" or
-  "meta", if "readmeta" is FALSE}
+  \item{...}{Handed to \code{'createlfobj'}, could be \code{'hyearstart'}, \code{'baseflow'} or
+  \code{'meta'}, if \code{'readmeta'} is \code{'FALSE'}.}
 }
 \value{
-A lfobj or data.frame depending on "lfobj".
+A \code{'lfobj'} or \code{'data.frame'} depending on \code{'lfobj'}.
 }
 
 \references{
-Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
+Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
 }
 \author{
 Daniel Koffler and Gregor Laaha

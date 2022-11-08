@@ -9,9 +9,11 @@ Plot method for objects of class deficit.
 }
 \arguments{
   \item{x}{object of class deficit}
-  \item{type}{if \code{type = "dygraph"} interactive time series plotting is done using the dygraphs JavaScript library. Otherwise \code{\link{plot.xts}} is called. }
+  \item{type}{if \code{type = "dygraph"} interactive time series plotting is done using the \pkg{dygraphs} JavaScript library. Otherwise \code{\link{plot.xts}} is called. }
   \item{\dots}{further arguments, passed on to the subsequent plot function, e.g. \code{step = FALSE}.}
 }
+
+\value{An interactive dygraph plot or an xts plot, depending on argument \code{'type'}.}
 
 
 \seealso{

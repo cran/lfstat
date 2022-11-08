@@ -12,14 +12,14 @@ water_year(x, origin = "din", as.POSIX = FALSE,
 
 \arguments{
   \item{x}{
-a vector, implicit coercion to class POSIXlt is performed.
+a vector, implicit coercion to class \code{'POSIXlt'} is performed.
 }
   \item{origin}{
-a vector of length one specifying the month in which the hydrological year starts.  Four different ways of defining the beginning of a hydrological year are supported: a character string like "din" or "usgs" representing a definition of an institution (see Details), an integer number between 1 and 12, a character string of the month name (possibly abbreviated) or POSIX/Date object from which only the month is taken.
+a vector of length one specifying the month in which the hydrological year starts.  Four different ways of defining the beginning of a hydrological year are supported: a character string like \code{'din'} or \code{'usgs'} representing a definition of an institution (see Details), an integer number between 1 and 12, a character string of the month name (possibly abbreviated) or POSIX/Date object from which only the month is taken.
 }
   \item{as.POSIX}{logical, if TRUE return value is of class \code{POSIXct}. Otherwise a factor is returned.}
   \item{assign}{
-a character vector of length one, deciding how a hydrological year is labeled. Depending on the climate, the hydrological year can start earlier or later than the calendar year. Usually the hydrological year "equals" the calendar year for the longest period of months they have in common. Alternatively a water year can also be designated by the calendar year in which it starts or ends.
+a character vector of length one, deciding how a hydrological year is labelled. Depending on the climate, the hydrological year can start earlier or later than the calendar year. Usually the hydrological year "equals" the calendar year for the longest period of months they have in common. Alternatively a water year can also be designated by the calendar year in which it starts or ends.
 }
   \item{\dots}{
 arguments, passed on to \code{\link{as.POSIXlt}}, e.g. such as \code{format}
@@ -27,13 +27,13 @@ arguments, passed on to \code{\link{as.POSIXlt}}, e.g. such as \code{format}
 }
 \details{Currently, it is only supported to start a hydrological year on the 1st of a month.
 
-There are shorthands for a few established definitions:
+There are abbreviations for a few established definitions:
   \tabular{lll}{
    \tab \bold{start} \tab \bold{description} \cr
-  "din" \tab 1st of November \tab DIN 4049 (default), as used in Austria and Germany \cr
-  "usgs" \tab 1st of October\tab USGS, the United States Geological Survey\cr
-  "swiss" \tab 1st of October\tab as defined by the swiss "Bundesamt f. Energie" (BFE) \cr
-  "glacier" \tab 1st of September \tab Widely used in glaciology \cr
+  \code{'din'} \tab 1st of November \tab \acronym{DIN} 4049 (default), as used in Austria and Germany \cr
+  \code{'usgs'} \tab 1st of October\tab  \acronym{USGS}, the United States Geological Survey\cr
+  \code{'swiss'} \tab 1st of October\tab as defined by the Swiss "Bundesamt f. Energie" (\acronym{BFE}) \cr
+  \code{'glacier'} \tab 1st of September \tab Widely used in glaciology \cr
   }
 
 Its convenient to have the water year as a factor with levels even for year without observations. For example, otherwise years without observations don't appear after aggregation.

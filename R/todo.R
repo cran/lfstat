@@ -16,4 +16,8 @@
 
 # - improve spelling, documentation
 
+# - find.droughts should issue a warning if no droughts are found.
+# - summary.deficit() can only work if there are drought events.
+#   write check and unit test
+
 

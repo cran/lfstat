@@ -2,7 +2,7 @@
 \alias{setlfunit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Define the unit to use in lf-plots
+Define the unit to use in low flow plots
 }
 \description{
 Sets the option for the unit in plots.
@@ -17,15 +17,17 @@ setlfunit(string = "")
 
 \details{
 The unit string should be readable for the R-function
-\code{\link{expression}}, for common units see example below. 
+\code{\link{expression}}, for common units see example below.
 }
 
 \section{Warning}{
   No calculation on data is done by setting this string.
   }
 
+\value{No return value, called for side effects. For the current R session a unit for discharges is set.}
+
 \references{
-Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
+Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
 }
 \author{
 Daniel Koffler and Gregor Laaha
@@ -33,14 +35,14 @@ Daniel Koffler and Gregor Laaha
 
 \examples{
 data(ngaruroro)
-#Default: no unit
+# Default: no unit
 bfplot(ngaruroro, year = 1991)
 
-#The plot does not change, just the y-label does!
+# The plot does not change, just the y-label does!
 setlfunit("m^3/s")
 bfplot(ngaruroro,year = 1991)
 
-#Some possible labels:
+# Some possible labels:
 setlfunit("m^3/s")
 setlfunit("m^{3}*s^{-1}")
 setlfunit("scriptscriptstyle(frac(m^3,s))")

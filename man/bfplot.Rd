@@ -17,18 +17,20 @@ bfplot(lfobj,
 
 \arguments{
   \item{lfobj}{
-An object of class "lfobj"
+An object of class \code{"lfobj"}
 }
   \item{year}{
 The hydrological year for which the BFI should be computed. If "any" the
 whole series is plotted.
 }
-\item{col}{Color of Flow}
-\item{bfcol}{Color of Baseflow}
+\item{col}{Colour of flow}
+\item{bfcol}{Colour of base flow}
 \item{ylog}{Log y-axis?}
 }
 
-\references{Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
+\value{No return value, called for side effects (plotting).}
+
+\references{Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
 }
 \author{
 Daniel Koffler and Gregor Laaha
@@ -38,8 +40,8 @@ Daniel Koffler and Gregor Laaha
 }
 \examples{
 data(ngaruroro)
-#Plot starts in December, as ngaruroro's hyearstart = 12
-bfplot(ngaruroro, year = 1991) 
+# Plot starts in December, as ngaruroro's hyearstart = 12
+bfplot(ngaruroro, year = 1991)
 }
 \keyword{base flow}
 

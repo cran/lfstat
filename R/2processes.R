@@ -1,8 +1,8 @@
 #########################
-#Seasonal barchart      #
+# Seasonal barchart      #
 #########################
 
-#Works with NAs!
+# Works with NAs!
 
 sbplot <-  function(lfobj,hyearorder = TRUE){
   lfcheck(lfobj)
@@ -38,7 +38,7 @@ sbplot <-  function(lfobj,hyearorder = TRUE){
   mmplot
 }
 #########################
-#Double-Mass curve      #
+# Double-Mass curve      #
 #########################
 
 dmcurve <- function(x,y,year = "any",namex = substitute(x),namey = substitute(y),na.rm = TRUE){
@@ -76,7 +76,7 @@ dmcurve <- function(x,y,year = "any",namex = substitute(x),namey = substitute(y)
 }
 
 #########################
-#Hydrograph             #
+# Hydrograph            #
 #########################
 
 hydrograph <- function(lfobj, startdate = NULL, enddate = NULL, amin = FALSE,...){

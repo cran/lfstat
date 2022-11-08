@@ -10,7 +10,7 @@
 Extract or guess the Start of a Hydrological Year
 }
 \description{
-Retrieve the start of a hydrological year either from the attributes or from the column 'hyear' of an object of class lfobj.
+Retrieve the start of a hydrological year either from the attributes or from the column \code{'hyear'} of an object of class \code{'lfobj'}.
 }
 \usage{hyear_start(x, abbreviate = FALSE)
 
@@ -31,7 +31,7 @@ hyear_start(x) <- value
 
 }
 \details{
-If a valid start of an hydrological year is found in the attributes, it is returned. Otherwise if a column hyear exists, it is used. If this is note possible the integer number one is returned (for January) and a warning is issued.
+If a valid start of an hydrological year is found in the attributes, it is returned. Otherwise if a column \code{'hyear'} exists, it is used. If this is note possible the integer number one is returned (for January) and a warning is issued.
 }
 \value{
 a vector of length one, either of type character (\code{abbreviate = TRUE}) or numeric.

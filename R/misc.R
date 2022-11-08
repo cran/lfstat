@@ -1,8 +1,23 @@
 # moving average as described in Tallaksen and van Lanen (2004)
 # where the n past values are averaged
-ma <- function(x, n, sides = 1)  {
-  y <- filter(x, filter = rep(x = 1/n, times = n), sides = sides)
+ma <- function(x, n, sides = "past")
+{
+  dict <- c("past" = 1, "center" = 2, "future" = 3)
+  if(is.character(sides)){
+    sides <- pmatch(sides, names(dict))
+  } else if(is.numeric(sides)) {
+    sides <- match(sides, dict)
+  }
+  if(is.na(sides)) stop("content of argument 'sides' is invalid.")
 
+  sides <- dict[sides]
+
+  if(sides == 3){
+    sides <- 1
+    y <- rev(filter(rev(x), filter = rep(x = 1/n, times = n), sides = sides))
+  } else {
+    y <- filter(x, filter = rep(x = 1/n, times = n), sides = sides)
+  }
 
   # filter() returns a ts-object
   return(as.numeric(y))
@@ -31,7 +46,7 @@ ma <- function(x, n, sides = 1)  {
     warning("No unit found in attributes, assuming 'm\u00B3/s'.\n",
             "Use flowunit(x) <- \"l/s\" to define the flow unit. ",
             "See help(flowunit).")
-   flowunit(x) <- "m^3/s"
+    flowunit(x) <- "m^3/s"
   }
   # if so, parse volume und time
   names(unit) <- "flow"
@@ -208,7 +223,7 @@ group <- function(x, new.group.na = TRUE, as.factor = TRUE) {
   if(as.factor) {
     return(factor(grp))
   } else {
-    return(grp)
+    return(as.integer(grp))
   }
 
 }
@@ -244,7 +259,7 @@ group <- function(x, new.group.na = TRUE, as.factor = TRUE) {
   return(period)
 }
 
-#startpoints
+# startpoints
 # %j does not work properly for leap years.
 # season <- as.Date(c("2015-05-01", "2015-12-01"))
 # names(season) <- c("summer", "winter")
@@ -303,7 +318,62 @@ agg.season  <- function(x, fun, varying) {
   tapply(as.vector(x), season, FUN = fun)
 }
 
+
+season <- function(x, start = c(winter = as.Date("2005-12-01"),
+                                spring = as.Date("2005-03-01"),
+                                summer = as.Date("2005-06-01"),
+                                autumn = as.Date("2005-09-01")))
+{
+  UseMethod("season")
+}
+
+season.numeric <- function(x, start = c(winter = as.Date("2005-12-01"),
+                                        spring = as.Date("2005-03-01"),
+                                        summer = as.Date("2005-06-01"),
+                                        autumn = as.Date("2005-09-01")))
+{
+  nam  <- names(start)
+  if(is.null(nam) || any(nam == "")) {
+    nam <- paste0("s", seq_along(start))
+    warning("No names for seasons provided, using generic names.")
+  }
+
+  if(inherits(start, "Date") | inherits(start, "POSIXct")) {
+    start <- as.numeric(format(start, "%j"))
+  }
+
+  names(start) <- nam
+  start <- sort(start)
+
+  if(!is.numeric(start)) stop("Cannot coerce argument 'start' to numeric.")
+
+  idx <- rowSums(outer(x, start, ">="))
+  idx[idx == 0] <- length(start)
+
+  return(factor(names(start)[idx], levels = nam))
+}
+
+season.Date <- function(x, start = c(winter = as.Date("2005-12-01"),
+                                     spring = as.Date("2005-03-01"),
+                                     summer = as.Date("2005-06-01"),
+                                     autumn = as.Date("2005-09-01")))
+{
+  season(as.numeric(format(x, format = "%j")), start = start)
+}
+
+season.POSIXct <- function(x, start = c(winter = as.Date("2005-12-01"),
+                                        spring = as.Date("2005-03-01"),
+                                        summer = as.Date("2005-06-01"),
+                                        autumn = as.Date("2005-09-01")))
+{
+  season(as.numeric(format(x, format = "%j")), start = start)
+}
+
+
+
 # default fuer origin sollte aus varying erraten werden
+# todo: autodetect origin
+# write wrapper minima
 apply.seasonal <- function(x, varying, fun = function(x) min(x, na.rm = TRUE),
                            aggregate = NULL, replace.inf = TRUE, origin = 1) {
 
@@ -321,7 +391,7 @@ apply.seasonal <- function(x, varying, fun = function(x) min(x, na.rm = TRUE),
     res <- as.matrix(tapply(x, y, FUN = fun), ncol = 1)
   } else {
     xx <- tapply(X = x, INDEX = y, FUN = agg.season, varying = varying, fun = fun)
-    xx <- lapply(xx, function(x) t(as.matrix(x)))
+    xx <- lapply(xx, function(x) if(is.null(x)) NA else t(as.matrix(x)))
     res <- do.call(plyr::rbind.fill.matrix, xx)
     rownames(res) <- names(xx)
   }

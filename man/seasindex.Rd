@@ -14,7 +14,7 @@ seasindex(lfobj,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{lfobj}{An object of class "lfobj"}
+  \item{lfobj}{An object of class \code{"lfobj"}}
   \item{Q}{Which quantile to use (standard = Q95)}
   \item{na.rm}{Should missing values be ignored?}
  }
@@ -30,7 +30,7 @@ seasindex(lfobj,
 Laaha, G. and Bl{\"o}schl, G. (2006), Seasonality indices for regionalizing
 low flows. Hydrol. Process., 20
 
-Laaha,G. Process Based Regionalisation of Low Flows, Band 198 von Wiener
+Laaha, G. Process Based Regionalisation of Low Flows, Band 198 von Wiener
 Mitteilungen, Inst. f{\"u}r Wasserbau u. Ingenieurhydrologie,
 Techn. Univ. Wien, 2006, ISBN 3852340896}
 \author{
@@ -40,7 +40,8 @@ Daniel Koffler and Gregor Laaha
 
 \examples{
 data(ngaruroro)
-#Start of the hydrological year (01/12) is taken as second breakday
+
+# Start of the hydrological year (01/12) is taken as second break day
 seasindex(ngaruroro)
 }
 

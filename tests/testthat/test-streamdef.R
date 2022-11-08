@@ -174,5 +174,5 @@ expect_warning(sapply(arglist, test_streamdef, data = ray))
 expect_warning(sapply(arglist, test_streamdef, data = wild))
 
 # dataset with NAs
-#data(ngaruroro)
-#sapply(arglist, test_streamdef, data = ngaruroro)
+# data(ngaruroro)
+# sapply(arglist, test_streamdef, data = ngaruroro)

@@ -14,13 +14,13 @@ seasratio(lfobj,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{lfobj}{An object of class "lfobj"}
+  \item{lfobj}{An object of class \code{"lfobj"}}
   \item{breakdays}{One or two dates defining the summer/winter season}
   \item{Q}{Which quantile to use (standard = Q95)}
  }
 
 \details{
-If breakdays is a single day, e.g. "01/06", the start of the hydrological year is taken as the second breakday. If other seasons are to be specified, a vector of two breakdays is needed.
+If \code{'breakdays'} is a single day, e.g. "01/06", the start of the hydrological year is taken as the second break day. If other seasons are to be specified, a vector of two break days is needed.
 }
 
 \value{
@@ -37,10 +37,11 @@ Daniel Koffler and Gregor Laaha
 
 \examples{
 data(ngaruroro)
-#Start of the hydrological year (01/12) is taken as second breakday
+
+# Start of the hydrological year (01/12) is taken as second break day
 seasratio(ngaruroro, breakdays = "01/07")
 
-#Two breakdays
+# Two breakdays
 seasratio(ngaruroro, breakdays = c("01/03","01/09"))
 }
 

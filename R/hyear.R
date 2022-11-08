@@ -30,27 +30,42 @@ water_year <- function(x, origin = "din", as.POSIX = FALSE,
   if (length(origin) != 1)
     stop("argument 'origin' must be of length 1.", call. = FALSE)
 
-  # first try to match exactly against given definitions of popular institutions
-  defs <- c("din" = 11, "usgs" = 10, "swiss" = 10, "glacier" =  9)
-  if (origin %in% names(defs)) {
-    idx <- as.numeric(defs[origin])
+  if (is.numeric(origin) & origin %in% 1:12) {
+    idx <- origin
   } else {
-    # then partial matches of the names of months
-    idx <- pmatch(gsub(".", "", tolower(origin), fixed = TRUE),
-                  tolower(month.name))
 
-    # and finally, check if the origin is given as a POSIX object or integer
-    if (is.na(idx)) {
-      idx <- tryCatch(as.POSIXlt(origin)$mon + 1,
-                      error = function(x) suppressWarnings(as.numeric(origin)))
+  # as.POSIXlt() converts integers to seconds since 1970
+  # test for Date object as string
+  idx <- tryCatch(as.POSIXlt(origin)$mon + 1,
+                  error = function(x) suppressWarnings(as.numeric(origin)))
+  }
 
-      if(is.na(idx) | !idx %in% 1:12)
-        stop("argument 'origin' must be either one of ",
-             paste(sQuote(names(defs)), collapse=", "),
-             " or a (possibly abbreviated) name of a month,",
-             " an integer between 1 and 12 or valid POSIX/Date object.")
+  if(is.character(origin)) {
+    origin <- gsub(".", "", tolower(origin), fixed = TRUE)
+
+    # first try to match exactly against given definitions of popular institutions
+    defs <- c("din" = 11, "usgs" = 10, "swiss" = 10, "glacier" =  9)
+    if (origin %in% names(defs)) {
+      idx <- as.numeric(defs[origin])
+    } else {
+      # English month names
+      idx <- pmatch(origin, tolower(month.name))
+      if (is.na(idx)) {
+        # month names in current locale
+        abbr.locale <- format(seq(from = as.Date("1992-01-01"), by = "months", length.out = 12), format("%B"))
+        abbr.locale <- tolower(abbr.locale)
+        idx <- pmatch(origin, abbr.locale)
+      }
     }
   }
+
+  if (is.na(idx)) {
+    stop("argument 'origin' must be either one of ",
+         paste(sQuote(names(defs)), collapse=", "),
+         " or a (possibly abbreviated) name of a month,",
+         " an integer between 1 and 12 or valid POSIX/Date object.")
+  }
+
   origin <- idx
 
   # when extracting components of POSIXlt, the year gets counted from 1900

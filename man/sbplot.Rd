@@ -2,44 +2,41 @@
 \alias{sbplot}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Seasonal Barchart
+Seasonal Bar Chart
 }
 \description{
-Plots a seasonal barchart for daily streamflow data
+Plots a seasonal bar chart for daily streamflow data
 }
 \usage{
-sbplot(lfobj,hyearorder = TRUE)
+sbplot(lfobj, hyearorder = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{lfobj}{
-A lfobj, as created with 'createlfobj'
+A low flow object, as created with \code{createlfobj}
 }
 \item{hyearorder}{
   logical, if TRUE the bars are plotted according to the hydrological
   year, if FALSE they start with January.
 }}
 
+\value{An object of class \code{trellis}, see \code{\link{barchart}}.}
+
 \references{
-Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, WMO-No. 1029, 136p.
+Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
 }
 \author{
 Daniel Koffler and Gregor Laaha
 }
 
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
-createlfobj
+\code{\link{createlfobj}}
 }
 \examples{
 data(ngaruroro)
 sbplot(ngaruroro)
-#Starting with january
+
+# Starting with january
 sbplot(ngaruroro, hyearorder = FALSE)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

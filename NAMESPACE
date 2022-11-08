@@ -14,7 +14,7 @@ importFrom("stats", "aggregate", "approx", "coef", "filter", "lm", "qnorm",
            "na.exclude", "weighted.mean")
 importFrom("utils", "read.table", "tail", "head", "str")
 importFrom("plyr", "rbind.fill.matrix")    # used in apply.seasonal()
-
+importFrom("scales", "fullseq")
 
 
 export(createlfobj,
@@ -74,7 +74,8 @@ flowunit,
 fill_na,
 as.lfobj,
 is.lfobj,
-ev_return_period
+ev_return_period,
+season
 )
 
  S3method(hyear_start, data.frame)
@@ -92,6 +93,10 @@ ev_return_period
  S3method(plot, lfobj)
  S3method("[", lfobj)
 
+ S3method(season, numeric)
+ S3method(season, Date)
+ S3method(season, POSIXct)
+
  S3method(flowunit, lfobj)
  S3method(flowunit, xts)
  S3method("flowunit<-", lfobj)
@@ -107,3 +112,4 @@ ev_return_period
 
  S3method(print, summaryDrought)
  S3method(as.xts, lfobj)
+

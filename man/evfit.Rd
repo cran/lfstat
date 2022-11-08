@@ -18,11 +18,11 @@ evfit(x, distribution, zeta = NULL, check = TRUE,
 
 \details{This function is vectorized over \code{distribution}.
 
-According to paragraph 7.4.2 of the WMO manual, special care has to be taken in the presence of zero flow observations. A cdf called G(x) is fitted to the non-zero values of the original  time series.
+According to paragraph 7.4.2 of the \acronym{WNO} manual, special care has to be taken in the presence of zero flow observations. A cdf called G(x) is fitted to the non-zero values of the original time series.
 
 If a distribution is fitted which allows for finite lower bound (\code{zeta}), and \code{zeta} is estimated being negative, estimation is repeated constraining \code{zeta = 0}. If this behavior is not desired, the parameter \code{zeta} has to be set explicitly.
 }
-\value{An object of class \code{evfit} containing the \var{L}-moments and the estimated parameters is returned. Objects of class evfit are basically a list with the following elements:
+\value{An object of class \code{'evfit'} containing the \var{L}-moments and the estimated parameters is returned. Objects of class \code{'evfit'} are basically a list with the following elements:
 
 \item{values}{the values \code{x} used for fitting.}
 \item{freq.zeros}{a character vector of length one. Frequency of zero flow observations.}
@@ -34,7 +34,7 @@ If a distribution is fitted which allows for finite lower bound (\code{zeta}), a
 }
 
 \seealso{
-There are methods for printing summarizing objects of class evfit.
+There are methods for printing summarizing objects of class \code{'evfit'}.
 
 \code{\link{evfit}}
 }
