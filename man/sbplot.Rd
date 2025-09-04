@@ -20,7 +20,7 @@ A low flow object, as created with \code{createlfobj}
   year, if FALSE they start with January.
 }}
 
-\value{An object of class \code{trellis}, see \code{\link{barchart}}.}
+\value{An object of class \code{trellis}, see \code{\link[lattice]{barchart}}.}
 
 \references{
 Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.

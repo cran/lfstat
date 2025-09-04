@@ -137,13 +137,12 @@ rfaplot(lflist, n = 7, ...)
       if a legend box is to be drawn; other arguments set by default are
       \code{x}, \code{y}, \code{legend}, \code{col}, \code{lty}, and \code{lwd}.
 
-      Not used if \code{distributions=FALSE}.}
-    \item{\code{xlegend}}{x coordinate of the upper left corner of the legend.
-      Default: the minimum x value.
-      Not used if \code{distributions=FALSE} or \code{legend.lmrd=FALSE}.}
-    \item{\code{ylegend}}{y coordinate of the upper left corner of the legend.
-      Default: the maximum y value.
-      Not used if \code{distributions=FALSE} or \code{legend.lmrd=FALSE}.}
+      Not used if \code{distributions} is \code{FALSE}.}
+    \item{\code{xlegend,ylegend}}{x and y coordinates of the upper left corner of the legend.
+      Default: coordinates of the upper left corner of the plot region,
+      shifted to the right and downwards, each by an amount equal to 1\% of the range of the x axis.
+
+      Not used if \code{distributions} is \code{FALSE} or if \code{legend.lmrd} is \code{FALSE}.}
     \item{\code{xlab}}{X axis label.}
     \item{\code{ylab}}{Y axis label.}
   }}
@@ -176,10 +175,10 @@ rfaplot(list(seventies, eighties, nineties), n = 3)
 \references{
 Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation
 and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
-\url{https://library.wmo.int/doc_num.php?explnum_id=7699}
+\url{https://library.wmo.int/idurl/4/32176}
 }
 \seealso{
-\code{\link{lmrd}} and \code{\link{lmom-package}} which this function wraps.
+\code{\link[lmom]{lmrd}} and \code{\link[lmom]{lmom-package}} which this function wraps.
 }
 \keyword{Analysis}
 \keyword{Frequency}

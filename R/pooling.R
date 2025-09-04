@@ -1,4 +1,4 @@
-
+#' @export
 find_droughts <- function(x, threshold = vary_threshold, varying = "constant",
                           interval = "day", ...) {
   if(!inherits(x, "xts")) x <- as.xts(x)
@@ -71,10 +71,12 @@ find_droughts <- function(x, threshold = vary_threshold, varying = "constant",
   return(x)
 }
 
+#' @export
 pool_it <- function(x, tmin = 5) {
   pool_ic(x, tmin = tmin, ratio = Inf)
 }
 
+#' @export
 pool_ic <- function(x, tmin = 5, ratio = 0.1) {
   tab <- summary(x, drop_minor = 0)
 
@@ -104,7 +106,7 @@ pool_ic <- function(x, tmin = 5, ratio = 0.1) {
       interEventTime <- ti[event[2] - 1]
       ratioVol <- abs(vi[event[2] - 1] / tab$vol.pooled[event[2] - 1])
 
-      if(interEventTime <= tmin && ratioVol < ratio){
+      if(interEventTime < tmin && ratioVol < ratio){
         # pooling needed
         tab$event.no[event[2]] <- event[1]
         tab$vol.pooled[event[2]] <- sum(tab$vol.pooled[event[2] - 0:1]) + vi[event[2] - 1]
@@ -130,7 +132,7 @@ pool_ic <- function(x, tmin = 5, ratio = 0.1) {
   return(x)
 }
 
-
+#' @export
 pool_ma <- function(x, n = 10) {
 
   x$discharge <- ma(x$discharge, n = n, sides = 2)
@@ -145,6 +147,7 @@ pool_ma <- function(x, n = 10) {
   return(y)
 }
 
+#' @export
 pool_sp <- function(x) {
   # ignores precomupted event numbers
   x$event.orig <- x$event.no
@@ -187,7 +190,6 @@ pool_sp <- function(x) {
                                                n.pooled = n.pooled))
   return(x)
 }
-
 
 summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
                               poolMethod = c("event", "peak")) {
@@ -300,7 +302,7 @@ summarize.drought <- function(x, drop_minor = c("volume" = 0, "duration" = 0),
   return(res)
 }
 
-
+#' @export
 summary.deficit <- function(object,
                             drop_minor = c("volume" = "0.5%", "duration" = 5),
                             ...) {
@@ -333,6 +335,7 @@ summary.deficit <- function(object,
   return(y)
 }
 
+#' @export
 print.summaryDrought <- function(x, ...) {
   attlist <- attr(x, "deficit")
   cat("Summary of", if (!is.null(attlist$pooling)) "pooled", "droughts")
@@ -358,7 +361,7 @@ print.summaryDrought <- function(x, ...) {
   NextMethod(x)
 }
 
-
+#' @export
 print.deficit <- function(x, ...) {
   # pool oder event.no
   cat("streamflow defict", fill = TRUE)
@@ -368,6 +371,7 @@ print.deficit <- function(x, ...) {
   NextMethod(x)
 }
 
+#' @export
 plot.deficit <- function(x, type = "dygraph", ...) {
   arg <- list(...)
   if (type == "dygraph") {
@@ -381,12 +385,13 @@ plot.deficit <- function(x, type = "dygraph", ...) {
                    if(length(river) & length(station)) "at" else "",
                    if(length(station)) paste("station", station))
 
+    #' @importFrom xts plot.xts
     do.call(plot.xts, c(list(x = x$discharge, type = type, main = title), arg))
     do.call(lines, c(list(x = x$threshold, col = 2), arg))
   }
 }
 
-
+#' @export
 plot.deficit_dygraph <- function(x, ...) {
   arg <- list(...)
   if("step" %in% names(arg)) step <- arg$step else step = TRUE
@@ -408,11 +413,11 @@ plot.deficit_dygraph <- function(x, ...) {
                  if(length(station)) paste("station", station))
   ylab <- .char2html(paste("Flow in", attlist$unit))
   p <- dygraph(x[, c("discharge", "lwr", "threshold", "upr")],
-               main = title, ylab = ylab) %>%
-    dyRangeSelector() %>%
-    dySeries("discharge", stepPlot = step, drawPoints = TRUE, color = "darkblue") %>%
+               main = title, ylab = ylab) |>
+    dyRangeSelector() |>
+    dySeries("discharge", stepPlot = step, drawPoints = TRUE, color = "darkblue") |>
     dySeries(c("lwr", "threshold", "upr"), stepPlot = step, color = "red",
-             strokePattern = "dashed") %>%
+             strokePattern = "dashed") |>
     dyAxis("y", logscale = log)
 
   tbl <- summary(x, ...)

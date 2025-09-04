@@ -1,5 +1,6 @@
 # Dealing with NAs
 
+#' @export
 lfnacheck <- function(lfobj){
   lfcheck(lfobj)
   total <- sum(is.na(lfobj$flow))
@@ -16,7 +17,7 @@ lfnacheck <- function(lfobj){
   na
 }
 
-
+#' @export
 lfnainterpolate <- function(lfobj){
   lfcheck(lfobj)
   if(sum(is.na(lfobj$flow) > 0)){

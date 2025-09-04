@@ -1,3 +1,4 @@
+#' @export
 readlfdata <- function(file, type = c("GRDC","HZB","LFU","TU"),
                        lfobj = TRUE, readmeta = TRUE, encoding = NULL, ...){
   type <- match.arg(type)

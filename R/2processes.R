@@ -4,6 +4,7 @@
 
 # Works with NAs!
 
+#' @export
 sbplot <-  function(lfobj,hyearorder = TRUE){
   lfcheck(lfobj)
 
@@ -41,6 +42,7 @@ sbplot <-  function(lfobj,hyearorder = TRUE){
 # Double-Mass curve      #
 #########################
 
+#' @export
 dmcurve <- function(x,y,year = "any",namex = substitute(x),namey = substitute(y),na.rm = TRUE){
   lfcheck(x)
   lfcheck(y)
@@ -78,7 +80,7 @@ dmcurve <- function(x,y,year = "any",namex = substitute(x),namey = substitute(y)
 #########################
 # Hydrograph            #
 #########################
-
+#' @export
 hydrograph <- function(lfobj, startdate = NULL, enddate = NULL, amin = FALSE,...){
   lfcheck(lfobj)
 

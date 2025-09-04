@@ -6,7 +6,7 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5){
 # Flow Duration Curve   #
 #########################
 
-
+#' @export
 fdc <- function(lfobj,
                 year = "any",
                 breakdays = NULL,
@@ -18,7 +18,7 @@ fdc <- function(lfobj,
                 ...){
   lfcheck(lfobj)
 
-  
+
   if(length(year) > 1){
     if(!(is.wholenumber(min(year))&is.wholenumber(max(year)))){
       stop("Year must be a number")} else{
@@ -33,15 +33,15 @@ fdc <- function(lfobj,
     if(is.wholenumber(year)){
       dummi <- year
       lfobj <- subset(lfobj, subset  = hyear == dummi)
-    }  
+    }
   }
-  
+
 #   if(!(year %in% c(min(lfobj$hyear):max(lfobj$hyear),"any"))){
 #    stop("'year must be within the range of your data or \"any\" for taking whole series")}
 
    bdays <- NULL
-  
-   #If there is a single breakday, take hyearstart as the second!  
+
+   #If there is a single breakday, take hyearstart as the second!
    if(!is.null(breakdays)){
      ii <- subset(lfobj, year != hyear, month)
       if(nrow(ii)==0){hyearstart <-1} else if(max(ii) <5.5){hyearstart <- max(ii)+1}else{hyearstart <- min(ii)}
@@ -65,7 +65,7 @@ fdc <- function(lfobj,
    Year$season = cumsum(Year$breakp)
    Year$season[Year$season == 0] <- max(Year$season)
    lfobj <- merge(lfobj, Year, by = c("day", "month"),sort = FALSE)
- 
+
    plotdata <- aggregate(flow ~ season, data = lfobj, quantile, probs = seq(1,0,by = -0.01))[,-1]
 
   if(is.null(breakdays))
@@ -86,7 +86,7 @@ fdc <- function(lfobj,
           else {
                x <- 0:100
                ranx <- c(0,100)}
-    
+
  if(!separate){
   plot(rep(x,nrow(plotdata)),plotdata,
      type = "n",
@@ -101,8 +101,8 @@ fdc <- function(lfobj,
   if(xnorm){
     axis(1,at = qnorm(c(.01,.05,seq(.1,.9,by = .1),.95,.99)), labels = c(1,5,seq(10,90,by = 10),95,99))
   } else{axis(1)}
-    
-    
+
+
   if(colors){
    for(ii in 1:nrow(plotdata)){
      points(x,plotdata[ii,],type = "l", col = ii)}
@@ -117,7 +117,7 @@ fdc <- function(lfobj,
 
 }else{#separate = TRUE
        xpar <- par(ask = TRUE)
-       
+
        for(ii in 1:nrow(plotdata)){
            plot(x,plotdata[ii,],
                 type = "n",
@@ -131,7 +131,7 @@ fdc <- function(lfobj,
         if(xnorm){
           axis(1,at = qnorm(c(.01,.05,seq(.1,.9,by = .1),.95,.99)), labels = c(1,5,seq(10,90,by = 10),95,99))
         } else{axis(1)}
-    
+
         if(colors){
         points(x,plotdata[ii,],type = "l", col = 1)
            if(legend){
@@ -139,10 +139,10 @@ fdc <- function(lfobj,
          } else {
           points(x,plotdata[ii,],type = "l", lty = 1)
              if(legend){
-     legend(x = "topright", legend = rownames(plotdata)[ii], lty = 1)}}    
+     legend(x = "topright", legend = rownames(plotdata)[ii], lty = 1)}}
          }
            par(xpar)
          }
-  
+
   plotdata
    }

@@ -5,7 +5,7 @@
 Apply an aggregation function seasonally.
 }
 \description{
-Similar to the functions \code{\link{apply.daily}}, \code{\link{apply.monthly}}, \code{\link{apply.yearly}} etc. from the \pkg{xts} package.
+Similar to the functions \code{\link[xts]{apply.daily}}, \code{\link[xts]{apply.monthly}}, \code{\link[xts]{apply.yearly}} etc. from the \pkg{xts} package.
 }
 \usage{
 apply.seasonal(x, varying, fun = function(x) min(x, na.rm = TRUE),

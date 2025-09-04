@@ -27,11 +27,11 @@ seasindex(lfobj,
 }
 
 \references{
-Laaha, G. and Bl{\"o}schl, G. (2006), Seasonality indices for regionalizing
+Laaha, G. and Blöschl, G. (2006), Seasonality indices for regionalizing
 low flows. Hydrol. Process., 20
 
 Laaha, G. Process Based Regionalisation of Low Flows, Band 198 von Wiener
-Mitteilungen, Inst. f{\"u}r Wasserbau u. Ingenieurhydrologie,
+Mitteilungen, Inst. für Wasserbau u. Ingenieurhydrologie,
 Techn. Univ. Wien, 2006, ISBN 3852340896}
 \author{
 Daniel Koffler and Gregor Laaha

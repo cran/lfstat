@@ -86,7 +86,7 @@ test_that("pool_sp(): NA values are never pooled, therefore event.no == 0 after 
 
 test_that("pool_it() can merge two events just separated by an NA value",{
 
-  smry <- lapply(timeSeries, function(x) summary(pool_it(x, tmin = 1)))
+  smry <- lapply(timeSeries, function(x) summary(pool_it(x, tmin = 2), drop_minor = FALSE))
 
   # deficit volume and days below threshold will become NA
   expect_equal(as.numeric(smry[[2]][1, c("volume", "dbt")]), rep(NA_real_, 2))
@@ -110,7 +110,7 @@ test_that("user is warned if minor events are filtered",{
 
 
   smry <- lapply(timeSeries, function(x)
-    summary(pool_it(x, tmin = 1),
+    summary(pool_it(x, tmin = 2),
             drop_minor = c("volume" = 0, "duration" = 100)))
 
   expect_equal(attr(smry[[1]], "deficit")$omitted, 0L)

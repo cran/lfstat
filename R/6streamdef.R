@@ -68,6 +68,7 @@ streamdefRcmdr <- function(lfobj,
 
 # wrapper around the new function find_droughts() including pooling
 # just emulates the interface of the old and buggy function streamdef()
+#' @export
 streamdef <- function(lfobj,
                       pooling = c("none", "MA", "IT", "IC"),
                       threslevel = 70,
@@ -134,6 +135,7 @@ streamdef <- function(lfobj,
 # Streamflow plot       #
 #########################
 
+#' @export
 streamdefplot <- function(lfobj, year, threslevel = 70,
                           thresbreaks = c("fixed", "monthly", "daily", "seasonal"),
                           breakdays = c("01/06", "01/10")){

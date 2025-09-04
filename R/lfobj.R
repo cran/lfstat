@@ -7,11 +7,13 @@ if(getRversion() >= "2.15.1"){
 # Data.frame with named columns
 # ts + start date (does vector work?)
 
+#' @export
 createlfobj <- function(x, ...){
   UseMethod("createlfobj")
 }
 
 
+#' @export
 createlfobj.lfobj <- function(x, hyearstart = NULL, baseflow = NULL,
                               meta = NULL, ...){
   if(is.null(baseflow)){
@@ -30,6 +32,7 @@ createlfobj.lfobj <- function(x, hyearstart = NULL, baseflow = NULL,
 
 
 # Create a lfobj from a vector of daily flow data and the startdate
+#' @export
 createlfobj.ts <- function(x, startdate, dateformat = "%d/%m/%Y", ...){
 
   start <- as.Date(startdate, dateformat)
@@ -42,6 +45,7 @@ createlfobj.ts <- function(x, startdate, dateformat = "%d/%m/%Y", ...){
 
 
 # Create a lfobj from a data frame with cols named "flow", "day", "month", "year"
+#' @export
 createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
                                    meta = list(), ...){
 
@@ -83,9 +87,10 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
 
   meta[["hyearstart"]] <- hyearstart
   x <- as.data.frame(x)
+  class(x) <- c("lfobj", "data.frame")
 
   dat <- x[, cols]
-  time <- time.lfobj(x)
+  time <- time(x)
 
   fullseq <- seq(from = min(time), to = max(time), by = "day")
   missing <- fullseq[!fullseq %in% time]
@@ -112,17 +117,20 @@ createlfobj.data.frame <- function(x, hyearstart = NULL, baseflow = TRUE,
   return(dat)
 }
 
+#' @export
 as.lfobj <- function(x, ...){
   UseMethod("as.lfobj")
 }
 
+#' @export
+#' @method as.lfobj data.frame
 as.lfobj.data.frame <- function(x, ...) {
 # todo: detect time column, detect dmy colums, detect discharge
 
 
 }
 
-
+#' @export
 as.lfobj.xts <- function(x, ...) {
   if(!is.null(ncol(x)) && ncol(x) != 1) stop("object with one column expected.")
   df <- data.frame(strsplit_date(time(x)), flow = as.vector(x))
@@ -131,6 +139,7 @@ as.lfobj.xts <- function(x, ...) {
   return(dat)
 }
 
+#' @export
 as.lfobj.zoo <- function(x, ...) {
   as.lfobj.xts(x, ...)
 }
@@ -139,6 +148,7 @@ as.lfobj.zoo <- function(x, ...) {
 
 # hack to make attributes sticky
 # otherwise subsetting would loose attributes
+#' @export
 "[.lfobj" <- function (x, i, j, drop = TRUE) {
 
   y <- "[.data.frame"(x, i, j, drop)
@@ -147,8 +157,9 @@ as.lfobj.zoo <- function(x, ...) {
   return(y)
 }
 
-
-time.lfobj <- function(x) {
+#' @export
+#' @method time lfobj
+time.lfobj <- function(x, ...) {
   with(x, as.Date(paste(year, month, day, sep = "-")))
 }
 
@@ -160,6 +171,7 @@ lfcheck <- function(lfobj){
   }
 }
 
+#' @export
 is.lfobj <- function(x) {
   inherits(x, "lfobj") &
     all(c("day", "month", "year", "flow", "hyear") %in% colnames(x))

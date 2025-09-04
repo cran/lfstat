@@ -1,3 +1,4 @@
+#' @export
 summary.lfobj <- function(object, digits = 4, ...){
   lfobj <- object
   lfcheck(lfobj)
@@ -39,6 +40,7 @@ summary.lfobj <- function(object, digits = 4, ...){
 }
 
 
+#' @export
 plot.lfobj <- function(x,...){
   hydrograph(x,...)
 }

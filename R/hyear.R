@@ -18,7 +18,7 @@ calendar_year <- function(x) {
 }
 
 
-
+#' @export
 water_year <- function(x, origin = "din", as.POSIX = FALSE,
                        assign = c("majority", "start", "end"), ...) {
 
@@ -92,11 +92,12 @@ water_year <- function(x, origin = "din", as.POSIX = FALSE,
 }
 
 
-
+#' @export
 "hyear_start<-" <- function(x, value) {
   UseMethod("hyear_start<-")
 }
 
+#' @export
 "hyear_start<-.lfobj" <- function(x, value) {
   attr(x, "lfobj")$hyearstart <- value
   time <- time(x)
@@ -105,19 +106,20 @@ water_year <- function(x, origin = "din", as.POSIX = FALSE,
   return(x)
 }
 
+#' @export
 "hyear_start<-.xts" <- function(x, value) {
   # also support other inputs
   if(!value %in% 1:12) stop("must be an integer between 1 and 12.")
-  xtsAttributes(x)$hyearstart <- value
+   xtsAttributes(x)$hyearstart <- value
   return(x)
 }
 
-
+#' @export
 hyear_start <- function(x, abbreviate = FALSE) {
   UseMethod("hyear_start")
 }
 
-
+#' @export
 hyear_start.data.frame <- function(x, abbreviate = FALSE){
   hy <- attr(x, "lfobj")$hyearstart
   if(is.null(hy) || (!hy %in% 1:12)) hy <- .guess_hyearstart(x)
@@ -132,6 +134,7 @@ hyear_start.data.frame <- function(x, abbreviate = FALSE){
   return(hy)
 }
 
+#' @export
 hyear_start.xts <- function(x, abbreviate = FALSE){
   hy <- xtsAttributes(x)$hyearstart
 

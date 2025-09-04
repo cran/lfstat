@@ -16,7 +16,7 @@ fill_na(x, max.len = Inf, ...)
 }
 \value{a vector}
 
-\seealso{\code{\link{approx}}, \code{\link{na.approx}}}
+\seealso{\code{\link{approx}}, \code{\link[zoo]{na.approx}}}
 \examples{
 x <- 1:20
 x[c(2, 3, 6, 11:15)] <- NA

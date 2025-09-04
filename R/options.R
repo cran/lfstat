@@ -1,3 +1,4 @@
+#' @export
 setlfunit <- function(string = ""){
   if(!is.character(string)){
     stop('"string" must be a character string"')

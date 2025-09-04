@@ -6,11 +6,13 @@
   return( 1 - SSres/SSobs)
 }
 
+#' @export
 print.evfit <- function(x, ...) {
   rp <- x[["T_Years_Event"]]
   if(!is.null(rp)) print(rp) else summary(x)
 }
 
+#' @export
 summary.evfit <- function(object, ...) {
   cat("", "Values:", sep = "")
   str(unname(object$values))
@@ -25,12 +27,12 @@ summary.evfit <- function(object, ...) {
   print(object$lmom)
 
   cat("\n", "Fitted Parameters of the Distribution:\n", sep = "")
-  print.dist(object$parameters)
+  print_dist(object$parameters)
 }
 
-print.dist <- function(x) {
+print_dist <- function(x) {
   if (is.list(x) && length(x) > 1) {
-    for(i in seq_along(x)) print.dist(x[i])
+    for(i in seq_along(x)) print_dist(x[i])
     return(invisible())
   }
 
@@ -42,8 +44,8 @@ print.dist <- function(x) {
   cat("", distribution, "   ", values, "\n", sep = "")
 }
 
-
 # Gringorten Plotting Position for extreme values
+#' @export
 gringorten <- function(x) {
   rank <- rank(x, na.last = "keep", ties.method = "first")
   len <- sum(!is.na(x))
@@ -52,7 +54,7 @@ gringorten <- function(x) {
   return(xx)
 }
 
-
+#' @export
 plot.evfit <- function(x, legend = TRUE, col = 1, extreme = x$extreme,
                        xlab = NULL, ylab = expression(italic(x)), log = TRUE,
                        ylim = NULL,
@@ -118,7 +120,7 @@ plot.evfit <- function(x, legend = TRUE, col = 1, extreme = x$extreme,
 }
 
 
-
+#' @export
 rpline <- function(fit, return.period = NULL, log = TRUE, ...) {
   arg <- list(...)
   if(is.null(arg[["suffix"]])) arg[["suffix"]] <- c("a", "")
@@ -136,7 +138,7 @@ rpline <- function(fit, return.period = NULL, log = TRUE, ...) {
   do.call(trace_value, arg)
 }
 
-
+#' @export
 trace_value <- function(x, y, digits = 0, annotate = TRUE,
                         lab.x = x, lab.y = y, prefix = "", suffix = "",
                         cex = 0.75, col = "blue", lty = 2, ...) {
@@ -262,6 +264,7 @@ axis_frequency <- function(side = 3, title = "")
 
 
 # lmom fitting of reversed distributions ----
+#' @export
 cdf_ev <- function(distribution, x, para) {
   len <- nchar(distribution)
   is.rev <- ifelse(len == 4 && substr(distribution, 4L, 4L) == "R",
@@ -276,6 +279,7 @@ cdf_ev <- function(distribution, x, para) {
   }
 }
 
+#' @export
 qua_ev <- function(distribution, f, para){
   len <- nchar(distribution)
   is.rev <- ifelse(len == 4 && substr(distribution, 4L, 4L) == "R",
@@ -290,7 +294,7 @@ qua_ev <- function(distribution, f, para){
   }
 }
 
-
+#' @export
 pel_ev <- function(distribution, lmom, ...){
   len <- nchar(distribution)
   is.rev <- ifelse(len == 4 && substr(distribution, 4L, 4L) == "R",
@@ -333,6 +337,7 @@ pel_ev <- function(distribution, lmom, ...){
 
 
 # check for correct choice of distribution ----
+#' @export
 check_distribution <- function (extreme = c("minimum", "maximum"),
                                 distribution,
                                 def = list(minimum = c(),
@@ -399,6 +404,7 @@ check_distribution <- function (extreme = c("minimum", "maximum"),
 
 
 # Estimating the parameters of the distribution ----
+#' @export
 evfit <- function (x, distribution, zeta = NULL,
                    check = TRUE, extreme = c("minimum", "maximum")) {
 
@@ -480,6 +486,7 @@ evfit <- function (x, distribution, zeta = NULL,
 
 
 # Estimating the quantiles for given probabilities ----
+#' @export
 evquantile <- function (fit, return.period = NULL) {
 
   probs <- 1 / return.period
@@ -515,6 +522,7 @@ evquantile <- function (fit, return.period = NULL) {
 
 # wrapper functions for several quantile estimations ----
 # Calculates the quantile of a t-year event and plots them
+#' @export
 tyears <- function (lfobj, event = 1 / probs , probs = 0.01,
                     dist = "wei", check = TRUE, zeta = zetawei, zetawei = NULL,
                     plot = TRUE, col = 1, log = TRUE, legend = TRUE,
@@ -553,6 +561,7 @@ tyears <- function (lfobj, event = 1 / probs , probs = 0.01,
 
 
 # todo: generalize for other variables, not just for the discharge
+#' @export
 ev_return_period <- function(x, fit) {
   dist <- names(fit$parameters)[1]
   cdf <- match.fun(paste0("cdf", dist))
@@ -573,6 +582,7 @@ ev_return_period <- function(x, fit) {
 
 
 # Calculates the quantile of a t-year event and plots them
+#' @export
 tyearsS <- function (lfobj, event = 1 / probs, probs = 0.01, pooling = NULL,
                      dist = "wei", check = TRUE, zeta = NULL,
                      plot = TRUE, col = 1, log = TRUE, legend = TRUE,
@@ -633,9 +643,9 @@ tyearsS <- function (lfobj, event = 1 / probs, probs = 0.01, pooling = NULL,
 #'
 #' @references Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation
 #' and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
-#' \url{https://library.wmo.int/doc_num.php?explnum_id=7699}
+#' \url{https://library.wmo.int/idurl/4/32176}
 
-#' @seealso \code{\link{regfit}} and \code{\link{lmom-package}} which this function wraps.
+#' @seealso \code{\link[lmomRFA]{regfit}} and \code{\link[lmom]{lmom-package}} which this function wraps.
 #'
 #' @keywords Regional Frequency Analysis
 #'
@@ -655,6 +665,7 @@ tyearsS <- function (lfobj, event = 1 / probs, probs = 0.01, pooling = NULL,
 #' sitequant(1/100,toyrfa)
 
 #' @inherit lmomRFA::regfit return
+#' @export
 rfa <- function(lflist, n = 7, event = 100,
                 dist =  c("wei", "gev", "ln3", "gum", "pe3")){
   lapply(lflist, lfcheck)
@@ -680,9 +691,9 @@ rfa <- function(lflist, n = 7, event = 100,
 #'
 #' @references Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation
 #' and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
-#' \url{https://library.wmo.int/doc_num.php?explnum_id=7699}
+#' \url{https://library.wmo.int/idurl/4/32176}
 
-#' @seealso \code{\link{lmrd}} and \code{\link{lmom-package}} which this function wraps.
+#' @seealso \code{\link[lmom]{lmrd}} and \code{\link[lmom]{lmom-package}} which this function wraps.
 #'
 #' @keywords Regional Frequency Analysis
 #'
@@ -699,7 +710,7 @@ rfa <- function(lflist, n = 7, event = 100,
 #' @inheritDotParams lmom::lmrd
 #' @inherit lmom::lmrd return
 
-
+#' @export
 rfaplot <- function(lflist, n = 7, ...){
   lapply(lflist, lfcheck)
 
@@ -708,7 +719,7 @@ rfaplot <- function(lflist, n = 7, ...){
   lmom <- lmomRFA::regsamlmu(minima)
 
   # L-moment ratio diagram
-  return(lmrd(lmom, ...))
+   return(lmrd(lmom, ...))
 }
 
 

@@ -28,7 +28,7 @@ The seasonality ratio.
 }
 
 \references{
-Laaha, G. and Bl{\"o}schl, G. (2006), Seasonality indices for regionalizing low flows. Hydrol. Process., 20
+Laaha, G. and Blöschl, G. (2006), Seasonality indices for regionalizing low flows. Hydrol. Process., 20
 }
 \author{
 Daniel Koffler and Gregor Laaha

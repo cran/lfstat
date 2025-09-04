@@ -14,7 +14,7 @@ qua_ev(distribution, f, para)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{distribution}{character vector of length one containing the name of the distribution. The family of the chosen distribution must be supported by the package \pkg{lmom}. See \code{\link{lmom}}. For example \code{distribution = "gev"} directly uses the functions from package \pkg{lmom}, whereas \code{distribution = "gevR"} performs reversing.}
+  \item{distribution}{character vector of length one containing the name of the distribution. The family of the chosen distribution must be supported by the package \pkg{lmom}. See \code{\link[lmom]{lmom}}. For example \code{distribution = "gev"} directly uses the functions from package \pkg{lmom}, whereas \code{distribution = "gevR"} performs reversing.}
   \item{x}{Vector of quantiles.}
   \item{f}{Vector of probabilities.}
   \item{para}{Numeric vector containing the parameters of the distribution, in the order zeta, beta, delta (location, scale, shape).}
@@ -23,7 +23,7 @@ qua_ev(distribution, f, para)
 }
 \value{\code{'cdf_ev'} gives the distribution function; \code{'qua_ev'} gives the quantile function.}
 \seealso{
-\code{\link{lmom}}, \code{\link[lmom]{cdfgev}}, \code{\link[lmom]{cdfgev}}, \code{\link[lmom]{pel-functions}}.
+\code{\link[lmom]{lmom}}, \code{\link[lmom]{cdfgev}}, \code{\link[lmom]{cdfgev}}, \code{\link[lmom]{pel-functions}}.
 }
 \examples{
 data("ngaruroro")

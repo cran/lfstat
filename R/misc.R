@@ -1,5 +1,6 @@
 # moving average as described in Tallaksen and van Lanen (2004)
 # where the n past values are averaged
+#' @export
 ma <- function(x, n, sides = "past")
 {
   dict <- c("past" = 1, "center" = 2, "future" = 3)
@@ -59,22 +60,27 @@ ma <- function(x, n, sides = "past")
   return(x)
 }
 
+#' @export
 flowunit <- function(x) {
   UseMethod("flowunit")
 }
 
+#' @export
 flowunit.lfobj <- function(x) {
   attr(x, "lfobj")$unit
 }
 
+#' @export
 flowunit.xts <- function(x) {
   xtsAttributes(x)$unit
 }
 
+#' @export
 "flowunit<-" <- function(x, value) {
   UseMethod("flowunit<-")
 }
 
+#' @export
 "flowunit<-.lfobj" <- function(x, value) {
   attr(x, "lfobj")$unit <- value
   y <- .split_unit(value)
@@ -82,6 +88,7 @@ flowunit.xts <- function(x) {
   return(x)
 }
 
+#' @export
 "flowunit<-.xts" <- function(x, value) {
   xtsAttributes(x)$unit <- value
   xtsAttributes(x)[["unit.parsed"]] <- .split_unit(value)
@@ -140,9 +147,10 @@ flowunit.xts <- function(x) {
   return(x)
 }
 
-
+#' @export
 as.xts.lfobj <- function(x, ...) {
   lfcheck(x)
+  #' @importFrom xts xts
   y <- xts(x[, "flow"], order.by =  time(x))
 
   att <- attr(x, "lfobj")
@@ -190,6 +198,7 @@ as.xts.lfobj <- function(x, ...) {
   return(x)
 }
 
+#' @export
 fill_na <- function(x, max.len = Inf, ...) {
   g <- group(is.na(x), as.factor = FALSE)
   rl <- rle(g)
@@ -318,7 +327,7 @@ agg.season  <- function(x, fun, varying) {
   tapply(as.vector(x), season, FUN = fun)
 }
 
-
+#' @export
 season <- function(x, start = c(winter = as.Date("2005-12-01"),
                                 spring = as.Date("2005-03-01"),
                                 summer = as.Date("2005-06-01"),
@@ -327,6 +336,7 @@ season <- function(x, start = c(winter = as.Date("2005-12-01"),
   UseMethod("season")
 }
 
+#' @export
 season.numeric <- function(x, start = c(winter = as.Date("2005-12-01"),
                                         spring = as.Date("2005-03-01"),
                                         summer = as.Date("2005-06-01"),
@@ -353,6 +363,7 @@ season.numeric <- function(x, start = c(winter = as.Date("2005-12-01"),
   return(factor(names(start)[idx], levels = nam))
 }
 
+#' @export
 season.Date <- function(x, start = c(winter = as.Date("2005-12-01"),
                                      spring = as.Date("2005-03-01"),
                                      summer = as.Date("2005-06-01"),
@@ -361,6 +372,7 @@ season.Date <- function(x, start = c(winter = as.Date("2005-12-01"),
   season(as.numeric(format(x, format = "%j")), start = start)
 }
 
+#' @export
 season.POSIXct <- function(x, start = c(winter = as.Date("2005-12-01"),
                                         spring = as.Date("2005-03-01"),
                                         summer = as.Date("2005-06-01"),
@@ -374,6 +386,7 @@ season.POSIXct <- function(x, start = c(winter = as.Date("2005-12-01"),
 # default fuer origin sollte aus varying erraten werden
 # todo: autodetect origin
 # write wrapper minima
+#' @export
 apply.seasonal <- function(x, varying, fun = function(x) min(x, na.rm = TRUE),
                            aggregate = NULL, replace.inf = TRUE, origin = 1) {
 
@@ -407,7 +420,7 @@ apply.seasonal <- function(x, varying, fun = function(x) min(x, na.rm = TRUE),
 }
 
 
-
+#' @export
 vary_threshold <- function(x, varying = "constant",
                            fun = function(x)
                              quantile(x, probs = 0.05, na.rm = TRUE),

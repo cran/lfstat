@@ -27,7 +27,7 @@ flowunit(x) <- value
 
 \details{Currently, just a few functions like \code{\link{summary.deficit}} and \code{lfstat:::plot.deficit_dygraph} make use of the unit stored as an attribute.
 
-Usually flow units are of dimension $L^3 T^{-1}$. Currently a length $l$ can be on of \code{c("metre", "cm", "centimetre" "litre")}, whereas time $T$ can be one in \code{c("days", "hours", "mins", "secs")}, possibly abbreviated. The numerator of the fraction (everything before the literal \code{"/"}) is interpreted as the length (superscripts like \code{"^3"} are discarded), the denominator as time. E.g. valid units would be \code{"cm^3/s"}, \code{"m^3/day"} or \code{"litre/sec"}.
+Usually flow units are of dimension \eqn{\textsf{L}^3 \textsf{T}^{-1}}{L^3 T^{-1}}. Currently a length \eqn{l} can be on of \code{c("metre", "cm", "centimetre" "litre")}, whereas time \eqn{T} can be one in \code{c("days", "hours", "mins", "secs")}, possibly abbreviated. The numerator of the fraction (everything before the literal \code{"/"}) is interpreted as the length (superscripts like \code{"^3"} are discarded), the denominator as time. E.g. valid units would be \code{"cm^3/s"}, \code{"m^3/day"} or \code{"litre/sec"}.
 }
 
 \value{

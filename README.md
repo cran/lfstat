@@ -3,11 +3,11 @@
 # lfstat
 
 The [Manual on Low-flow Estimation and
-Prediction](https://library.wmo.int/doc_num.php?explnum_id=7699),
-published by the World Meteorological Organisation (WMO), gives a
-comprehensive summary on how to analyse stream flow data focusing on
-low-flows. This packages provides functions to compute the described
-statistics and produces plots similar to the ones in the manual.
+Prediction](https://library.wmo.int/idurl/4/32176), published by the
+World Meteorological Organisation (WMO), gives a comprehensive summary
+on how to analyse stream flow data focusing on low-flows. This packages
+provides functions to compute the described statistics and produces
+plots similar to the ones in the manual.
 
 ## Installation
 

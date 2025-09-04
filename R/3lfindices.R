@@ -5,7 +5,7 @@ which.min.na <- function(x) {
   return(idx)
 }
 
-
+#' @export
 baseflow <- function(x, tp.factor = 0.9, block.len = 5) {
   x <- as.numeric(x)
 
@@ -42,6 +42,7 @@ baseflow <- function(x, tp.factor = 0.9, block.len = 5) {
 }
 
 # Calculating BFI
+#' @export
 BFI <- function(lfobj, year = "any", breakdays = NULL, yearly = FALSE){
   calcbfi <- function(lfobj){
     sum(lfobj$baseflow[!is.na(lfobj$baseflow)&!is.na(lfobj$flow)])/sum(lfobj$flow[!is.na(lfobj$baseflow)&!is.na(lfobj$flow)])
@@ -72,6 +73,7 @@ BFI <- function(lfobj, year = "any", breakdays = NULL, yearly = FALSE){
 
 
 # Plotting
+#' @export
 bfplot <- function(lfobj,
                    year = "any",
                    col = "green",
@@ -177,6 +179,7 @@ rainpeak <- function(x, p=0.95){
   rp
 }
 
+#' @export
 recessionplot <- function(lfobj,
                           peaklevel = 0.95,
                           plot = TRUE,
@@ -262,6 +265,7 @@ recessionplot <- function(lfobj,
   }
 }
 
+#' @export
 seglenplot <- function(lfobj,
                        threslevel = 70,
                        thresbreaks = c("fixed", "monthly", "seasonal"),
@@ -361,6 +365,7 @@ segselect <- function(lfobj,
   lfs
 }
 
+#' @export
 recession <- function(lfobj,
                       method = c("MRC","IRS"),
                       seglength,
@@ -465,6 +470,7 @@ IRS <- function(lfobj,
 
 
 # Mean Flow
+#' @export
 meanflow <- function(lfobj,year = "any",monthly = FALSE,yearly = FALSE,breakdays = NULL,na.rm = TRUE){
   lfcheck(lfobj)
 
@@ -503,6 +509,7 @@ meanflow <- function(lfobj,year = "any",monthly = FALSE,yearly = FALSE,breakdays
 #########################
 # Q95                   #
 #########################
+#' @export
 Q95 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
                  breakdays = NULL, na.rm = TRUE)
 {
@@ -510,7 +517,7 @@ Q95 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
       breakdays = breakdays, na.rm = na.rm)
 }
 
-
+#' @export
 Q90 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
                  breakdays = NULL,na.rm = TRUE)
 {
@@ -518,7 +525,7 @@ Q90 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
       breakdays = breakdays, na.rm = na.rm)
 }
 
-
+#' @export
 Q70 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
                  breakdays = NULL,na.rm = TRUE)
 {
@@ -527,7 +534,7 @@ Q70 <-  function(lfobj, year = "any", monthly = FALSE, yearly = FALSE,
 }
 
 
-
+#' @export
 Qxx <- function(lfobj, Qxx, year = "any",
                 monthly = FALSE, yearly = FALSE, breakdays = NULL,
                 na.rm = TRUE){
@@ -634,6 +641,7 @@ MAannual <- function(lfobj, n=7, breakdays = NULL, year = "any"){
   return (annual)
 }
 
+#' @export
 MAM <- function(lfobj, n = 7, year = "any", breakdays = NULL,
                 yearly = FALSE){
   lfcheck(lfobj)
@@ -660,6 +668,7 @@ MAM <- function(lfobj, n = 7, year = "any", breakdays = NULL,
 # Seasonality Ratio     #
 #########################
 
+#' @export
 seasratio <- function(lfobj, breakdays, Q = 95){
   if(length(breakdays) == 1){
     ii <- subset(lfobj, year != hyear, month)
@@ -677,6 +686,7 @@ seasratio <- function(lfobj, breakdays, Q = 95){
   ratio
 }
 
+#' @export
 seasindex <- function(lfobj, Q=95,na.rm = TRUE){
   if(Q<0 | Q>100){stop("Q must be in [0,100]")}
   quan <- quantile(lfobj$flow,probs = 1-Q/100,na.rm = na.rm)

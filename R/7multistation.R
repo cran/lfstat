@@ -1,3 +1,4 @@
+#' @export
 multistationsreport <- function(...,
                                 indices = c("meanflow", "Q95", "MAM1", "MAM7", "MAM10", "MAM30", "MAM90", "baseflowindex", "recession"),
                                 recessionmethod = "MRC",

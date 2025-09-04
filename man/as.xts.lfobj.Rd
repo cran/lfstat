@@ -21,7 +21,7 @@ additional parameters or attributes
 \value{An S3 object of class \code{'xts'}.}
 
 \seealso{
-\code{\link{as.xts}}
+\code{\link[xts]{as.xts}}
 }
 
 \examples{

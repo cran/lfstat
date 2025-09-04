@@ -51,10 +51,10 @@ sitequant(1/100,toyrfa)
 \references{
 Gustard, A. & Demuth, S. (2009) (Eds) Manual on Low-flow Estimation
 and Prediction. Operational Hydrology Report No. 50, \acronym{WNO}-No. 1029, 136p.
-\url{https://library.wmo.int/doc_num.php?explnum_id=7699}
+\url{https://library.wmo.int/idurl/4/32176}
 }
 \seealso{
-\code{\link{regfit}} and \code{\link{lmom-package}} which this function wraps.
+\code{\link[lmomRFA]{regfit}} and \code{\link[lmom]{lmom-package}} which this function wraps.
 }
 \keyword{Analysis}
 \keyword{Frequency}
