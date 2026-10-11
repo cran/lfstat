@@ -1,5 +1,11 @@
 <!-- NEWS.md is generated from NEWS.Rmd. Please edit that file -->
 
+# lfstat 0.9.15
+
+## Changes
+
+- fixing unit tests for new r-devel release
+
 # lfstat 0.9.13
 
 ## Changes

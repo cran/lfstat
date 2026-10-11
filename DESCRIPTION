@@ -1,8 +1,8 @@
 Package: lfstat
 Type: Package
 Title: Calculation of Low Flow Statistics for Daily Stream Flow Data
-Version: 0.9.13
-Date: 2025-09-04
+Version: 0.9.15
+Date: 2026-10-10
 Authors@R: c(
       person("Tobias", "Gauster", role = c("ctb", "cre"), email = "t.gauster@gmail.com"),
 	    person("Gregor", "Laaha", role = "aut", email = "gregor.laaha@boku.ac.at", comment = c(ORCID = "0000-0002-6793-9640")),
@@ -18,12 +18,13 @@ Imports: lmomRFA, dygraphs, zoo, latticeExtra, plyr, scales, lattice,
         grDevices, graphics, stats, utils
 Suggests: testthat
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.1.1
+URL: https://github.com/mundl/lfstat
 NeedsCompilation: no
-Packaged: 2025-09-03 19:55:50 UTC; tobi
+Packaged: 2026-10-10 23:31:37 UTC; tobi
 Author: Tobias Gauster [ctb, cre],
   Gregor Laaha [aut] (ORCID: <https://orcid.org/0000-0002-6793-9640>),
   Daniel Koffler [aut]
 Maintainer: Tobias Gauster <t.gauster@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-09-04 06:40:31 UTC
+Date/Publication: 2026-10-11 13:40:29 UTC

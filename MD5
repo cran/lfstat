@@ -1,6 +1,6 @@
-d39ec989885574ac4499815ab3d37720 *DESCRIPTION
-b24ff02ff1e591b0262bb851a0d53b6b *NAMESPACE
-1c2c73a3eec1d5ddfcd5a8ea8eeddc4c *NEWS.md
+8a92ec03ebd446bddee5bb8888303afe *DESCRIPTION
+c4d4a3b28909b74ccd5d288b2cc5d6da *NAMESPACE
+8882511b4ef74ccf33e1dd3af60da0b1 *NEWS.md
 a5d76e57affd6177c212433639a2fa84 *R/1NAs.R
 86378cc51e39f5d527af7352dc1ba378 *R/2processes.R
 6d1a8d8c5086e4f8e2196ef86a84f318 *R/3lfindices.R
@@ -20,7 +20,7 @@ ae8a6db29a2d62cd9f625501110d4cdd *R/readsheets.R
 590ce989fdb68442440038fb799a8791 *R/recession.R
 8ac31d2c1abf5bdc4fae359053358d92 *R/todo.R
 728581f6175761a4a9f52f87a7b8dfbb *README.md
-9ec1112556f860d056cbffbb7bce756e *build/partial.rdb
+3d5d3c3914b823dc90c7e0f2d760e997 *build/partial.rdb
 d898b6fe3367d59262a38d9515a508fa *data/ng.rda
 063519a21d96eb4d11bb907e76a84519 *data/ngaruroro.rda
 0a51554863fc7f1a39bebe90b2db75db *data/ray.rda
@@ -93,7 +93,7 @@ c6e50de3979ef3a14efc8ccbd9026b1c *tests/testthat/tallaksen-sequent-peak-summary.
 44a7455364961bcb2161f1e3b1dbb897 *tests/testthat/test-baseflow.R
 b3649d39c05cae1bb37f4e912a4bc649 *tests/testthat/test-dwa.R
 f7e0c74c53f0172fdd2b6c406702c7df *tests/testthat/test-grouping.R
-21aec6a683b42982ee2ba305f996a0c3 *tests/testthat/test-import.R
+d86be936c355ddc6f680115e92832e83 *tests/testthat/test-import.R
 3d06d0e6e4d0293db1185cc8fc63f920 *tests/testthat/test-mam.R
 c8f7aeedd4315e0307acf22c74b30711 *tests/testthat/test-pooling.R
 3e1a519156d8d9645c3ef203f676eac4 *tests/testthat/test-q95.R

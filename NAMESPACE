@@ -87,102 +87,120 @@ export(tyears)
 export(tyearsS)
 export(vary_threshold)
 export(water_year)
-importFrom(dygraphs,dyAnnotation)
-importFrom(dygraphs,dyAxis)
-importFrom(dygraphs,dyRangeSelector)
-importFrom(dygraphs,dySeries)
-importFrom(dygraphs,dyShading)
-importFrom(dygraphs,dygraph)
+importFrom(dygraphs,
+  dyAnnotation,
+  dyAxis,
+  dyRangeSelector,
+  dySeries,
+  dyShading,
+  dygraph
+)
 importFrom(grDevices,extendrange)
-importFrom(graphics,abline)
-importFrom(graphics,axis)
-importFrom(graphics,grid)
-importFrom(graphics,legend)
-importFrom(graphics,lines)
-importFrom(graphics,mtext)
-importFrom(graphics,par)
-importFrom(graphics,plot)
-importFrom(graphics,points)
-importFrom(graphics,polygon)
-importFrom(graphics,strheight)
-importFrom(graphics,strwidth)
-importFrom(graphics,text)
-importFrom(graphics,title)
-importFrom(lattice,barchart)
-importFrom(lattice,panel.barchart)
+importFrom(graphics,
+  abline,
+  axis,
+  grid,
+  legend,
+  lines,
+  mtext,
+  par,
+  plot,
+  points,
+  polygon,
+  strheight,
+  strwidth,
+  text,
+  title
+)
+importFrom(lattice,
+  barchart,
+  panel.barchart
+)
 importFrom(latticeExtra,layer)
-importFrom(lmom,cdfexp)
-importFrom(lmom,cdfgam)
-importFrom(lmom,cdfgev)
-importFrom(lmom,cdfglo)
-importFrom(lmom,cdfgno)
-importFrom(lmom,cdfgpa)
-importFrom(lmom,cdfgum)
-importFrom(lmom,cdfkap)
-importFrom(lmom,cdfln3)
-importFrom(lmom,cdfnor)
-importFrom(lmom,cdfpe3)
-importFrom(lmom,cdfwak)
-importFrom(lmom,cdfwei)
-importFrom(lmom,evplot)
-importFrom(lmom,lmrd)
-importFrom(lmom,pelexp)
-importFrom(lmom,pelgam)
-importFrom(lmom,pelgev)
-importFrom(lmom,pelglo)
-importFrom(lmom,pelgno)
-importFrom(lmom,pelgpa)
-importFrom(lmom,pelgum)
-importFrom(lmom,pelkap)
-importFrom(lmom,pelln3)
-importFrom(lmom,pelnor)
-importFrom(lmom,pelpe3)
-importFrom(lmom,pelwak)
-importFrom(lmom,pelwei)
-importFrom(lmom,quaexp)
-importFrom(lmom,quagam)
-importFrom(lmom,quagev)
-importFrom(lmom,quaglo)
-importFrom(lmom,quagno)
-importFrom(lmom,quagpa)
-importFrom(lmom,quagum)
-importFrom(lmom,quakap)
-importFrom(lmom,qualn3)
-importFrom(lmom,quanor)
-importFrom(lmom,quape3)
-importFrom(lmom,quawak)
-importFrom(lmom,quawei)
-importFrom(lmom,samlmu)
-importFrom(lmomRFA,regfit)
-importFrom(lmomRFA,regquant)
-importFrom(lmomRFA,regsamlmu)
-importFrom(lmomRFA,sitequant)
+importFrom(lmom,
+  cdfexp,
+  cdfgam,
+  cdfgev,
+  cdfglo,
+  cdfgno,
+  cdfgpa,
+  cdfgum,
+  cdfkap,
+  cdfln3,
+  cdfnor,
+  cdfpe3,
+  cdfwak,
+  cdfwei,
+  evplot,
+  lmrd,
+  pelexp,
+  pelgam,
+  pelgev,
+  pelglo,
+  pelgno,
+  pelgpa,
+  pelgum,
+  pelkap,
+  pelln3,
+  pelnor,
+  pelpe3,
+  pelwak,
+  pelwei,
+  quaexp,
+  quagam,
+  quagev,
+  quaglo,
+  quagno,
+  quagpa,
+  quagum,
+  quakap,
+  qualn3,
+  quanor,
+  quape3,
+  quawak,
+  quawei,
+  samlmu
+)
+importFrom(lmomRFA,
+  regfit,
+  regquant,
+  regsamlmu,
+  sitequant
+)
 importFrom(plyr,rbind.fill.matrix)
 importFrom(scales,fullseq)
-importFrom(stats,aggregate)
-importFrom(stats,approx)
-importFrom(stats,coef)
-importFrom(stats,embed)
-importFrom(stats,filter)
-importFrom(stats,ks.test)
-importFrom(stats,lm)
-importFrom(stats,na.exclude)
-importFrom(stats,na.omit)
-importFrom(stats,qnorm)
-importFrom(stats,quantile)
-importFrom(stats,reorder)
-importFrom(stats,time)
-importFrom(stats,weighted.mean)
-importFrom(utils,head)
-importFrom(utils,read.table)
-importFrom(utils,str)
-importFrom(utils,tail)
-importFrom(xts,"xtsAttributes<-")
-importFrom(xts,as.xts)
-importFrom(xts,is.xts)
-importFrom(xts,plot.xts)
-importFrom(xts,xts)
-importFrom(xts,xtsAttributes)
-importFrom(zoo,coredata)
-importFrom(zoo,is.zoo)
-importFrom(zoo,zoo)
+importFrom(stats,
+  aggregate,
+  approx,
+  coef,
+  embed,
+  filter,
+  ks.test,
+  lm,
+  na.exclude,
+  na.omit,
+  qnorm,
+  quantile,
+  reorder,
+  time,
+  weighted.mean
+)
+importFrom(utils,
+  head,
+  read.table,
+  str,
+  tail
+)
+importFrom(xts,
+  "xtsAttributes<-",
+  as.xts,
+  is.xts,
+  plot.xts,
+  xts,
+  xtsAttributes
+)
+importFrom(zoo,
+  coredata,
+  is.zoo,
+  zoo
+)

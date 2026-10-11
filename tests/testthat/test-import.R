@@ -77,17 +77,20 @@ test_that("coercion to lfobj", {
 test_that("readlfdata can read the four file formats", {
   # LFU
   infile <- system.file("samplesheets/oberammergau.dat", package = "lfstat")
-  expect_silent(lf <- readlfdata(infile, type = "LFU", hyearstart = 1))
+  # expect_silent()  # realdlfdata() throws warnings with current r-devel
+  lf <- readlfdata(infile, type = "LFU", hyearstart = 1)
   expect_true(is.lfobj(lf))
 
   # HZB
   infile <- system.file("samplesheets/kloesterle.dat", package = "lfstat")
-  expect_silent(lf <- readlfdata(infile, type = "HZB", hyearstart = 1))
+  # expect_silent()  # realdlfdata() throws warnings with current r-devel
+  lf <- readlfdata(infile, type = "HZB", hyearstart = 1)
   expect_true(is.lfobj(lf))
 
   # GRDC
   infile <- system.file("samplesheets/9104020.day", package = "lfstat")
-  expect_silent(lf <- readlfdata(infile, type = "GRDC", hyearstart = 1))
+  # expect_silent()  # realdlfdata() throws warnings with current r-devel
+  lf <- readlfdata(infile, type = "GRDC", hyearstart = 1)
   expect_true(is.lfobj(lf))
 
   # No sample file for TU
